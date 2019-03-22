@@ -189,31 +189,31 @@ function fetchTableData(emp_id) {
 				getProfilePicture(emp_id);
 				getUserData(emp_id);
 				fetchTableData(emp_id);
-				getEmpTarget(emp_id);
+				// getEmpTarget(emp_id);
 			}
 		});
 
 	})
 
-		function getEmpTarget(empID) {
-			$.post( baseUrl + "getEmpTarget/",
-				{
-          emp_id: empID
-				},
-				function(data, status) {
-					dataObj = JSON.parse(data);
-					if (dataObj.result == "fail") {
-						alert(dataObj.description)
-					} else {
-						// alert(dataObj.description)
-						var callTarget = dataObj.description["calls"]
-						var commitTarget = dataObj.description["commits"]
-						$("#targetCalls").text(callTarget)
-						$("#targetCommit").text(commitTarget)
-						getProgress(emp_id, callTarget, commitTarget);
-					}
-				})
-		}
+		// function getEmpTarget(empID) {
+		// 	$.post( baseUrl + "getEmpTarget/",
+		// 		{
+    //       emp_id: empID
+		// 		},
+		// 		function(data, status) {
+		// 			dataObj = JSON.parse(data);
+		// 			if (dataObj.result == "fail") {
+		// 				alert(dataObj.description)
+		// 			} else {
+		// 				// alert(dataObj.description)
+		// 				var callTarget = dataObj.description["calls"]
+		// 				var commitTarget = dataObj.description["commits"]
+		// 				$("#targetCalls").text(callTarget)
+		// 				$("#targetCommit").text(commitTarget)
+		// 				getProgress(emp_id, callTarget, commitTarget);
+		// 			}
+		// 		})
+		// }
 
 		function getProgress(emp_id, callTarget, commitTarget) {
 

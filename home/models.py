@@ -87,6 +87,7 @@ class Leads(models.Model):
     alternatePhone = models.CharField(max_length=12, default=None, null=True)
     purchaseDate = models.CharField(max_length=12, null=True)
     pincode = models.CharField(max_length=6, default="000000")
+    source = models.CharField(max_length=40, default=None, null=True)
     comments = models.TextField(null=True)
     assignee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
     dateAssigned = models.DateTimeField(default=timezone.now)

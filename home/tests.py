@@ -19,16 +19,16 @@ def cleanDatabase():
 
 def addEmployees():
     #     EMPLOYEE INSERTION PROCEDURE
-    emp1 = Employee(empID=1000, phone='8483800288', password='password', pincode='560077', email='drake.penn@gmail.com', type='tn', fname='drake', lname='penn')
+    emp1 = Employee(empID=1000, phone='8483800288', password='password', pincode='560077', email='drake.penn@gmail.com', role='tn', fname='drake', lname='penn')
     emp1.save()
 
-    emp2 = Employee(empID=1001, phone='8483800288', password='password', pincode='560077', email='bob.thomas@gmail.com', type='tc', fname='bob', lname='thomas')
+    emp2 = Employee(empID=1001, phone='8483800288', password='password', pincode='560077', email='bob.thomas@gmail.com', role='tc', fname='bob', lname='thomas')
     emp2.save()
 
-    emp3 = Employee(empID=1002, phone='8483800288', password='password', pincode='560077', email='michale.john@gmail.com', type='tc', fname='michale', lname='john')
+    emp3 = Employee(empID=1002, phone='8483800288', password='password', pincode='560077', email='michale.john@gmail.com', role='tc', fname='michale', lname='john')
     emp3.save()
 
-    emp4 = Employee(empID=1003, phone='8483800288', password='password', pincode='560077', email='fred.durst@gmail.com', type='ad', fname='fred', lname='durst')
+    emp4 = Employee(empID=1003, phone='8483800288', password='password', pincode='560077', email='fred.durst@gmail.com', role='ad', fname='fred', lname='durst')
     emp4.save()
 
     print("employees has been added")
