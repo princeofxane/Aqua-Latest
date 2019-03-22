@@ -1,0 +1,463 @@
+{% extends "base.html" %}
+{% block body_content %}
+
+<div class="container-fluid" style="margin-top: 5%;">
+	<div class="row">
+		<div class="col-lg-11">
+			<h1 class="dashboard">Your dashboard</h1>
+		</div>
+		
+		<div class="col-lg-1">
+		<i class="glyphicon glyphicon-menu-hamburger"style="color:#7CB9E8;font-size:35px;"id="menubar"></i>
+		</div>
+	</div>
+</div>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12 text-center">
+			<input type="text"class="modelname"style="width:30%;"placeholder="   Enter Employee name here "/>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12 text-center">
+			<button type="button"class="btn">SEARCH</button></a>
+		</div>
+	</div>
+</div>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-4">
+			<a href="../mainEmployee"><span id="leadlist">Employee</span></a>
+		</div>
+		<div class="col-md-4 text-center">
+			<a href="/admin_dashboard.html"><span id="leadlist">Statistics</span></a>
+		</div>
+		<div class="col-md-4 text-right">
+			<a href="/admin_tasks"><span id="leadlist">Tasks</span></a>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 text-center">
+						<img src="../static/images/Avatar.png"width="100px;"height="100px;"/>
+						</div>	
+					<div class="col-lg-5">
+						<span class="glyphicon glyphicon-option-vertical"style="margin-left:-15%;"id="menubar1"></span>
+						<span id="iconbox1">
+						<p><a href="">Make admin</a>
+							<br>
+							<a href="">Delete employee</a>
+							<button style="font-size:40px;margin-top:-5vh;" class="close" aria-label="Close"id="close1">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</p>
+						</span>
+					</div>					
+				</div>			
+			</div>
+		  </h4>
+        </div>
+        <div class="modal-body">
+		<div class="container">  
+			<div class="row">
+				<div class="col-lg-2">
+					<p>First Name</p>
+				</div>
+				<div class="col-lg-5">
+					<input type="text"class="modelname"/>
+			    </div>
+			</div>
+			<div class="row">
+				<div class="col-lg-2">
+					<p>Last Name</p>
+				</div>
+				<div class="col-lg-5">
+					<input type="text"class="modelname"/>
+			    </div>
+			</div>
+			<div class="row">
+				<div class="col-lg-2">
+					<p>Phone number</p>
+				</div>
+				<div class="col-lg-5">
+					<input type="text"class="modelname"/>
+			    </div>
+			</div>
+			<div class="row">
+				<div class="col-lg-2">
+					<p>Adhaar No</p>
+				</div>
+				<div class="col-lg-5">
+					<input type="text"class="modelname"/>
+			    </div>
+			</div>
+			<div class="row">
+				<div class="col-lg-2">
+					<p>Employee ID</p>
+				</div>
+				<div class="col-lg-5">
+					<input type="text"class="modelname"/>
+			    </div>
+			</div>
+			<div class="row">
+				<div class="col-lg-2">
+					<p>Address</p>
+				</div>
+				<div class="col-lg-5">
+					<textarea class="modelname"></textarea>
+			    </div>
+			</div>
+			<div class="row">
+				<div class="col-lg-2">
+					<p>PIN</p>
+				</div>
+				<div class="col-lg-5">
+					<input type="text"class="modelname"/>
+			    </div>
+			</div>
+			<div class="row">
+				<div class="col-lg-2">
+					<p>Designation</p>
+				</div>
+				<div class="col-lg-5">
+						<input type="text"class="modelname"/>
+					
+			    </div>
+			</div>
+			<div class="row">
+				<div class="col-lg-2">
+					<p>Access role</p>
+				</div>
+				<div class="col-lg-5">
+					<select class="form-control" id="exampleFormControlSelect1"style="width:50%;">
+					  <option>User</option>
+					  <option>Admin</option>
+					    <option>HR / TL</option>
+					</select>
+			    </div>
+			</div>
+		</div>
+        <br>
+        <div class="modal-footer">
+         <button type="button" class="btn btn-default" data-dismiss="modal">Update</button> <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+	</div>
+	</div>
+	
+	<!-- This is to show pause -->
+	<div id="modalForPause" class="modal fade" role="dialog" style="border: 3px solid #7CB9E8">
+			<div class="modal-dialog">
+				<div class="modal-content" style="background-color: rgb(135, 202, 193)">
+					<div class="modal-header">
+						<div style="margin-bottom: 150px">
+							<img src="/static/images/download.png" class="user"/>
+						</div>
+					</div>
+					<div class="modal-body">
+						<h4 class="modal-title text-center">Paused</h4>
+						<div class="text-center">    
+							<p id="ptime" style="font-weight: bold;"></p>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="text-center">
+							<input type="submit" id="resume" value="Resume" class="btn btn-primary" style="color: #7CB9E8">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+<br>
+
+{% endblock body_content %}
+<script>
+
+$(document).ready(function(){
+	
+		$(".close").click(function(){
+		$('#menubar').show();
+		
+		$('#sendButton').hide();
+		$('#cancelButton').hide();
+		$('#validationTextarea').hide()
+		$('#myModal').hide();
+			
+});
+});
+
+
+	$("#messageButton").click(function() {
+			$('#validationTextarea').toggle();
+		$('#sendButton').toggle();
+		$('#cancelButton').toggle();
+	})
+
+	$("#cancelButton").click(function() {
+		$('#validationTextarea').hide();
+		$('#sendButton').hide();
+		$('#cancelButton').hide();
+	})
+	
+	$("#detailButton").click(function() {
+			$('#myModal').toggle();
+	})
+
+$('#Send').hide();
+$('#validationTextarea').hide();
+$("#message").click(function(){
+		$('#validationTextarea').show();
+		$('#Send').show();
+});
+
+
+$("#Send").click(function(){
+		$('#validationTextarea').hide();
+		$('#Send').hide();
+});
+
+
+	$(".iconbox").hide();
+		$("#menubar").click(function(){
+		$('#menubar').hide();
+			$(".iconbox").show();
+});
+
+
+	
+		$(".close").click(function(){
+		$('#menubar').show();
+			$(".iconbox").hide();
+});
+
+
+
+	
+		$("#menubar").click(function(){
+			$("#btn").hide();
+			$(".close").click(function(){
+		$('#btn').show();
+});
+});
+
+
+
+	
+		$("#menubar").click(function(){
+			$("#btn1").hide();
+			$(".close").click(function(){
+		$('#btn1').show();
+});
+});
+
+
+	$("#close1").click(function(){
+		$("#iconbox1").hide();
+		$('#menubar1').show();
+			
+});
+
+$("#iconbox1").hide();
+		$("#menubar1").click(function(){
+		$('#menubar1').hide();
+			$("#iconbox1").show();
+});
+
+
+$("#logoutButton").click(function() {
+			window.location.href = baseUrl + "logoutPage/"
+		});
+
+</script>
+
+
+
+<script>
+	function test() {
+		// var obj 
+		document.getElementById("validationTextarea").style.display='block';
+	}
+
+	$(document).ready(function() {
+		$.post( baseUrl + "getSession/",
+		{},
+		function(data, status) {
+			dataObj=JSON.parse(data);
+			if(dataObj.result=="fail") {
+				window.location.href = baseUrl
+			}else{
+				emp_id = dataObj.description;
+				getProfilePicture(emp_id);
+				getUserData(emp_id);
+				getAllEmployees(emp_id);
+			}
+		});
+
+	})
+
+		function getAllEmployees(emp_id) {
+			$.post( baseUrl + "getAllEmployees/",
+			{},
+			function(data, status) {
+				dataObj=JSON.parse(data);
+				if(dataObj.result=="fail") {
+					alert(dataObj.description)
+				}else{
+					displayAllEmployees(dataObj.description, emp_id)
+				}
+			})
+		}
+
+		function displayAllEmployees(empList) {
+			for (var i = 0; i <= empList.length; i++) {
+				fname = empList[i].fname
+				lname = empList[i].lname
+				isActive = empList[i].isActive
+				role = empList[i].role
+				pincode = empList[i].pincode
+				id = empList[i].id
+				address = empList[i].address
+				imageSrc = empList[i].picture
+
+				eachRow = `
+				<div class="row">
+					<div class="col-lg-1">
+							<img src=${imageSrc} width="100px;"height="100px;"/>
+					</div>
+					<div class="col-lg-3 text-center">
+									<p id="empname">${fname + " " + lname}</p> <p>${role}</p> <p>${isActive}</p>
+					</div>
+					<div class="col-lg-8 text-right">
+							<button id="detailButton" type="button" class="btn"data-toggle="modal" data-target="#myModal">View details</button>  <button id="messageButton" onClick=test() type="button" class="btn"id="message">Message</button>
+					</div>
+					
+					<textarea class="form-control is-invalid" id="validationTextarea" style="display: none;"></textarea>
+					<button type="button" class="btn" id="sendButton" style="display: none">Send</button> <button type="button" class="btn" id="cancelButton" style="display: none">Cancel</button>
+				</div>
+				`
+				$(".employeeCard").append(eachRow)
+			}
+		}
+
+
+		function getProfilePicture(emp_id) {
+		$.post( baseUrl + "getProfilePicture/",
+		{
+			id: emp_id,
+		},
+		function(data, status) {
+			dataObj=JSON.parse(data);
+			if(dataObj.result=="fail") {
+				alert("Something's Wrong With Profile Picture")
+			}else{
+				// console.log(dataObj.description);
+				document.getElementById("imageid").src=".." + dataObj.description ;
+			}
+		});
+	}
+
+
+	function getUserData(emp_id) {
+		$.post( baseUrl + "getUserData/",
+		{
+			id: emp_id,
+		},
+		function(data, status) {
+			dataObj=JSON.parse(data);
+			if(dataObj.result=="fail") {
+				alert("request failed")
+			}else{
+				// console.log(dataObj)
+				var fname = dataObj.description['fname']
+				var lname = dataObj.description['lname']
+				var loginTime = dataObj.description['loginTime']
+				var d = new Date(loginTime);
+				var login = d.getMinutes()*60 + d.getHours()*60*60 + d.getSeconds()
+				var c = new Date();
+				var curDate = c.getMinutes()*60 + c.getHours()*60*60 + c.getSeconds()
+				// console.log(login)
+				// console.log(curDate)
+				// console.log(curDate -login)
+
+				a = Number(curDate -login);
+   			 var h = Math.floor(a / 3600);
+    		var m = Math.floor(a % 3600 / 60);
+    var s = Math.floor(a % 3600 % 60);
+
+    var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+    var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+    var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+    console.log(  hDisplay + mDisplay + sDisplay);
+
+				//cuz jan starts with 0
+				var date = d.getMonth() + 1
+
+				$("#loginTime").text('Logged in at: ' + d.getHours() + ' : ' + d.getMinutes())
+				$("#loginDate").text('Date: ' + d.getDate() + '-' + date + '-' + d.getFullYear())
+
+				$("#welcomeTag").text(fname + ' ' +lname);
+				//To a change welcome
+			}
+			// getCallTable(emp_id)
+		});
+	}
+
+
+
+	$("#pauseButton").click(function(e) {
+			e.preventDefault();
+			$('#modalForPause').modal('show');
+			startCounter();
+			$.post( baseUrl + "setPause/",
+			{
+				id: emp_id,
+				isPause: true
+			},
+			function(data, status) {
+				dataObj = JSON.parse(data);
+				if(dataObj.result == 'fail') {
+					alert(dataObj.description)
+				}else {
+					console.log(dataObj.description)
+				}
+
+			})
+		})
+
+		$('#resume').click(function(e){
+			e.preventDefault();
+			// location.reload();
+			resetCounter();
+			$("#modalForPause").modal("hide");
+			$.post(baseUrl + "setPause/",
+			{
+				id:emp_id,
+				isPause: false
+			},
+			function(data, status) {
+				dataObj = JSON.parse(data);
+				if(dataObj.result == 'fail') {
+					alert(dataObj.description)
+				}else {
+					pauseDuration = dataObj.description
+				}
+			})
+		})
+
+</script>
+

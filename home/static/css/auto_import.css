@@ -1,0 +1,102 @@
+<style>
+	@-webkit-keyframes updating_sp {
+		from { background:rgba(253, 185,  19,  0.60); }
+		to { background-color: inherit; }
+		}
+	@-moz-keyframes updating_sp {
+	  from { background:rgba(253, 185,  19,  0.60); }
+	  to { background-color: inherit; }
+	}
+	@-o-keyframes updating_sp {
+	  from { background:rgba(253, 185,  19,  0.60); }
+	  to { background-color: inherit; }
+	}
+	@keyframes updating_sp {
+	  from { background:rgba(253, 185,  19,  0.60); }
+	  to { background-color: inherit; }
+	}
+	.updating_sp {
+	  -webkit-animation: updating_sp 3s infinite; /* Safari 4+ */
+	  -moz-animation:    updating_sp 3s infinite; /* Fx 5+ */
+	  -o-animation:      updating_sp 3s infinite; /* Opera 12+ */
+	  animation:         updating_sp 3s infinite; /* IE 10+ */
+	}
+	
+	@-webkit-keyframes fetching_tp {
+		from { background:rgba(124, 43, 131, 0.60); }
+		to { background-color: inherit; }
+		}
+	@-moz-keyframes fetching_tp {
+	  from { background:rgba(124, 43, 131, 0.60); }
+	  to { background-color: inherit; }
+	}
+	@-o-keyframes fetching_tp {
+	  from { background:rgba(124, 43, 131, 0.60); }
+	  to { background-color: inherit; }
+	}
+	@keyframes fetching_tp {
+	  from { background:rgba(124, 43, 131, 0.60); }
+	  to { background-color: inherit; }
+	}
+	.fetching_tp {
+	  -webkit-animation: fetching_tp 3s infinite; /* Safari 4+ */
+	  -moz-animation:    fetching_tp 3s infinite; /* Fx 5+ */
+	  -o-animation:      fetching_tp 3s infinite; /* Opera 12+ */
+	  animation:         fetching_tp 3s infinite; /* IE 10+ */
+	}
+	
+	
+	@-webkit-keyframes job_in_prog {
+		from { background:rgba(13, 148, 210, 0.60); }
+		to { background-color: inherit; }
+		}
+	@-moz-keyframes job_in_prog  {
+	  from { background:rgba(13, 148, 210, 0.60); }
+	  to { background-color: inherit; }
+	}
+	@-o-keyframes job_in_prog  {
+	  from { background:rgba(13, 148, 210, 0.60); }
+	  to { background-color: inherit; }
+	}
+	@keyframes job_in_prog  {
+	  from { background:rgba(13, 148, 210, 0.60); }
+	  to { background-color: inherit; }
+	}
+
+	.job_in_prog  {
+	  -webkit-animation: job_in_prog  3s infinite; /* Safari 4+ */
+	  -moz-animation:    job_in_prog  3s infinite; /* Fx 5+ */
+	  -o-animation:      job_in_prog  3s infinite; /* Opera 12+ */
+	  animation:         job_in_prog  3s infinite; /* IE 10+ */
+	}
+	@-webkit-keyframes updating_keywords {
+		from { background:rgba(245, 128, 37, 0.60); }
+		to { background-color: inherit; }
+		}
+	@-moz-keyframes updating_keywords {
+	  from { background:rgba(245, 128, 37, 0.60); }
+	  to { background-color: inherit; }
+	}
+	@-o-keyframes updating_keywords {
+	  from { background:rgba(245, 128, 37, 0.60); }
+	  to { background-color: inherit; }
+	}
+	@keyframes updating_keywords {
+	  from { background:rgba(245, 128, 37, 0.60); }
+	  to { background-color: inherit; }
+	}
+	.updating_keywords {
+	  -webkit-animation: updating_keywords 3s infinite; /* Safari 4+ */
+	  -moz-animation:    updating_keywords 3s infinite; /* Fx 5+ */
+	  -o-animation:      updating_keywords 3s infinite; /* Opera 12+ */
+	  animation:         updating_keywords 3s infinite; /* IE 10+ */
+	}
+	.job_complete {
+	 background:rgba(123, 193, 67, 0.80);
+	}
+	#dropdownName
+	{
+		background-color:#0d94d2
+	}
+	
+</style>

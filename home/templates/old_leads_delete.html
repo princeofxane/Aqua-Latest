@@ -1,0 +1,382 @@
+{% extends "base.html" %}
+{% block body_content %}
+
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-11">
+			<h1 class="dashboard">Your dashboard</h1>
+		</div>
+		
+		<div class="col-lg-1">
+		<i class="glyphicon glyphicon-menu-hamburger"style="color:#7CB9E8;font-size:35px;"id="menubar"></i>
+		</div>
+	</div>
+</div><br>
+
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-4"style="">
+			<p id="Employees_A27_Text_658">Lead list</p>
+			
+			 
+		
+			
+				
+				<div class="card example-1 scrollbar-ripe-malinka">
+					<div class="card-body">
+				 		 <table class = "table table-hover">
+					   <thead>
+						  <tr>
+               <th>Lead ID</th>
+               <th>status </th>
+               <th>assigned to </th>
+			    <th>Date</th>
+            </tr>
+			  </thead>
+			   <tbody>
+            <tr>
+               <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+          <tr>
+                <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+            <tr>
+               <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+			<tr>
+               <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+		<tr>
+                <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                 <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+               <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			 <tr>
+                 <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                 <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                 <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                 <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                 <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                 <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			 </tbody>
+         </table>
+
+					</div>
+				</div>
+			
+			
+	
+	
+			
+			
+		</div>
+		<div class="col-md-4 text-center">
+			<p id="Employees_A27_Text_658">Manage Leads</p>
+			<br>
+			<br>
+			<br>
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<input type="file" id="imgupload" style="display:none"/> 
+							<button id="OpenImgUpload"class="btn">Upload New</button>
+					</div>
+				</div>
+				
+				<br>
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<b id="next_ID4">Remove Leads</b>
+					</div>
+					
+				
+				</div>
+				<br>
+					<br>
+					<br>
+					<br>
+				
+				<div class="row">
+					<div class="col-md-4">
+						<b id="next_ID3">Lead ID</b>
+					</div>
+					<div class="col-md-4">
+						<b id="next_ID3">From <input type="text"style="width:80%;border-radius:5px;border:2px solid #06BBE1;"/></b>
+					</div>
+					<div class="col-md-4">
+						<b id="next_ID3">To  <input type="text"style="width:80%;border-radius:5px;border:2px solid #06BBE1;"/></b>
+					</div>
+				</div>
+				
+				<br>
+					<br>
+					
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<button type="button"class="btn">DELETE</button>
+					</div>
+				</div>
+			
+		</div>
+		<div class="col-md-4">
+			<p id="Employees_A27_Text_658">Leads Status</p>
+			
+			<div class="card example-1 scrollbar-ripe-malinka">
+					<div class="card-body">
+				 		 <table class = "table table-hover">
+					   <thead>
+						  <tr>
+               <th>Lead ID</th>
+               <th>status </th>
+               <th>assigned to </th>
+			    <th>Date</th>
+            </tr>
+			  </thead>
+			   <tbody>
+            <tr>
+               <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+          <tr>
+                <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+            <tr>
+               <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+			<tr>
+               <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+		<tr>
+                <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                 <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+               <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			 <tr>
+                 <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                 <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                 <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                 <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                 <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			<tr>
+                 <td>0123122</td>
+               <td>assigned</td>
+               <td>emp212</td>
+			   <td>2/9/19</td>
+            </tr>
+			 </tbody>
+         </table>
+
+					</div>
+				</div>
+			
+		</div>
+	</div>
+
+</div>
+<br>
+
+
+
+<script>
+$('#OpenImgUpload').click(function(){ $('#imgupload').trigger('click'); });
+
+
+
+$(document).ready(function(){
+	$(".iconbox").hide();
+		$("#menubar").click(function(){
+		$('#menubar').hide();
+			$(".iconbox").show();
+});
+});
+
+		$(".close").click(function(){
+		$('#menubar').show();
+			$(".iconbox").hide();
+});
+
+
+$('#pass').click(function(){
+	var val=$('#pass').val();
+	if(val=="TAKE A BREAK"){
+		$('#pass').val("RESUME");
+	}
+	else{
+		$('#pass').val("TAKE A BREAK");
+	}
+})
+</script>
+{% endblock body_content %}

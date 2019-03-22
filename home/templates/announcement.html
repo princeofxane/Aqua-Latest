@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block body_content %}
+
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-11">
+			<h1 class="dashboard">Your dashboard</h1>
+		</div>
+		
+		<div class="col-lg-1">
+		<i class="glyphicon glyphicon-menu-hamburger"style="color:#7CB9E8;font-size:35px;"id="menubar"></i>
+		</div>
+	</div>
+</div><br>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-4">
+			<a href="employee.html"><span id="leadlist">Employee</span></a>
+		</div>
+		<div class="col-md-4 text-center">
+			<a href="admin_dashboard.html"><span id="leadlist">Statistics</span></a>
+		</div>
+		<div class="col-md-4 text-right">
+			<a href="admin_tasks.html"><span id="leadlist">Tasks</span></a>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+	<div class="panel panel-default">
+	
+  <div class="panel-body"style="border:1px solid #06BBE1;">
+	<div class="row">
+		<div class="col-md-3">
+			<span id="Send_to_">Send to:</span>
+		</div>
+		<div class="col-md-3">
+			<img src="images/kisspng_computer.png"id="kisspng_computer"class="All_Employees"/>
+			<p id="All_Employees"style="margin-top:-4%;">All Employees</p>	
+		</div>
+		<div class="col-md-3">
+			<img src="images/Image_6.png"id="kisspng_computer"class="technicians"/>
+
+			<p id="All_Employees">Technicians</p>	
+		</div>
+		<div class="col-md-3">
+			<img src="images/Image_7.png"id="kisspng_computer"class="telecaller"/>
+			<p id="All_Employees">Telecallers</p>	
+		</div>
+		</div>
+				<hr>
+			<br><textarea class="form-control is-invalid" id="validationTextarea"></textarea>
+			<br>
+			<a href=""><button type="button"id="Send">Announce</button></a>
+  </div>
+</div>
+</div>
+</div>
+</div>
+<br><br><br><br>
+{% endblock body_content %}
+<script>
+
+$(document).ready(function(){
+	
+		$(".close").click(function(){
+		$('#menubar').show();
+			
+});
+});
+
+$(".All_Employees").click(function(){
+		$('#validationTextarea').show();
+		$('#Send').show();
+});
+
+
+
+$(".technicians").click(function(){
+		$('#validationTextarea').show();
+		$('#Send').show();
+});
+
+
+$(".telecaller").click(function(){
+		$('#validationTextarea').show();
+		$('#Send').show();
+});
+
+$('#Send').hide();
+$('#validationTextarea').hide();
+$("#message").click(function(){
+		$('#validationTextarea').show();
+		$('#Send').show();
+});
+
+
+$("#Send").click(function(){
+		$('#validationTextarea').hide();
+		$('#Send').hide();
+});
+
+	$(".iconbox").hide();
+		$("#menubar").click(function(){
+		$('#menubar').hide();
+			$(".iconbox").show();
+});
+
+
+		$(".close").click(function(){
+		$('#menubar').show();
+			$(".iconbox").hide();
+});
+
+
+$('#pass').click(function(){
+	var val=$('#pass').val();
+	if(val=="TAKE A BREAK"){
+		$('#pass').val("RESUME");
+	}
+	else{
+		$('#pass').val("TAKE A BREAK");
+	}
+})
+
+
+

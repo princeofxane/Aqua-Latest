@@ -1,0 +1,339 @@
+{% extends "base.html" %}
+{% block body_content %}
+
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-11">
+			<h1 class="dashboard">Your dashboard</h1>
+		</div>
+		
+		<div class="col-lg-1">
+		<i class="glyphicon glyphicon-menu-hamburger"style="color:#7CB9E8;font-size:35px;"id="menubar"></i>
+		</div>
+	</div>
+</div><br>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-4">
+			<a href="employee.html"><span id="leadlist">Employee</span></a>
+		</div>
+		<div class="col-md-4 text-center">
+			<a href="admin_dashboard.html"><span id="leadlist">Statistics</span></a>
+		</div>
+		<div class="col-md-4 text-right">
+			<a href="../admin_tasks/"><span id="leadlist">Tasks</span></a>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+	<div class="panel panel-default"style="">
+	
+  <div class="panel-body"style="border:1px solid #06BBE1;">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-7 text-right">
+				<p id="Strength">Strength</p>
+			</div>
+			<div class="col-lg-4 text-right">
+				<p id="Strength">Active</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-6">
+				<p id="Telecallers">Telecallers</p>
+			</div>
+			<div class="col-lg-4 text-left">
+				<p id="Telecallers">52</p>
+			</div>
+			<div class="col-lg-2">
+				<p id="Telecallers">50</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-6">
+				<p id="Telecallers">Technicians</p>
+			</div>
+			<div class="col-lg-4 text-left">
+				<p id="Telecallers">52</p>
+			</div>
+			<div class="col-lg-2">
+				<p id="Telecallers">50</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-6">
+				<p id="Telecallers">Team Leads</p>
+			</div>
+			<div class="col-lg-4 text-left">
+				<p id="Telecallers">52</p>
+			</div>
+			<div class="col-lg-2">
+				<p id="Telecallers">50</p>
+			</div>
+		</div>
+		</div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-3 text-left">
+			<p id="Employees_A27_Text_658"data-toggle="modal" data-target="#myModal">Add new employee</p>
+		</div>
+		<div class="col-lg-9 text-right">
+			<a href="admin_employee.html"><p id="Employees_A27_Text_658">All employees</p></a>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 text-center">
+						<img src="images/Avatar.png"width="100px;"height="100px;"/>
+						</div>	
+					<div class="col-lg-5">
+						<span class="glyphicon glyphicon-option-vertical"style="margin-left:-15%;"id="menubar1"></span>
+						<span id="iconbox1">
+	<p><a href="">Make admin</a>
+		<br>
+		<a href="">Delete employee</a>
+		<button style="font-size:40px;margin-top:-5vh;" class="close" aria-label="Close"id="close1">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</p>
+</span>
+					</div>
+
+
+						
+				</div>
+			
+			</div>
+		  </h4>
+        </div>
+        <div class="modal-body">
+		<div class="container">  
+			<div class="row">
+				<div class="col-lg-2">
+					<p>First Name</p>
+				</div>
+				<div class="col-lg-5">
+					<input id="fname" type="text"class="modelname"/>
+			    </div>
+			</div>
+			<div class="row">
+				<div class="col-lg-2">
+					<p>Last Name</p>
+				</div>
+				<div class="col-lg-5">
+					<input id="lname" type="text"class="modelname"/>
+			    </div>
+			</div>
+			<div class="row">
+				<div class="col-lg-2">
+					<p>Phone number</p>
+				</div>
+				<div class="col-lg-5">
+					<input id="phone" type="text"class="modelname"/>
+			    </div>
+			</div>
+			<div class="row">
+				<div class="col-lg-2">
+					<p>Email</p>
+				</div>
+				<div class="col-lg-5">
+					<input id="email" type="text"class="modelname"/>
+			    </div>
+			</div>
+			<div class="row">
+				<div class="col-lg-2">
+					<p>Address</p>
+				</div>
+				<div class="col-lg-5">
+					<textarea id="address" class="modelname"></textarea>
+			    </div>
+			</div>
+			<div class="row">
+				<div class="col-lg-2">
+					<p>PIN</p>
+				</div>
+				<div class="col-lg-5">
+					<input id="pincode" type="text"class="modelname"/>
+			    </div>
+			</div>
+			<div class="row">
+				<div class="col-lg-2">
+					<p>Access role</p>
+				</div>
+				<div class="col-lg-5">
+					<select id="role" class="form-control" id="exampleFormControlSelect1"style="width:50%;">
+					  <option>Telecaller</option>
+					  <option>Admin</option>
+					  <option>Technician</option>
+					  <option>QC</option>
+						<option>HR</option>
+						<option>TL</option>
+					</select>
+			    </div>
+			</div>
+		</div>
+        <br>
+        <div class="modal-footer">
+         <button id="addEmployee" type="button" class="btn btn-default" data-dismiss="modal">Add</button> <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+	</div>
+  </div>
+
+<br>
+<br>
+<br><br>
+<footer><br>
+	<div class="container">
+		<div class="row">
+			
+			<div class="col-lg-12 text-center">
+				<input type="button"id="pass" value="TAKE A BREAK">   <a href="logout.html"><button type="button">LOGOUT</button></a>
+	
+			</div>
+		</div>
+	</div><br>
+</footer>
+<script>
+
+$(document).ready(function(){
+	
+		$(".close").click(function(){
+		$('#menubar').show();
+			
+});
+});
+
+$('#Send').hide();
+$('#validationTextarea').hide();
+$("#message").click(function(){
+		$('#validationTextarea').show();
+		$('#Send').show();
+});
+
+
+$("#Send").click(function(){
+		$('#validationTextarea').hide();
+		$('#Send').hide();
+});
+
+
+	$(".iconbox").hide();
+		$("#menubar").click(function(){
+		$('#menubar').hide();
+			$(".iconbox").show();
+});
+
+
+	
+		$(".close").click(function(){
+		$('#menubar').show();
+			$(".iconbox").hide();
+});
+
+
+
+	
+		$("#menubar").click(function(){
+			$("#btn").hide();
+			$(".close").click(function(){
+		$('#btn').show();
+});
+});
+
+
+
+	
+		$("#menubar").click(function(){
+			$("#btn1").hide();
+			$(".close").click(function(){
+		$('#btn1').show();
+});
+});
+
+
+
+$('#pass').click(function(){
+	var val=$('#pass').val();
+	if(val=="TAKE A BREAK"){
+		$('#pass').val("RESUME");
+	}
+	else{
+		$('#pass').val("TAKE A BREAK");
+	}
+})
+
+
+	$("#close1").click(function(){
+		$("#iconbox1").hide();
+		$('#menubar1').show();
+			
+});
+
+$("#iconbox1").hide();
+		$("#menubar1").click(function(){
+		$('#menubar1').hide();
+			$("#iconbox1").show();
+});
+
+</script>
+
+
+<script>
+	//Gather all the data provided during an employee creation.
+	$("#addEmployee").click(function() {
+		var firstName 	= $("#fname").val()
+		var lastName 	= $("#lname").val()
+		var phoneNumber 	= $("#phone").val()
+		var emailAddress 	= $("#email").val()
+		var empAddress = $("#address").val()
+		var empPincode = $("#pincode").val()
+		var empRole 		= $("#role").val()
+
+		$.post( baseUrl + "createNewEmployee/",
+		 {
+			fname: firstName,
+			lname: lastName,
+			phone: phoneNumber,
+			email: emailAddress,
+			address: empAddress,
+			pincode: empPincode,
+			role: empRole
+		 },
+		 function(data, status) {
+				dataObj=JSON.parse(data);
+				if(dataObj.result=="fail") {
+					alert(dataObj.description)
+				} else {
+					alert("New Employee has been created. The ID is: ", dataObj.description)
+				}
+		 })
+	})
+
+</script>
+{% endblock body_content %}

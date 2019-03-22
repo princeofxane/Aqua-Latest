@@ -1,0 +1,259 @@
+figure {
+  max-width: 100%;
+}
+
+.tooltip {
+  position: absolute;
+  text-align: center;
+  width: 128px;
+  height: 16px;
+  color: white;
+  font-size: 14px;
+  padding: 5px;
+  border: 0px;
+  border-radius: 10px;
+  opacity: 0;
+}
+
+.legend {
+  -webkit-columns: 3 220px;
+          columns: 3 220px;
+
+}
+
+.venn-area
+{
+  fill-opacity: 8.55% !important;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    color: white;
+    cursor: default;
+    background-color:  #0d385d;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+}
+
+.nav-tabs>li>a {
+     margin-right: 2px; 
+     line-height: 1.42857143; 
+    border: 1px solid transparent; 
+    color: #337ab7;
+    cursor: default;
+    background-color: white;
+}
+                             #example_wrapper
+                              {
+                                margin-top: 2%;
+                              }
+                              #example_length
+                              {
+                                padding-bottom: 3%;
+                              }
+                              .display tbody
+                              {
+                                width: 266.9%;
+
+                              }
+                              #exmaple thead
+                              {
+                                width: 100%;
+                              }
+
+  .sorting_asc
+  {
+    font-style: bold;
+  }
+  #timer_covered_filter
+  {
+    margin-right: 3%;
+  }
+  #timer_covered_length
+  {
+    margin-left: 3%;
+  }
+  #timer_covered_info
+  {
+    margin-left: 3%;
+  }
+  #timer_covered_paginate
+  {
+    margin-right: 3%;
+  }
+  #timer_uncovered_length
+  {
+    margin-left: 3%;
+  }
+  #timer_uncovered_filter
+  {
+    margin-right: 3%;
+  }
+  #timer_uncovered_info
+  {
+    margin-left: 3%;
+  }
+  #timer_uncovered_paginate
+  {
+    margin-right: 3%;
+  }
+  #trans_covered_length
+  {
+    margin-left: 3%;
+
+  }
+  #trans_covered_filter
+  {
+    margin-right: 3%;
+  }
+  #trans_covered_info
+  {
+    margin-left: 3%;
+  }
+  #trans_covered_paginate
+  {
+    margin-right: 3%;
+  }
+  #trans_uncovered_length
+  {
+    margin-left: 3%;
+  }
+  #trans_uncovered_filter
+  {
+    margin-right: 3%;
+  }
+  #trans_uncovered_info
+  {
+    margin-left: 3%;
+  }
+  #trans_uncovered_paginate
+  {
+    margin-right: 3%;
+  }
+  #ip_sol_length
+  {
+margin-left: 10%;
+  }
+  #ip_sol_info
+  {
+    margin-left: 2%;
+  }
+  #ip_sol_paginate
+  {
+    margin-right: 3%;
+  }
+  #ip_tp_info
+  {
+    margin-left: 2%;
+  }
+  #ip_tp_paginate
+  {
+    margin-right: 3%;
+  }
+
+#ip_tp_length
+{
+  margin-left: 2%;
+}
+
+#ip_tp_filter
+{
+  margin-right: 3%;
+}
+
+
+.bt1
+{
+  border-radius: 3px; font-size: 13px; margin-left: 35%; margin-top: -18%;
+}
+.containe
+{
+  margin-left: 2%;min-width: 95%;max-width: 98%;min-height: 82%;
+}
+
+.s1{
+  margin-left: 2%; width: 15%;display: inline-block; font-size: 12px; height: 0%;
+}
+.s2{
+  margin-left: 2%; width: 15%; display: none; font-size: 12px;height: 0%;
+}
+.bt2
+{
+  border-radius: 3px;height: 5%; margin-left:2%; margin-right: 2%; font-size: 13px;
+}
+.tbcolor thead
+{
+  border:1px solid #0d385d; color: white;background-color: #0d385d;
+}
+
+.btnt1
+{
+  border-radius: 3px;height: 5%; margin-left:2%; margin-right: 2%; font-size: 13px;
+}
+
+.btnt2
+{
+  border-radius: 3px;height: 5%; margin-right: 3%; margin-left: 2%; font-size: 13px;
+}
+
+.ht
+{
+  color:white;margin-top: 15.5%;margin-left: 0.5%; margin-right: 10%; font-size: 15px;
+}
+
+.bttr1
+{
+  border-radius: 3px;height: 5%; margin-left:2%; margin-right: 2%; font-size: 13px;
+}
+
+.bttr2
+{
+  border-radius: 3px;height: 5%; margin-right: 3%; margin-left: 2%; font-size: 13px;
+}
+
+.tbcolor a
+{
+ color:#337ab7;
+}
+
+#ip_soll_length
+{
+  margin-left: 2.8%;
+}
+#ip_soll_filter
+{
+  margin-right: 2.8%;
+}
+#ip_soll_info
+{
+margin-left: 2.8%;
+}
+#ip_soll_paginate
+{
+   margin-right: 2.8%;
+}
+#final_length
+{
+  margin-left: 2%;
+}
+#final_filter
+{
+  margin-right: 3%;
+}
+
+#final_info
+{
+  margin-left: 2%;
+}
+
+#final_paginate
+{
+  margin-right: 3%;
+}
+#trans_uncovered_length
+{
+  margin-left: 3%;
+}
+#trans_uncovered_filter
+{
+
+}

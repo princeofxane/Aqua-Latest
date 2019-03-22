@@ -1,0 +1,315 @@
+html,body {
+    height:100%;
+}
+  
+.container{
+  width:500px;
+  display:block;
+  margin:50px auto;
+}
+.progress {
+  overflow: hidden;
+  height: 20px;
+  background-color: #ccc;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+    margin-bottom: 20px;
+}
+.progress-bar {
+  width: 0;
+  height: 100%;
+  color: #fff;
+  text-align: center;
+  background-color: #ee303c;
+
+  
+ 
+}
+.progress-striped .progress-bar {
+      background-image: -webkit-linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+      background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+      background-size: 40px 40px;
+}
+.progress.active .progress-bar {
+  -webkit-animation: progress-bar-stripes 2s linear infinite;
+  animation: progress-bar-stripes 2s linear infinite;
+  -moz-animation: progress-bar-stripes 2s linear infinite;
+}
+tbody {
+    display:block;
+    overflow:auto;
+    width: 200%;
+    }
+    thead, tbody tr {
+    display:table;
+    width:50%;
+    table-layout:fixed;/* even columns width , fix width of table too*/
+    }
+    thead {
+    width: calc( 101% - 1em )/* scrollbar is average 1em/16px width, remove it from thead width */
+    }
+    table {
+    width:50%;
+    }
+    table td, table th {
+    padding: 5px;
+    border: 1px solid #fff;
+    border-width: 0 1px 1px 0;
+    }
+
+ .tabbable {
+  *zoom: 1;
+}
+.tabbable:before, .tabbable:after {
+  display: table;
+  content: "";
+}
+.tabbable:after {
+  clear: both;
+}
+
+.tabs-right > .nav-tabs,
+.tabs-left > .nav-tabs {
+  border-bottom: 0;
+}
+
+.tabs-left .nav-tabs > li,
+.tabs-right .nav-tabs > li {
+  float: none;
+}
+.tabs-left .nav-tabs > li > a,
+.tabs-right .nav-tabs > li > a {
+  min-width: 74px;
+  margin-right: 0;
+  margin-bottom: 3px;
+}
+
+.tabs-left > .nav-tabs {
+  float: left;
+  margin-right: 19px;
+  border-right: 1px solid #ddd;
+}
+.tabs-left > .nav-tabs > li > a {
+  margin-right: -1px;
+  -moz-border-radius: 4px 0 0 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px 0 0 4px;
+}
+.tabs-left > .nav-tabs > li > a:hover, .tabs-left > .nav-tabs > li > a:focus {
+  border-color: #eee #ddd #eee #eee;
+}
+.tabs-left > .nav-tabs > li.active > a, .tabs-left > .nav-tabs > li.active > a:hover, .tabs-left > .nav-tabs > li.active > a:focus {
+  border-color: #ddd transparent #ddd #ddd;
+  *border-right-color: #fff;
+}
+
+.tabs-right > .nav-tabs {
+  float: right;
+  margin-left: 19px;
+  border-left: 1px solid #ddd;
+}
+.tabs-right > .nav-tabs > li > a {
+  margin-left: -1px;
+  -moz-border-radius: 0 4px 4px 0;
+  -webkit-border-radius: 0;
+  border-radius: 0 4px 4px 0;
+  background: white;
+  color: #337ab7;
+}
+.tabs-right > .nav-tabs > li > a:hover, .tabs-right > .nav-tabs > li > a:focus {
+  border-color: #eee #eee #eee #ddd;
+}
+.tabs-right > .nav-tabs > li.active > a, .tabs-right > .nav-tabs > li.active > a:hover, .tabs-right > .nav-tabs > li.active > a:focus {
+  border-color: #ddd #ddd #ddd transparent;
+  *border-left-color: #fff;
+}
+
+.tabs-vertical {
+  position: relative;
+}
+.tabs-vertical > .nav-tabs {
+  position: absolute;
+  top: 20px;
+  display: block;
+  width: auto;
+  height: 42px;
+  margin: 0;
+  white-space: nowrap;
+  border: 0 none;
+  -moz-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.tabs-vertical > .nav-tabs > li {
+  position: relative;
+  display: inline-block;
+}
+.tabs-vertical > .nav-tabs > li > a {
+  min-width: 0;
+  margin: 0;
+}
+.tabs-vertical > .nav-tabs > li.active {
+  z-index: 1;
+}
+.tabs-vertical.tabs-left > .nav-tabs {
+  left: 43px;
+  border-top: 1px solid #ddd;
+}
+.tabs-vertical.tabs-left > .nav-tabs > li {
+  height: 43px;
+  top: -1px;
+}
+.tabs-vertical.tabs-left > .nav-tabs > li > a {
+  -moz-border-radius: 0 0 4px 4px;
+  -webkit-border-radius: 0;
+  border-radius: 0 0 4px 4px;
+}
+.tabs-vertical.tabs-left > .nav-tabs > li > a:hover, .tabs-vertical.tabs-left > .nav-tabs > li > a:focus {
+  border-color: #ddd #eee #eee #eee;
+}
+.tabs-vertical.tabs-left > .nav-tabs > li.active > a, .tabs-vertical.tabs-left > .nav-tabs > li.active > a:hover, .tabs-vertical.tabs-left > .nav-tabs > li.active > a:focus {
+  background-color: #337ab7;
+  border-color: transparent #2e6da4 #2e6da4 #2e6da4;
+  *border-top-color: #fff;
+  color: white;
+}
+.tabs-vertical.tabs-left .tab-content {
+  margin-left: 42px;
+  border-left: 1px solid #ddd;
+}
+.tabs-vertical.tabs-right > .nav-tabs {
+  left: 100%;
+  margin-left: -1px;
+  border-bottom: 1px solid #ddd;
+}
+.tabs-vertical.tabs-right > .nav-tabs > li > a {
+  -moz-border-radius: 4px 4px 0 0;
+  -webkit-border-radius: 4px;
+  border-radius: 4px 4px 0 0;
+}
+.tabs-vertical.tabs-right > .nav-tabs > li > a:hover, .tabs-vertical.tabs-right > .nav-tabs > li > a:focus {
+  border-color: #eee #eee #ddd #eee;
+}
+.tabs-vertical.tabs-right > .nav-tabs > li.active > a, .tabs-vertical.tabs-right > .nav-tabs > li.active > a:hover, .tabs-vertical.tabs-right > .nav-tabs > li.active > a:focus {
+    background-color: #337ab7;
+  border-color: transparent #2e6da4 #2e6da4 #2e6da4;
+  *border-top-color: #fff;
+  color: white;
+}
+.tabs-vertical.tabs-right .tab-content {
+  margin-right: 42px;
+  border-right: 1px solid #ddd;
+}
+
+body {
+  padding-top: 50px;
+}
+
+.tabs-left .tab-content {
+  padding-left: 20px;
+}
+.tabs-right .tab-content {
+  padding-right: 20px;
+}
+
+.sub-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.page-header {
+  margin-top: 10px;
+}
+
+.placeholders {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.placeholders h4 {
+  margin-bottom: 0;
+}
+
+.placeholder {
+  margin-bottom: 20px;
+}
+
+.placeholder img {
+  display: inline-block;
+  border-radius: 50%;
+}
+
+
+          .datatables_filter input
+          {
+            width: 100%;
+          }
+          .display tr
+          {
+             width: 37%;
+          }
+          .diplay thead{
+            width: 60%;
+
+          }
+          .display
+          {
+            width: 60%;
+            color: black;
+
+          }
+          .display tbody{
+            width: 266%;    }
+            td.highlight {
+              font-weight: bold;
+              color: black;
+          }
+          }
+          }
+          }
+           td.highlight1 {
+              font-weight: bold;
+              color: black;
+              background: grey;
+          }
+
+
+
+ .container-fluid 
+ {
+    background-color: #0d385dd6;
+    float: left;
+    margin-left: 5%;
+    margin-bottom: 6%;
+    color: black;
+    border-style: solid;
+    border-color: white;
+    max-width: 94%;
+    min-width: 86%;
+}
+
+
+.header1
+{
+  color:white;
+  margin-top: 1%;
+  float: left;
+  margin-left: 5%;
+}
+
+.header2
+{
+  color:white;
+  margin-top: 1%;
+  float: left;
+  margin-left: 10%;
+}
