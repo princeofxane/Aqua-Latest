@@ -312,12 +312,12 @@ button:hover
 } */
 .progress
 {
-	border:1px solid rgb(1, 82, 99);
+	border:1px solid rgb(208, 234, 201);
 	border-radius:3px;
 	overflow: hidden;
 	width: 67%;
 	background-color:white;
-	height:25px;
+	height: 20px;
 }
 .progress-bar 
 {
@@ -329,7 +329,7 @@ button:hover
 	border-radius:3px;
 	margin-top:3px;
 	height:76%;
-	background-color: #45666d;
+	background-color: #4c9e5e;
 }
 .progress-bar1 
 {
