@@ -11,7 +11,7 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 #login-page{
-  background-color:#ad2bc6;
+  background-color:#0D385D;
   margin: 60px;
 }
 
@@ -64,7 +64,7 @@ body {
 .tooltipx .tooltiptextx {
     visibility: hidden;
     width: 150px;
-    background-color: #ad2bc6;
+    background-color: #0D385D;
     color: #fff;
     text-align: center;
     border-radius: 6px;
@@ -91,21 +91,21 @@ body {
 }
 
 .side{
-    background-color: #ad2bc6;
+    background-color: #0D385D;
     padding: 60px 0px 0px 0px;
     position: fixed !important;
 }
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
  .side{
-    background-color: #ad2bc6;
+    background-color: #0D385D;
     padding: 60px 0px 0px 0px;
     position: static !important;
   }
 }       
 
 .nav {
-  background-color: #ad2bc6;
+  background-color: #0D385D;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
 }
@@ -119,7 +119,7 @@ a:hover{
   font-weight: bold;
 }
 .panel-footer {
-    color: #ad2bc6;
+    color: #0D385D;
 }
 
 #custom-search-input{
@@ -174,8 +174,8 @@ a:hover{
   }
 }
 .navbar-static-top{
-  background-color: #ad2bc6;
-  border-color: white;
+  background-color: white;
+  border-color: blue;
 }
 .myPanal{
     background-color: #155389;
@@ -449,7 +449,7 @@ box-shadow: none;
 
 table.darkTable {
   font-family: 'Roboto', sans-serif;
-  border: 2px solid: #ad2bc6;
+  border: 2px solid: #0D385D;
   background:#f1f1f1;  
   width: 99%;
   text-align: center;
@@ -466,8 +466,8 @@ table.darkTable tr:nth-child(even) {
   background-color: #f1f1f1;
 }
 table.darkTable thead {
-  background: #ad2bc6;
-  border-bottom: 2px solid #ad2bc6;
+  background: #0D385D;
+  border-bottom: 2px solid #0D385D;
 }
 table.darkTable thead th {
   font-size: 13px;
@@ -517,7 +517,7 @@ table.darkTab tbody tr {
 
 .alert-info {
   color: white !important;
-  background-color: #ad2bc6 !important;
+  background-color: #0D385D !important;
   border-color: rgba(72, 73, 74, 0.7) !important;
 }
 
@@ -557,7 +557,7 @@ table.darkTab tbody tr {
 
 #role {
     width: 100%;
-    color: #ad2bc6;
+    color: #0D385D;
     border-style: solid;
     border-bottom:10px;
     background-color: #f1f1f1;
@@ -581,27 +581,26 @@ table.darkTab tbody tr {
 
 ::-webkit-scrollbar-thumb
 {
-  background-color: #ad2bc6;
+  background-color: #0D385D;
 }
 
 .main-menu:hover,nav.main-menu.expanded {
-  width:240px;
+  
   border-color: rgba(130, 130, 130, 0.35);
   -webkit-transition:width .3s ease ;
   transition:width .2s ease ;
   }
 
 .main-menu {
+  width:240px;
   position:fixed;
-   background-color: #ad2bc6;
+  background-color:rgb(221, 221, 221);
   border-right-style: solid;
-  background-color: block;
   top:0;
   bottom:0;
   left:0;
-  width:60px;
+  width:120px;
   overflow:hidden;
-  background-color: #ad2bc6;
   -webkit-transition:width .3s ease ;
   transition:width .3s ease ;
   -webkit-transform:translateZ(0) scale(1,1);
@@ -744,6 +743,12 @@ user-select:none;
   background-color: #7bc143;
 }
 
+#page-wrapper
+{
+  margin-top: 10%;
+  margin-left: 10%;
+}
+
 .add_to_basket{
   height:60px; 
   font-family:Arial; 
@@ -776,12 +781,12 @@ label{
 
 .panel-primary>.panel-heading {
     color: #fff;
-    background-color: #ad2bc6;
-    border-color: #ad2bc6;
+    background-color: #0D385D;
+    border-color: #0D385D;
 }
 .btn-primary {
     color: #fff;
-    background-color: #ad2bc6;
+    background-color: #0D385D;
     border-color: #000000;
 }
 
@@ -800,8 +805,8 @@ label{
     border: 11px #000000;
     border-style: double;
     border-radius: 50%;
-    border-top: 10px solid #ad2bc6;
-    border-bottom: 10px solid #ad2bc6;
+    border-top: 10px solid #0D385D;
+    border-bottom: 10px solid #0D385D;
     width: 71px;
     height: 71px;
     -webkit-animation: spin 2s linear infinite;
@@ -823,7 +828,7 @@ label{
 }
 
 .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
-    background-color: #ad2bc6;
+    background-color: #0D385D;
     border-color: #337ab7;
 }
 

@@ -14,15 +14,15 @@
 });
 </script>
 
-<nav class="navbar navbar-default navbar-static-top navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+<nav class="navbar navbar-default navbar-static-top navbar-fixed-top" role="navigation" style="margin-bottom: 0; height:17.1%">
     <div class="navbar-header" style="width:50%;">
        
-        <a id="home" class="navbar-brand" href="#"><img src="../static/images/logo.jpg" style=" width: 18px;"></a><span style="width: 250px; color: rgb(255, 255, 255); padding-top: 21px; display: flex;">|&nbsp;&nbsp;IONEXASENSE</span>
+        <a id="home" class="navbar-brand" href="#"><img src="../static/images/logo.jpg" style=" width: 240px;"></a><span style="width: 250px; color: rgb(255, 255, 255); padding-top: 21px; display: flex;">|&nbsp;&nbsp;IONEXASENSE</span>
     </div>
     <div class="navbar-header" style="width:50%;">
 	     <ul class="nav navbar-top-links navbar-right">
 	        <li class="dropdown">
-	            <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color: white;">
+	            <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="background-color: rgb(0, 0, 0);">
 	               <span id="assoc_id">{{user.username}}</span> <i class="fa fa-user fa-fw"> </i> <i class="fa fa-caret-down"></i>
 	            </a>
 	            <ul class="dropdown-menu dropdown-user">
@@ -41,7 +41,7 @@
 	    </ul>
 	    <ul class="nav navbar-top-links navbar-right">
 	 <li class="dropdown">
-	            <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color: white;">
+	            <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="background-color: white; color: blue;">
 	               <span id="assoc_id">{{user.username}}</span> <i class="fa fa-user fa-bell-o fw"> </i> 
 	            </a>
 	            <ul class="dropdown-menu dropdown-user">
@@ -60,7 +60,7 @@
 	    </ul>
 	     <ul class="nav navbar-top-links navbar-right">
 	 <li class="dropdown">
-	            <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color: white;">
+	            <a class="dropdown-toggle" data-toggle="dropdown" href="#" style=" background-color: white; color: white;">
 	               <span id="assoc_id">{{user.username}}</span> <i class="fa fa-user fa-wpforms fw"> </i> 
 	            </a>
 	            <ul class="dropdown-menu dropdown-user">
@@ -86,7 +86,8 @@
      </div>
 </nav>
 
-
+<nav class="navbar navbar-default navbar-static-top navbar-fixed-top" role="navigation" style="margin-bottom: 0; margin-top: 5%; background-color: #0D385D">
+</nav>
 {% block custom_css %}
 <link rel="stylesheet" href="../static/css/easy-autocomplete.css">
 <link rel="stylesheet" href="../static/css/easy-autocomplete.themes.css">

@@ -3,61 +3,12 @@
 {% block body_content %}
 
 	
-	<style>
-		.call-card 
-		{
-			position: absolute;
-			height: 280px;
-			width: 160px;
-			margin-top: 1vh;
-			border-radius:20px;
-			background: -webkit-linear-gradient(top,#8bf1f8,#00c3ca);
-		}
-		.call-user-icon img 
-		{
-			background-color: white;
-			border-radius: 50%;
-			width: 24%;
-		}
-		.call-card-user-name 
-		{
-			position: relative;
-			text-align: center;
-		}
-		.caller-name 
-		{
-			font-family: poppins;
-			font-size: 22px;
-			color:black;
-			font-weight: bold;
-		}
-	</style>
+	
 <!-- </head> -->
 
 <body>
-	<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 5%;">
-		<div id="exTab2" class="container" style="width:100%;">
-			<div class="tab-content body-block">
-				<div class="tab-pane active" id="1">
-					<div class="panel-body content-bkg">
-       
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-6">
-				<a href=""><span id="leadlist">Leads</span></a>
-			</div>
-			
-		
-		</div>
-	</div>
-</div>
-
-	<div class="container ">
-		<div class="row">
-			<div style="position: relative">
-				<div id="table-scroll" class="table-scroll">
-					<div id="faux-table" class="faux-table" aria="hidden"></div>
-						<div class="table-wrap scrollbar-ripe-malinka">
+	<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 10%;margin-left: 10%;">
+	
 							<table id="dataTable" class = "table table-hover dataTable">
 								<thead>
 									<tr>
@@ -77,121 +28,7 @@
 								<tbody></tbody>
 								</table>
 						</div>
-					</div>
-				</div>
-
 			
-
-
-			</div>
-		</div>
-	</div>
-
-	<!-- This is to update new lead -->
-	<div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">
-						<div class="container">
-							<div class="row">
-								<div class="col-lg-6">
-									<p style="color:#06BBE1;">LEAD ID: <span id="lead_id"></span></p>
-									<p style="margin-left:60%;margin-top:-5vh;color:#06BBE1;">
-										LEAD PH: <span id="lead_phone"></span>
-									</p>
-								</div>
-							</div>
-						</div>
-		  		</h4>
-				</div>
-
-      	<div class="modal-body">
-					<div class="container">  
-						<div class="row">
-							<div class="col-lg-2">
-								<p>First Name</p>
-							</div>
-							<div class="col-lg-5">
-								<input id="fnameLead" type="text" class="modelname" value=""/>
-								</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-2">
-								<p>Last Name</p>
-							</div>
-							<div class="col-lg-5">
-								<input id="lnameLead" type="text" class="modelname"/>
-								</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-2">
-								<p>Email</p>
-							</div>
-							<div class="col-lg-5">
-								<input id="emailLead" type="text" class="modelname"/>
-								</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-2">
-								<p>Alternative number</p>
-							</div>
-							<div class="col-lg-5">
-								<input id="alternateNumberLead" type="text" class="modelname"/>
-								</div>
-						</div>
-						<!-- <div class="row">
-							<div class="col-lg-2">
-								<p>City</p>
-							</div>
-							<div class="col-lg-5">
-								<input id="cityLead" type="text" class="modelname"/>
-								</div>
-						</div> -->
-						<div class="row">
-							<div class="col-lg-2">
-								<p>PIN</p>
-							</div>
-							<div class="col-lg-5">
-								<input id="pinLead" type="text" class="modelname"/>
-								</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-2">
-								<p>Purchase Date</p>
-							</div>
-							<div class="col-lg-5">
-								<input id="dateLead" type="text" class="modelname"/>
-								</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-2">
-								<p>Address</p>
-							</div>
-							<div class="col-lg-5">
-								<textarea id="addressLead" class="modelname"></textarea>
-								</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-2">
-								<p>Remarks</p>
-							</div>
-							<div class="col-lg-5">
-								<textarea id="commentsLead" class="modelname"></textarea>
-								</div>
-						</div>
-					</div>
-        <div class="modal-footer">
-			<button type="button" id="btnLead" class="btn btn-default" data-dismiss="modal" >Update</button>  <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-        </div>
-      </div>
-    </div>
-	</div>
-  </div>
-
-	
 	<!-- This is to show pause -->
 	<div id="modalForPause" class="modal fade" role="dialog" style="border: 3px solid #7CB9E8">
 		<div class="modal-dialog">
