@@ -32,18 +32,16 @@
 							 <table id="dataTable" class = "table table-hover dataTable">
 								<thead>
 									<tr>
-										<th>No</th>
-										<th>Req ID</th>
-										<th>Source</th>
+										<th style="border-bottom:2pt solid black;">No</th>
+										<th style="border-bottom:2pt solid black;">Req ID</th>
+										<th style="border-bottom:2pt solid black;">Source</th>
 										<!-- <th>Request No</th>  -->
-										<th>Name</th>
-										<th>Phone Number</th>
-										<th>Address</th>
-										<th>Remarks</th>
-										<th>Appointment</th>
-										<!-- <th>Appointment</th> -->
-										<!-- <th> Edit</th> -->
-										<th></th>
+										<th style="border-bottom:2pt solid black;">Name</th>
+										<th style="border-bottom:2pt solid black;">Phone Number</th>
+										<th style="border-bottom:2pt solid black;">Address</th>
+										<th style="border-bottom:2pt solid black;">Remarks</th>
+										<th style="border-bottom:2pt solid black;">Appointment</th>
+										
 									</tr>
 								</thead>
 								<tbody></tbody>
@@ -54,6 +52,100 @@
 
 
 	<br>
+
+
+<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+       	<form>
+
+       		 <div class="row">
+          		<div class="col-md-6"> 
+	          		<div class="form-group">
+	            		<label for="recipient-name" class="control-label">Full Name:</label>
+	            			<input type="text" class="form-control" id="recipient-name">
+	          		</div>
+          		</div>
+         		<div class="col-md-6 col-md-offset-0"> 
+         			<div class="form-group">
+			            <label for="recipient-name" class="control-label">Address:</label>
+			            <textarea class="form-control" id="message-text"></textarea>
+          			</div>
+          		</div>
+      		</div>
+      		 <div class="row">
+          		<div class="col-md-6"> 
+	          		<div class="form-group">
+	            		 <label for="recipient-name" class="control-label">Alternative number</label>
+            			 <input type="text" class="form-control" id="recipient-name">
+	          		</div>
+          		</div>
+         		<div class="col-md-6 col-md-offset-0"> 
+         			<div class="form-group">
+			             <label for="recipient-name" class="control-label">Email address:</label>
+          				 <input type="text" class="form-control" id="recipient-name">
+          			</div>
+          		</div>
+      		</div>
+      		<div class="row">
+          		<div class="col-md-6"> 
+	          		<div class="form-group">
+	            		 <label for="recipient-name" class="control-label">Appointment:</label>
+            			 <input type="text" class="form-control" id="recipient-name">
+	          		</div>
+          		</div>
+         		<div class="col-md-6 col-md-offset-0"> 
+         			<div class="form-group">
+			             <label for="recipient-name" class="control-label">Time Input:</label>
+            			 <input type="text" class="form-control" id="recipient-name">
+          			</div>
+          		</div>
+      		</div>
+      		<div class="row">
+          		<div class="col-md-6"> 
+	          		<label>
+      		<input type="checkbox"> Set Commit &nbsp;
+    	  </label>
+    	   <label>
+      		<input type="checkbox"> Feedback
+    	  </label>
+          		</div>
+         		
+      		</div>
+      		<div class="row">
+          		<div class="col-md-6"> 
+	          		<div class="form-group">
+           	 <textarea class="form-control" id="message-text"></textarea>
+           </div>
+          		</div>
+          	</div>
+
+
+         
+         
+         
+         
+        
+          
+    	 
+           
+
+          
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">UPDATE</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 </body>
 {% endblock body_content %}
 
@@ -160,7 +252,7 @@ function fetchTableData(emp_id) {
 				$.each(data, function(key,value) {
 					i++;
 					table.row.add($(
-						'<tr>' +
+						'<tr style="border-bottom:2pt solid black;">' +
 						'<td>'+i+'</td>' +
 						'<td>'+value.id+'</td>' +
 						'<td>'+value.source+'</td>' +
@@ -169,11 +261,10 @@ function fetchTableData(emp_id) {
 						'<td>'+value.phone+'</td>' +
 						'<td>'+value.address+'</td>' +
 						'<td>'+ +'</td>' +
-						// '<td>'+value.comments+'</td>' +
-						// '<td>'+value.pincode+'</td>' +
-						'<td></td>'+
+						
+						
 						// '<td><input type="button" class="btn btn-primary" value="Edit"></td>'+
-						'<td><input type="button" onClick=navigate() class="btn btn-primary" value="EDIT"></td>'+
+						'<td><input type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary" value="EDIT"></td>'+
 						'</tr>')).draw(false);
 				})
 			}
