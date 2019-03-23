@@ -346,8 +346,8 @@ button:hover
 {
 	opacity: 1;
 	font-family: Poppins;
-	font-size: 25px;
-	color: rgba(6,184,225,1);
+	font-size: 13px;
+	color: rgb(44, 134, 17);
 	letter-spacing: -1.2px;
 }
 #leadlist

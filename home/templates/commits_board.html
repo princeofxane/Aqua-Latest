@@ -20,6 +20,8 @@
 										<th>Name</th>
 										<th>Phone Number</th>
 										<th>Address</th>
+										<!-- <th>createdAt</th> -->
+										<th>Appointment</th>
 										<th>Remarks</th>
 										<th>Status</th>
 										<!-- <th>Appointment</th> -->
@@ -28,7 +30,7 @@
 									</tr>
 								</thead>
 								<tbody></tbody>
-								</table>
+							</table>
 				</div>
 	
 	<!-- This is to show pause -->
@@ -168,6 +170,8 @@ function fetchTableData(emp_id) {
 						// '<td>'+value.email+'</td>' +
 						'<td>'+value.phone+'</td>' +
 						'<td>'+value.address+'</td>' +
+						// '<td>'+value.createdDate+'</td>' +
+						'<td>'+value.appointmentDate+'</td>' +
 						'<td>'+ +'</td>' +
 						// '<td>'+value.comments+'</td>' +
 						// '<td>'+value.pincode+'</td>' +
@@ -189,7 +193,7 @@ function fetchTableData(emp_id) {
 				window.location.href = baseUrl
 			}else{
 				emp_id = dataObj.description;
-				getProfilePicture(emp_id);
+				// getProfilePicture(emp_id);
 				getUserData(emp_id);
 				fetchTableData(emp_id);
 				// getEmpTarget(emp_id);

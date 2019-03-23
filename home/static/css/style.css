@@ -8,7 +8,8 @@ body {
     overflow-y:auto;
     overflow-x: hidden;
     font-size: 11px;
-    font-family: 'Roboto', sans-serif;
+    /* font-family: 'Roboto', sans-serif; */
+    font-family: Poppins;
 }
 #login-page{
   background-color:#0D385D;
@@ -444,12 +445,12 @@ box-shadow: none;
 .disc {
   font-size:11px; 
   color: lightgrey; 
-  line-height: 0px;"
+  line-height: 0px"
 }
 
 table.darkTable {
   font-family: 'Roboto', sans-serif;
-  border: 2px solid: #0D385D;
+  border: 2px solid #0D385D;
   background:#f1f1f1;  
   width: 99%;
   text-align: center;
@@ -590,6 +591,12 @@ table.darkTab tbody tr {
   -webkit-transition:width .3s ease ;
   transition:width .2s ease ;
   }
+
+.main-menu ul:hover {
+  color:white;
+}
+
+
 
 .main-menu {
   width:240px;

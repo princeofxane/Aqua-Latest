@@ -7,6 +7,8 @@ from .tests import cleanDatabase, fill_database_with_dummy_values
 from django.utils import timezone
 from django.utils.dateparse import parse_date
 from django.core.files.storage import FileSystemStorage
+from home import tests
+import random
 # from django_otp.oath import hotp
 import pytz
 import json
@@ -378,6 +380,8 @@ def getEmpLogInfo(empInstance):
 @csrf_exempt
 def empLoginCheck(request):
     if (request.method == "POST"):
+        # tests.addEmployees()
+        # tests.addDummyLeads()
         id = request.POST.get("id", None)
         password = request.POST.get("password", None)
         if id == None or id == '':
@@ -438,7 +442,7 @@ def addNewLead(request):
         if(fname == None or lname ==  None or mobile ==  None or email ==  None or
                 address ==  None or pincode ==  None or purchaseDate == None or alternatePhone ==  None):
            return fail("Invalid details")
-        lead = Leads(fname = fname, lname = lname, mobile = mobile, email = email,
+        lead = Leads(leadID = generateRandomLeadID(), fname = fname, lname = lname, mobile = mobile, email = email,
             address = address, pincode = pincode, purchaseDate = purchaseDate, alternatePhone = alternatePhone)
         lead.save()
         return success("New Lead created!")
@@ -447,11 +451,11 @@ def addNewLead(request):
 @csrf_exempt
 def deleteSingleLead(request):
     if request.method == "POST":
-        LeadID = request.POST.get("id", None)
+        LeadID = request.POST.get("lead_id", None)
         if LeadID == None or LeadID == "":
             return fail("Id hasn't been provided")
         try:
-            leadObj = Leads.objects.get(id = LeadID)
+            leadObj = Leads.objects.get(leadID = LeadID)
         except Exception as e:
             return fail("Lead not found")
         leadObj.delete()       
@@ -466,7 +470,7 @@ def deleteMultipleLeads(request):
             return fail("No leads have selected")
         # for leadID in LeadIDs:
         try:
-            leadObj = Leads.objects.filter(id__in=(LeadIDs)).delete()
+            leadObj = Leads.objects.filter(leadID__in=(LeadIDs)).delete()
         except Exception as e:
             return fail("Something went wrong")
         return success("Leads have successfully deleted")
@@ -502,6 +506,7 @@ def getAssignedLeads(request):
                     eachRow['email'] = lead.email
                     eachRow['phone'] = lead.phone
                     eachRow['address'] = lead.address
+                    eachRow['createdDate'] = str(lead.createdDate)
                     eachRow['pincode'] = lead.pincode
                     eachRow['isInterested'] = lead.isInterested
                     leads_list.append(eachRow)
@@ -523,6 +528,7 @@ def getAllUnAssignedLeads(request):
             eachRow['fname'] = leadObj.fname
             eachRow['lname'] = leadObj.lname
             eachRow['address'] = leadObj.address
+            eachRow['createdDate'] = leadObj.createdDate
             eachRow['email'] = leadObj.email
             eachRow['phone'] = leadObj.phone
             eachRow['alternatePhone'] = leadObj.alternatePhone
@@ -554,6 +560,7 @@ def getInterestedLeads(request):
                 eachRow['email'] = lead.email
                 eachRow['phone'] = lead.phone
                 eachRow['address'] = lead.address
+                eachRow['createdDate'] = str(lead.createdDate)
                 eachRow['pincode'] = lead.pincode
                 leads_list.append(eachRow)
             return success(leads_list)
@@ -566,7 +573,7 @@ def setCommit(request):
         if lead_id == None or lead_id == '':
             return fail("Lead id has not provided")
         try:
-            leadObj = Leads.objects.get(id=lead_id)
+            leadObj = Leads.objects.get(leadID=lead_id)
         except Exception as e:
             return fail("Lead doesn't exist")
         isCommit = request.POST.get("isCommit", None)
@@ -609,7 +616,9 @@ def getLeadsNotContacted(request):
                 eachRow['email'] = lead.email
                 eachRow['phone'] = lead.phone
                 eachRow['address'] = lead.address
+                eachRow['createdDate'] = str(lead.createdDate)
                 eachRow['pincode'] = lead.pincode
+                eachRow['source'] = lead.source
                 leads_list.append(eachRow)
             return success(leads_list)
     return fail("Error In Request")
@@ -633,6 +642,7 @@ def getContactedLeads(request):
                 eachRow['email'] = lead.email
                 eachRow['phone'] = lead.phone
                 eachRow['address'] = lead.address
+                eachRow['createdDate'] = str(lead.createdDate)
                 eachRow['pincode'] = lead.pincode   
                 leads_list.append(eachRow)
             return success(leads_list)
@@ -657,7 +667,7 @@ def editLead(request):
         newComments = request.POST.get("comments", None)
         
         try:
-            lead = Leads.objects.get(id = leadID)
+            lead = Leads.objects.get(leadID = leadID)
         except Exception as e:
             print(e)
             return fail("Lead is not present in the db")
@@ -694,7 +704,7 @@ def getSingleLead(request):
     if (request.method == "POST"):
         leadID = request.POST.get("id", None)
         try:
-            leadObj = Leads.objects.get(id=leadID)
+            leadObj = Leads.objects.get(leadID=leadID)
         except expression as identifier:
             return fail("Lead Not Found")
         lead = {}
@@ -706,6 +716,7 @@ def getSingleLead(request):
         lead['mobile'] = leadObj.phone
         lead['alternatePhone'] = leadObj.alternatePhone
         lead['address'] = leadObj.address
+        lead['createdDate'] = leadObj.createdDate
         lead['purchaseDate'] = leadObj.purchaseDate
         lead['pincode'] = leadObj.pincode
         lead['comments'] = leadObj.comments
@@ -753,8 +764,8 @@ def leadDataFileParser(request):
         row, col = data.shape
         rows = []
         for i in range(row):
-            email, fname, lname, address, phone, alternatePhone, pincode, purchaseDate = data.loc[i, ['email', 'fname', 'lname', 'address', 'phone', 'alternatePhone', 'pincode', 'purchaseDate']]
-            lead = Leads(email=email, fname=fname, lname=lname, address=address, phone=phone, alternatePhone=alternatePhone, pincode=pincode, purchaseDate=purchaseDate)
+            email, fname, lname, address, phone, alternatePhone, pincode, source, purchaseDate = data.loc[i, ['email', 'fname', 'lname', 'address', 'phone', 'alternatePhone', 'pincode', 'source', 'purchaseDate']]
+            lead = Leads(leadID = generateRandomLeadID(), email=email, fname=fname, lname=lname, address=address, phone=phone, alternatePhone=alternatePhone, pincode=pincode, source=source, purchaseDate=purchaseDate)
             rows.append(lead)
         Leads.objects.bulk_create(
             rows
@@ -762,6 +773,10 @@ def leadDataFileParser(request):
         print(data)
         return success("completed upload")
     return fail("Error in request")
+
+def generateRandomLeadID():
+    randomID = 'LD' + '{0:06}'.format(random.randint(1, 100000))
+    return randomID
 
 # @csrf_exempt
 # def getCallCount(request):

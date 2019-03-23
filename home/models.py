@@ -66,7 +66,7 @@ class Product(models.Model):
 #'fl'-FILTER
 
 class Customers(models.Model):
-    custID = models.CharField(max_length=30, unique=True, default=None, primary_key=True)
+    custID = models.CharField(max_length=30, default=None, primary_key=True)
     fname = models.CharField(max_length=30, default=None)
     lname = models.CharField(max_length=20, default=None)
     email = models.CharField(max_length=30, default=None)
@@ -78,19 +78,21 @@ class Customers(models.Model):
 
 
 class Leads(models.Model):
-    id = models.AutoField(primary_key=True)
+    leadID = models.CharField(max_length=30, default=None, primary_key=True)
     fname = models.CharField(max_length=100, default=None)
     lname = models.CharField(max_length=100, default=None)
     address = models.TextField(default=None, null=True)
     email = models.EmailField(default=None, null=True)
-    phone = models.CharField(max_length=12, default=None, null=True)
+    phone = models.CharField(max_length=12, unique=True, default=None, null=True)
     alternatePhone = models.CharField(max_length=12, default=None, null=True)
     purchaseDate = models.CharField(max_length=12, null=True)
     pincode = models.CharField(max_length=6, default="000000")
     source = models.CharField(max_length=40, default=None, null=True)
+    product = models.CharField(max_length=30, default=None, null=True)
+    appointmentDate = models.CharField(max_length=12, default=None, null=True)
     comments = models.TextField(null=True)
     assignee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
-    dateAssigned = models.DateTimeField(default=timezone.now)
+    createdDate = models.DateTimeField(default=timezone.now)
     isContacted = models.BooleanField(default=False)
     isInterested = models.BooleanField(default=False)
 

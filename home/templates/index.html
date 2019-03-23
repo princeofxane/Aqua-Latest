@@ -11,10 +11,11 @@
 							<div class="row row-content">
 									<div class="col-xs-12  col-sm-12 col-md-10 col-lg-12">
 									 <div class="col-xs-2  col-sm-2 col-md-2 col-lg-2 color-blue;">
-										 	<label style="padding-top: 8px;font-size: 14px;">Calls Made:</label>
+										 	<label style="padding-top: 8px;font-size: 14px; color: #0D385D">Calls Made:</label>
 									 </div>
 									 <div class="progress">
-										 <div class="progress-bar progress-bar-striped progress-bar-animated"  id="ed" style="width:40%"></div>
+										 <div id="callProgresBar" class="progress-bar progress-bar-striped progress-bar-animated"  id="ed" style="width:40%"></div>
+										 <span id="currCallCount" class="ID28" id="currentCalls"></span> <span class="ID28">/</span> <span class="ID28" id="targetCalls"></span>
 									 </div>
 								 </div>
 							 </div>
@@ -22,10 +23,11 @@
 							 <div class="row row-content">
 									<div class="col-xs-12  col-sm-12 col-md-10 col-lg-12">
 									 <div class="col-xs-2  col-sm-2 col-md-2 col-lg-2 color-blue">
-										 	<label style="padding-top: 8px;font-size: 14px;">Commits Made:</label>
+										 	<label style="padding-top: 8px;font-size: 14px; color: #0D385D">Commits Made:</label>
 									 </div>
 									 <div class="progress">
-										 <div class="progress-bar progress-bar-striped progress-bar-animated"  id="ed" style="width:40%"></div>
+										 <div id="commitProgresBar" class="progress-bar progress-bar-striped progress-bar-animated"  id="ed" style="width:40%"></div>
+										 <span id="currCommitCount" class="ID28" id="currentCommit"></span> <span class="ID28">/</span> <span class="ID28" id="targetCommit"></span>
 									 </div>
 								 </div>
 							 </div>
@@ -39,6 +41,7 @@
 										<th>Name</th>
 										<th>Phone Number</th>
 										<th>Address</th>
+										<!-- <th>CreatedAt</th> -->
 										<th>Remarks</th>
 										<th>Appointment</th>
 										<!-- <th>Appointment</th> -->
@@ -168,6 +171,7 @@ function fetchTableData(emp_id) {
 						// '<td>'+value.email+'</td>' +
 						'<td>'+value.phone+'</td>' +
 						'<td>'+value.address+'</td>' +
+						// '<td>'+value.createdDate+'</td>' +
 						'<td>'+ +'</td>' +
 						// '<td>'+value.comments+'</td>' +
 						// '<td>'+value.pincode+'</td>' +
@@ -200,7 +204,7 @@ function fetchTableData(emp_id) {
 				window.location.href = baseUrl
 			}else{
 				emp_id = dataObj.description;
-				getProfilePicture(emp_id);
+				// getProfilePicture(emp_id);
 				getUserData(emp_id);
 				fetchTableData(emp_id);
 				getEmpTarget(emp_id);
@@ -233,7 +237,7 @@ function fetchTableData(emp_id) {
 
 			//These values are hardcoded for testing. Here we need to get actual 
 			//callCount and commitCount from db.
-			var callCount = 43
+			var callCount = 110
 			var commitCount = 42
 
 			$("#currCallCount").text(callCount)
@@ -242,8 +246,8 @@ function fetchTableData(emp_id) {
 			callPercentage = Math.trunc((callCount * 100)/callTarget)
 			commitPercentage = Math.trunc((commitCount * 100)/commitTarget)
 
-			$("#callProgressBar").css("width", callPercentage + "%")
-			$("#commitProgressBar").css("width", commitPercentage + "%")
+			$("#callProgresBar").css("width", callPercentage + "%")
+			$("#commitProgresBar").css("width", commitPercentage + "%")
 		}
 
 

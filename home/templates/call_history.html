@@ -22,7 +22,6 @@
 										<!-- <th>Appointment</th> -->
 										<th>Appointment</th>
 										<!-- <th> Edit</th> -->
-										<th></th>
 									</tr>
 								</thead>
 								<tbody></tbody>
@@ -161,11 +160,13 @@ function fetchTableData(emp_id) {
 					table.row.add($(
 						'<tr>' +
 						'<td>'+i+'</td>' +
+						'<td>'+value.id+'</td>' +
 						'<td>'+value.fname+ ' ' +value.lname+'</td>' +
 						// '<td>'+value.email+'</td>' +
 						'<td>'+value.phone+'</td>' +
 						'<td>'+value.address+'</td>' +
-						'<td>'+ +'</td>' +
+						'<td>'+value.comments+'</td>' +
+						'<td>'+value.appointmentDate+'</td>' +
 						// '<td>'+value.comments+'</td>' +
 						// '<td>'+value.pincode+'</td>' +
 						// `<td><input type="button" onClick=test() class="btn btn-primary" value="Set Commit"></td>`+
@@ -186,7 +187,7 @@ function fetchTableData(emp_id) {
 				window.location.href = baseUrl
 			}else{
 				emp_id = dataObj.description;
-				getProfilePicture(emp_id);
+				// getProfilePicture(emp_id);
 				getUserData(emp_id);
 				fetchTableData(emp_id);
 				// getEmpTarget(emp_id);
