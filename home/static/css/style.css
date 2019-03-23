@@ -359,7 +359,6 @@ box-shadow: none;
 .font13{
   font-size: 13px !important;
 }
-
 .space {
   padding: 10px;
 }
@@ -513,7 +512,7 @@ table.darkTab tbody tr {
 .ul_submenu{
   color: #ffffff;
   padding: 0px;
-  background-color: #787878;
+  background-color: red;
 }
 
 .alert-info {
