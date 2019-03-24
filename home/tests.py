@@ -86,85 +86,85 @@ def addEmployees():
 def addDummyLeads():
     #     This function add dummy leads
     
-    emp1 = Leads(fname='Matilde', lname='Tym', address='5460 Morningstar Drive', email='frew0@smh.com.au', phone='9836837893', purchaseDate='1/18/2019', pincode='346050')
+    emp1 = Leads(leadID='LD222777', fname='Matilde', lname='Tym', address='5460 Morningstar Drive', email='frew0@smh.com.au', phone='2552611487', purchaseDate='1/18/2019', pincode='346050')
     emp1.save()
 
-    emp2 = Leads(fname='Averill', lname='Mather', address='4 Vidon Lane', email='amather1@networkadvertising.org', phone='9836837893', purchaseDate='1/18/2019', pincode='346050')
+    emp2 = Leads(leadID='LD222888', fname='Averill', lname='Mather', address='4 Vidon Lane', email='amather1@networkadvertising.org', phone='6094929496', purchaseDate='1/18/2019', pincode='346050')
     emp2.save()
 
-    emp3 = Leads(fname='Rad', lname='TymLidgerton', address='7 Badeau Parkway', email='rlidgerton2@issuu.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050')
+    emp3 = Leads(leadID='LD222999', fname='Rad', lname='TymLidgerton', address='7 Badeau Parkway', email='rlidgerton2@issuu.com', phone='3501947315', purchaseDate='1/18/2019', pincode='346050')
     emp3.save()
 
-    emp4 = Leads(fname='Chrystel', lname='Saunier', address='7 Hooker Park', email='csaunier3@livejournal.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050')
+    emp4 = Leads(leadID='LD333111', fname='Chrystel', lname='Saunier', address='7 Hooker Park', email='csaunier3@livejournal.com', phone='8735251497', purchaseDate='1/18/2019', pincode='346050')
     emp4.save()
 
-    emp5 = Leads(fname='Matilde', lname='Tym', address='33572 Coleman Park', email='bbaudinot4@i2i.jp', phone='9836837893', purchaseDate='1/18/2019', pincode='346050')
+    emp5 = Leads(leadID='LD333222', fname='Matilde', lname='Tym', address='33572 Coleman Park', email='bbaudinot4@i2i.jp', phone='8388609739', purchaseDate='1/18/2019', pincode='346050')
     emp5.save()
 
-    emp6 = Leads(fname='Barrie', lname='Baudinot', address='19 Esch Center', email='mpagett5@nature.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050')
+    emp6 = Leads(leadID='LD111111', fname='Barrie', lname='Baudinot', address='19 Esch Center', email='mpagett5@nature.com', phone='5806994835', purchaseDate='1/18/2019', pincode='346050')
     emp6.save()
 
-    emp7 = Leads(fname='Mercedes', lname='Pagett', address='6 Browning Lane', email='cmorilla6@dropbox.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050')
+    emp7 = Leads(leadID='LD222222', fname='Mercedes', lname='Pagett', address='6 Browning Lane', email='cmorilla6@dropbox.com', phone='6547662886', purchaseDate='1/18/2019', pincode='346050')
     emp7.save()
 
-    emp8 = Leads(fname='Clemmie', lname='Morilla', address='0 Harper Crossing', email='eborghese7@goodreads.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050')
+    emp8 = Leads(leadID='LD333333', fname='Clemmie', lname='Morilla', address='0 Harper Crossing', email='eborghese7@goodreads.com', phone='6804954610', purchaseDate='1/18/2019', pincode='346050')
     emp8.save()
 
-    emp9 = Leads(fname='Elmore', lname='Borghese', address='3330 Tomscot Point', email='tjills8@skype.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050')
+    emp9 = Leads(leadID='LD444444', fname='Elmore', lname='Borghese', address='3330 Tomscot Point', email='tjills8@skype.com', phone='2739777624', purchaseDate='1/18/2019', pincode='346050')
     emp9.save()
 
-    emp10 = Leads(fname='Tedmund', lname='Jills', address='77 Sutteridge Crossing', email='ilagden9@friendfeed.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050')
+    emp10 = Leads(leadID='LD555555', fname='Tedmund', lname='Jills', address='77 Sutteridge Crossing', email='ilagden9@friendfeed.com', phone='2658504398', purchaseDate='1/18/2019', pincode='346050')
     emp10.save()
 
-    emp11 = Leads(fname='Iosep', lname='Lagden', address='	37 Fisk Avenue', email='ffraina@indiatimes.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050')
+    emp11 = Leads(leadID='LD666666', fname='Iosep', lname='Lagden', address='	37 Fisk Avenue', email='ffraina@indiatimes.com', phone='3814338584', purchaseDate='1/18/2019', pincode='346050')
     emp11.save()
 
-    emp12 = Leads(fname='Floyd', lname='Frain', address='392 Grim Trail', email='kkilkennyb@reverbnation.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050')
+    emp12 = Leads(leadID='LD777777', fname='Floyd', lname='Frain', address='392 Grim Trail', email='kkilkennyb@reverbnation.com', phone='3255641713', purchaseDate='1/18/2019', pincode='346050')
     emp12.save()
 
-    emp13 = Leads(fname='Krisha', lname='Kilkenny', address='65 Memorial Trail', email='ajacmardc@issuu.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050')
+    emp13 = Leads(leadID='LD888888', fname='Krisha', lname='Kilkenny', address='65 Memorial Trail', email='ajacmardc@issuu.com', phone='2998756964', purchaseDate='1/18/2019', pincode='346050')
     emp13.save()
 
-    emp14 = Leads(fname='Arluene', lname='Jacmard', address='02852 Annamark Trail', email='atoore@feedburner.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050')
+    emp14 = Leads(leadID='LD999999', fname='Arluene', lname='Jacmard', address='02852 Annamark Trail', email='atoore@feedburner.com', phone='6229489677', purchaseDate='1/18/2019', pincode='346050')
     emp14.save()
 
-    emp15 = Leads(fname='Alexa', lname='Kedie', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050')
+    emp15 = Leads(leadID='LD111222', fname='Alexa', lname='Kedie', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='7846648659', purchaseDate='1/18/2019', pincode='346050')
     emp15.save()
 
-    emp16 = Leads(fname='Adele', lname='McClaurie', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050')
+    emp16 = Leads(leadID='LD111333', fname='Adele', lname='McClaurie', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='3922641255', purchaseDate='1/18/2019', pincode='346050')
     emp16.save()
 
-    emp17 = Leads(fname='Jill', lname='Croux', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050', isContacted=True)
+    emp17 = Leads(leadID='LD111444', fname='Jill', lname='Croux', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='2814691320', purchaseDate='1/18/2019', pincode='346050', isContacted=True)
     emp17.save()
 
-    emp18 = Leads(fname='Rodie', lname='Orans', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050', isContacted=True)
+    emp18 = Leads(leadID='LD111555', fname='Rodie', lname='Orans', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='5569652199', purchaseDate='1/18/2019', pincode='346050', isContacted=True)
     emp18.save()
 
-    emp19 = Leads(fname='Conney', lname='Coggill', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050', isContacted=True)
+    emp19 = Leads(leadID='LD111666', fname='Conney', lname='Coggill', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='1764097965', purchaseDate='1/18/2019', pincode='346050', isContacted=True)
     emp19.save()
 
-    emp20 = Leads(fname='Caroline', lname='Joutapavicius', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050', isContacted=True)
+    emp20 = Leads(leadID='LD111777', fname='Caroline', lname='Joutapavicius', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='2735005958', purchaseDate='1/18/2019', pincode='346050', isContacted=True)
     emp20.save()
 
-    emp21 = Leads(fname='Ase', lname='Helix', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050', isInterested=False, isContacted=True)
+    emp21 = Leads(leadID='LD111888', fname='Ase', lname='Helix', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='2768394890', purchaseDate='1/18/2019', pincode='346050', isInterested=False, isContacted=True)
     emp21.save()
 
-    emp22 = Leads(fname='Florian', lname='Lemery', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050', isInterested=False, isContacted=True)
+    emp22 = Leads(leadID='LD111999', fname='Florian', lname='Lemery', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='1836576114', purchaseDate='1/18/2019', pincode='346050', isInterested=False, isContacted=True)
     emp22.save()
 
-    emp23 = Leads(fname='Barbra', lname='Clissol', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050', isInterested=True, isContacted=True)
+    emp23 = Leads(leadID='LD222111', fname='Barbra', lname='Clissol', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='4749117151', purchaseDate='1/18/2019', pincode='346050', isInterested=True, isContacted=True)
     emp23.save()
 
-    emp24 = Leads(fname='Koral', lname='Snelling', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050', isInterested=True, isContacted=True)
+    emp24 = Leads(leadID='LD222333', fname='Koral', lname='Snelling', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='3986912324', purchaseDate='1/18/2019', pincode='346050', isInterested=True, isContacted=True)
     emp24.save()
 
-    emp25 = Leads(fname='Sadella', lname='Ewbanke', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050', isInterested=True, isContacted=True)
+    emp25 = Leads(leadID='LD222444', fname='Sadella', lname='Ewbanke', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='9371354173', purchaseDate='1/18/2019', pincode='346050', isInterested=True, isContacted=True)
     emp25.save()
 
-    emp26 = Leads(fname='Johannah', lname='Revey', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050', isInterested=True, isContacted=True)
+    emp26 = Leads(leadID='LD222555', fname='Johannah', lname='Revey', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='6573158554', purchaseDate='1/18/2019', pincode='346050', isInterested=True, isContacted=True)
     emp26.save()
 
-    emp27 = Leads(fname='Sissy', lname='MacFadden', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='9836837893', purchaseDate='1/18/2019', pincode='346050', isInterested=True, isContacted=True)
+    emp27 = Leads(leadID='LD222666', fname='Sissy', lname='MacFadden', address='8 Schurz Parkway', email='kgiraldonf@opera.com', phone='1371568137', purchaseDate='1/18/2019', pincode='346050', isInterested=True, isContacted=True)
     emp27.save()
 
     print("Dummy leads saved")

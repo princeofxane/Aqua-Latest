@@ -106,7 +106,7 @@ body {
 }       
 
 .nav {
-  background-color: #0D385D;
+  /* background-color: #0D385D; */
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
 }
@@ -834,7 +834,7 @@ label{
 }
 
 .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
-    background-color: #0D385D;
+    /* background-color: #0D385D; */
     border-color: #337ab7;
 }
 

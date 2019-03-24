@@ -347,10 +347,10 @@ $('#pass').click(function(){
 				$.each(data, function(key,value) {
 					table.row.add($(
 						'<tr>' +
-						'<td>'+value.id+'</td>' +
+						'<td>'+value.leadID+'</td>' +
 						'<td>'+value.fname+ ' ' + value.lname+'</td>'+
 						'<td>'+value.phone+'</td>' +
-						'<td><input type="checkbox" name="lead" value="'+value.id+'"></td>'+
+						'<td><input type="checkbox" name="lead" value="'+value.leadID+'"></td>'+
 						
 						'</tr>')).draw(false);
 				});

@@ -500,7 +500,7 @@ def getAssignedLeads(request):
                     eachRow = {}
             #     for i in range(len(leads))
             #         lead={}
-                    eachRow['id'] = lead.id
+                    eachRow['leadID'] = lead.leadID
                     eachRow['fname'] = lead.fname
                     eachRow['lname'] = lead.lname
                     eachRow['email'] = lead.email
@@ -554,7 +554,7 @@ def getInterestedLeads(request):
         #     for i in range(len(leads))
         #         lead={}
         #         lead['id']=leads[i].customer.id
-                eachRow['id'] = lead.id
+                eachRow['leadID'] = lead.leadID
                 eachRow['fname'] = lead.fname
                 eachRow['lname'] = lead.lname
                 eachRow['email'] = lead.email
@@ -610,7 +610,7 @@ def getLeadsNotContacted(request):
         #     for i in range(len(leads))
         #         lead={}
         #         lead['id']=leads[i].customer.id
-                eachRow['id'] = lead.id
+                eachRow['leadID'] = lead.leadID
                 eachRow['fname'] = lead.fname
                 eachRow['lname'] = lead.lname
                 eachRow['email'] = lead.email
@@ -636,7 +636,7 @@ def getContactedLeads(request):
         #     for i in range(len(leads))
         #         lead={}
         #         lead['id']=leads[i].customer.id
-                eachRow['id'] = lead.id
+                eachRow['leadID'] = lead.leadID
                 eachRow['fname'] = lead.fname
                 eachRow['lname'] = lead.lname
                 eachRow['email'] = lead.email
