@@ -1,7 +1,15 @@
-{% extends "base.html" %}
-{% block body_content %}
-
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>admin_change_dp_page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="/static/js/aquaguardTimer.js"></script>
 <style>
 .navbar
 {
@@ -151,6 +159,32 @@ input[type=file]
 	}
 	
 </style>
+</head>
+<body>
+<nav class="navbar">
+	<div class="container">
+		<!-- <img src="images/download.png" class="user"/> -->
+			<!-- <p class="text-right"style="font-family:poppins;opacity: 1;font-size:18px;color: rgba(250,251,252,1);">logged in at 08:00 am<br>DATE :08-02-2018</p> -->
+				<!-- <p class="username">Hello Diana Jhons</p> -->
+	</div>
+</nav>
+<!-- <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-11">
+		</div>
+		<div class="col-md-1">
+		<i class="glyphicon glyphicon-menu-hamburger"style="margin-left:20%;color:#7CB9E8;font-size:35px;margin-top:10%;"></i>
+		</div>
+	</div>
+</div>
+<br><br><br> -->
+
+<span class="a"><p><a href=""style="text-decoration:none;">Print page</a><button style="font-size:50px;margin-top:-7vh;"type="button" class="close" aria-label="Close">
+  <span aria-hidden="true">&times;</span>
+</button><br><a href="announcement.html"style="text-decoration:none;">Announcement</a></p></span>
+
+
+
 <div class="container">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
@@ -165,12 +199,16 @@ input[type=file]
 	</div>
 </div>
 
-
+<!-- <footer style="border:1px solid #EDF3F5;background-color: #EDF3F5; position:fixed;width:1540px; margin-top:80px;"><br>
+<div class="container">
+	<div class="row"> -->
 		<div class="col-md-8 col-md-offset-4">
 			<button id="doneButton" type="button" class="btn">Done</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<button id="cancelButton" type="button"class="btn">Cancel</button>
 		</div>
-	
+	<!-- </div>
+</div>	<br>
+</footer> -->
 
 <script>
 $(document).ready(function(){
@@ -187,7 +225,31 @@ $(document).ready(function(){
 });
 });
 
+</script>
 
+<!-- <script>
+$(document).ready(function(){
+	
+	$("#cancelButton").click(function() {
+		window.location.href = baseUrl + "homePage/"
+
+	$("#doneButton").click(function() {
+		var userImage = $('#profilepic').val();
+		$.post( baseUrl + 'addProfilePic/',
+		{
+			profile_pic: userImage
+		},
+		function(date, status) {
+
+		});	
+	});
+
+	});
+});
+</script> -->
+
+
+<script>
 
      function readURL(input) {
             if (input.files && input.files[0]) {
@@ -221,7 +283,7 @@ $(document).ready(function(){
 			});
 
 		$("#cancelButton").click(function () {
-			window.location.href = baseUrl + "homePage/"
+			window.location.href = baseUrl + "ad_homePage/"
 		});
 
 		$("#doneButton").click(function () {
@@ -243,13 +305,27 @@ $(document).ready(function(){
 						alert(dataObj.description);
 					}else{
 						alert(dataObj.description);
-						window.location.href = baseUrl + "homePage/"
+						window.location.href = baseUrl + "tc_homePage/"
 					}
-			
+					// if (response != 0) {
+					// 	// $("#img").attr("src", response);
+					// 	// $(".preview img").show(); // Display image element
+					// 	// console.log(description.responseText);
+					// 	// console.log('true');
+					// 	console.log(response);
+					// 	// console.log(data);
+					// 	// console.log(description);
+					// } else {
+					// 	console.log(response);
+					// 	console.log(data);
+					// 	console.log(description);
+					// 	alert('file not uploaded');
+					// }
 				},
 			});
 		});
 
 	});
 </script>
-{% endblock body_content %}
+</body>
+</html>

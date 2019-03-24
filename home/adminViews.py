@@ -100,12 +100,21 @@ def logoutPage(request):
 
 
 @csrf_exempt
-def changedp(request):
+def changedp_tc(request):
     currentSession = getSession(request, True)
     if currentSession == '':
         #condition to check what home page to redirect
         tc_homePage(request)
-    return render(request, 'change_dp.html')
+    return render(request, 'change_dp_tc.html')
+
+
+@csrf_exempt
+def changedp_ad(request):
+    currentSession = getSession(request, True)
+    if currentSession == '':
+        #condition to check what home page to redirect
+        tc_homePage(request)
+    return render(request, 'change_dp_tc.html')
 #----------------------- Api's ---------------------------#
 
 

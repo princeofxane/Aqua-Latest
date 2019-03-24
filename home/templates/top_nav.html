@@ -16,35 +16,29 @@
 
 <nav class="navbar navbar-default navbar-static-top navbar-fixed-top" role="navigation" style="margin-bottom: 0; height:17.1%">
     <div class="navbar-header" style="width:50%;">
-       
-        <a id="home" class="navbar-brand" href="#"><img src="../static/images/logo.jpg" style=" width: 240px;"></a><span style="width: 250px; color: rgb(255, 255, 255); padding-top: 21px; display: flex;">|&nbsp;&nbsp;IONEXASENSE</span>
+        <a id="home" class="navbar-brand" href="#"><img src="../static/images/logo.jpg" style=" width: 240px; height: 60px"></a><span style="width: 250px; color: rgb(255, 255, 255);">|&nbsp;&nbsp;IONEXASENSE</span>
     </div>
     <div class="navbar-header" style="width:50%;">
-	     <ul class="nav navbar-top-links navbar-right">
+	    <ul class="nav navbar-top-links navbar-right">
 	        <li class="dropdown">
 	            <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="background-color: white" >
 	               <span id="assoc_id">{{user.username}}</span> <i class="fa fa-user fa-fw" style="color: #0D385D; background-color: white; font-size: 20px;"> </i> <i class="fa fa-caret-down" style="color: #0D385D"></i>
 	            </a>
 	            <ul class="dropdown-menu dropdown-user">
-	                <li><a id="dashboard" href=""><i class="fa fa-home fa-fw"></i> Dashboard</a>
-	                </li>
-	                <li><a id="settings" href=""><i class="fa fa-gear fa-fw"></i> Settings</a>
-	                </li>
-
+	                <li><a id="dashboard" href="../tc_homePage"><i class="fa fa-home fa-fw"></i> Dashboard</a></li>
+	                <li><a id="settings" href="../changedp_tc"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
 	                <li class="divider"></li>
-	                <li><a id="settings" href=""><i class="fa fa-gear fa-fw"></i> Pause</a>
-	                </li>
-	                <li><a id="logout" href=""><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-	                </li>
+	                <li><a id="pauseButton" href=""><i class="fa fa-gear fa-fw"></i> Pause</a></li>
+	                <li><a id="logoutButton" href="../logoutPage"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
 	            </ul>
 	        </li>
 	    </ul>
 	    <ul class="nav navbar-top-links navbar-right">
-	 <li class="dropdown">
+	 		<li class="dropdown">
 	            <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="background-color: white">
 	               <span id="assoc_id">{{user.username}}</span> <i class="fa fa-user fa-bell-o fw" style="color: #0D385D; background-color: white; font-size: 20px;"> </i> 
 	            </a>
-	            <ul class="dropdown-menu dropdown-user">
+	            <!-- <ul class="dropdown-menu dropdown-user">
 	                <li><a id="dashboard" href=""><i class="fa fa-home fa-fw"></i> Dashboard</a>
 	                </li>
 	                <li><a id="settings" href=""><i class="fa fa-gear fa-fw"></i> Settings</a>
@@ -55,15 +49,15 @@
 	                </li>
 	                <li><a id="logout" href=""><i class="fa fa-sign-out fa-fw"></i> Logout</a>
 	                </li>
-	            </ul>
+	            </ul> -->
 	        </li>
 	    </ul>
 	     <ul class="nav navbar-top-links navbar-right">
-	 <li class="dropdown">
+	 		<li class="dropdown">
 	            <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="background-color: white" >
 	               <span id="assoc_id">{{user.username}}</span> <i class="fa fa-user fa-wpforms fw" style="color: #0D385D; background-color: white; font-size: 20px;"> </i> 
 	            </a>
-	            <ul class="dropdown-menu dropdown-user">
+	            <!-- <ul class="dropdown-menu dropdown-user">
 	                <li><a id="dashboard" href=""><i class="fa fa-home fa-fw"></i> Dashboard</a>
 	                </li>
 	                <li><a id="settings" href=""><i class="fa fa-gear fa-fw"></i> Settings</a>
@@ -74,20 +68,19 @@
 	                </li>
 	                <li><a id="logout" href=""><i class="fa fa-sign-out fa-fw"></i> Logout</a>
 	                </li>
-	            </ul>
+	            </ul> -->
 	        </li>
 	    </ul>
-	      <ul class="nav navbar-top-links navbar-right">
-	<div id="countdownExample">
-    <div class="values"></div>
-</div>
-           
+	    <ul class="nav navbar-top-links navbar-right">
+			<div id="countdownExample">
+				<div class="values"></div>
+			</div>
 	    </ul>
      </div>
 </nav>
 
-<nav class="navbar navbar-default navbar-static-top navbar-fixed-top" role="navigation" style="margin-bottom: 0; margin-top: 5%; background-color: #0D385D">
-</nav>
+<!-- <nav class="navbar navbar-default navbar-static-top navbar-fixed-top" role="navigation" style="margin-bottom: 0; margin-top: 5%; background-color: #0D385D;">
+</nav> -->
 {% block custom_css %}
 <link rel="stylesheet" href="../static/css/easy-autocomplete.css">
 <link rel="stylesheet" href="../static/css/easy-autocomplete.themes.css">
