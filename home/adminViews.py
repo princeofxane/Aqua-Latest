@@ -98,6 +98,14 @@ def adminStatistics(request):
     return render(request,'admin_dashboard.html')
 
 
+@csrf_exempt
+def adminTask(request):
+    return render(request,'admin_tasks.html')
+
+
+@csrf_exempt
+def assign_Employee(request):
+    return render(request,'assign_employee.html')
 
 
 @csrf_exempt

@@ -90,7 +90,8 @@ urlpatterns = [
     path("commitHistoryPage/", commitHistoryPage),
     path("changedp_tc/", changedp_tc),
     path("adminStatistics/", adminStatistics),
-    
+    path("adminTask/", adminTask),
+    path("assign_Employee/", assign_Employee),
     path("changedp_ad/", changedp_ad),
     path("forgotPassword/", forgotPassword),
     path("logoutPage/", logoutPage),
