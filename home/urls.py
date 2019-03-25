@@ -77,6 +77,7 @@ urlpatterns = [
     path("deleteMultipleLeads/", deleteMultipleLeads),
     path("addNewCustomer/", addNewCustomer),
     path("getSingleCustomer/", getSingleCustomer),
+    path("getSingleEmployee/", getSingleEmployee),
     path("getAllUnAssignedLeads/", getAllUnAssignedLeads),
     path("assignLeads/", assignLeads),
     path("leadDataFileParser/", leadDataFileParser),

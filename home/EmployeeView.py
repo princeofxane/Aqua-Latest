@@ -55,14 +55,22 @@ def getAllEmployees(request):
     else:
         for i in range(len(employees)):
             emp={}
+            emp['empID']=employees[i].empID
             emp['fname']=employees[i].fname
             emp['lname']=employees[i].lname
             emp['email']=employees[i].email
             emp['phone']=employees[i].phone
-            emp['category']=employees[i].role
+            emp['role']=employees[i].role
             emp['id']=employees[i].id
             emp['isActive']=employees[i].isActive
+            print("------------------is active is ------------")
+            print(employees[i].isActive)
             emp['pincode']=employees[i].pincode
+            try:
+                imgUrl = employees[i].profile_logo.url
+                emp['picture']=employees[i].profile_logo.url
+            except Exception as e:
+                print("no picture present")
             employee_list.append(emp)
 
         return success(employee_list)
@@ -113,9 +121,10 @@ def deactivateEmployee(request):
 @csrf_exempt
 def getSingleEmployee(request):
     if (request.method == "POST"):
-        emp_id = request.POST.get("id",None)
-        empObj = Employee.objects.get(id=emp_id)
+        emp_id = request.POST.get("id", None)
+        empObj = Employee.objects.get(empID=emp_id)
         employee = {}
+        employee['empID'] = empObj.empID
         employee['fname'] = empObj.fname
         employee['lname'] = empObj.lname
         employee['email'] = empObj.email
@@ -123,7 +132,11 @@ def getSingleEmployee(request):
         employee['address'] = empObj.address
         employee['isActive'] = empObj.isActive
         employee['pincode'] = empObj.pincode
-        employee['profilePicture'] = empObj.profilePicture
+        try:
+            imgUrl = empObj.profile_logo.url
+            employee['profilePicture'] = imgUrl
+        except Exception as e:
+            print("No picture present")
         employee['role'] = empObj.role
         return success(employee)
     return HttpResponse("Error In Request")

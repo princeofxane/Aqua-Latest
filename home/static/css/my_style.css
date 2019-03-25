@@ -453,6 +453,7 @@ span p
 }
 .example-1 
 {
+	margin-top: 20%;
 	position: relative;
 	overflow-y: scroll;
 	height: 300px;
