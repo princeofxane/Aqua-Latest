@@ -1,32 +1,8 @@
-{% extends "base.html" %}
+{% extends "base_ad.html" %}
 {% block body_content %}
 
-<div class="container-fluid" style="margin-top: 5%;">
-	<div class="row">
-		<div class="col-lg-11">
-			<h1 class="dashboard">Your dashboard</h1>
-		</div>
-		
-		<div class="col-lg-1">
-		<i class="glyphicon glyphicon-menu-hamburger"style="color:#7CB9E8;font-size:35px;"id="menubar"></i>
-		</div>
-	</div>
-</div>
-<br>
 
-<div class="container">
-	<div class="row">
-		<div class="col-md-4">
-			<a href="employee.html"><span id="leadlist">Employee</span></a>
-		</div>
-		<div class="col-md-4 text-center">
-		<span id="leadlist">Statistics</span>
-		</div>
-		<div class="col-md-4 text-right">
-			<a href="admin_tasks.html"><span id="leadlist">Tasks</span></a>
-		</div>
-	</div>
-</div>
+<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 10%;margin-left: 10%;">
 
 <div class="container">
 	<div class="row">
@@ -126,7 +102,7 @@
 						</div>
 						<div class="row">
 							<div class="col-lg-12 text-center">
-								<a href="contact_team_leads.html"><p style="font-size: 25px;color:#06B8E1;font-weight: bold;">Contact Team Leads</p></a>
+								<a href="../contactteamleads"><p style="font-size: 25px;color:#06B8E1;font-weight: bold;">Contact Team Leads</p></a>
 							</div>
 						</div>
 					</div>
@@ -134,6 +110,10 @@
 		</div>
 	</div>
 </div>
+</div>
+
+
+
 {% endblock body_content %}
 
 <script>
