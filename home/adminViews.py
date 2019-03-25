@@ -50,7 +50,7 @@ def ad_homePage(request):
     currentSession = getSession(request, True)
     if currentSession == '':
         loginPage(request)
-    return render(request, 'admin_employee.html')
+    return render(request, 'employee.html')
 
 
 @csrf_exempt
