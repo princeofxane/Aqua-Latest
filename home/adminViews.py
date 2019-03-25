@@ -93,6 +93,12 @@ def commitHistoryPage(request):
 def forgotPassword(request):
     return render(request, 'forgotpassword.html')
 
+@csrf_exempt
+def adminStatistics(request):
+    return render(request,'admin_dashboard.html')
+
+
+
 
 @csrf_exempt
 def logoutPage(request):
