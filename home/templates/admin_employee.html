@@ -244,6 +244,9 @@
 <br>
 
 {% endblock body_content %}
+
+
+{% block custom_js %}
 <script>
 
 $(document).ready(function(){
@@ -259,12 +262,6 @@ $(document).ready(function(){
 });
 });
 
-
-	$("#messageButton").click(function() {
-			$('#validationTextarea').toggle();
-		$('#sendButton').toggle();
-		$('#cancelButton').toggle();
-	})
 
 	$("#cancelButton").click(function() {
 		$('#validationTextarea').hide();
@@ -382,7 +379,10 @@ $("#logoutButton").click(function() {
 		}
 
 		function displayAllEmployees(empList) {
+			var activeColor = ''
+			console.log(empList);
 			for (var i = 0; i <= empList.length; i++) {
+				empID = empList[i].empID
 				fname = empList[i].fname
 				lname = empList[i].lname
 				isActive = empList[i].isActive
@@ -392,20 +392,39 @@ $("#logoutButton").click(function() {
 				address = empList[i].address
 				imageSrc = empList[i].picture
 
+				if (role == 'ad') {
+					role = 'Admin'
+				} else if (role == 'tc') {
+					role = 'Telecaller'
+				} else if (role == 'tn') {
+					role = 'Technician'
+				}
+
+				if (isActive == 'True') {
+					isActive = "Active"
+					activeColor = 'green'
+				} else {
+					isActive = "InActive"
+					activeColor = 'red'
+				} 
+
 				eachRow = `
 				<div class="row">
 					<div class="col-lg-1">
-							<img src=${imageSrc} width="100px;"height="100px;"/>
+						<img src=${imageSrc} width="100px;"height="100px;"/>
 					</div>
+						<p id="xyzValue" style="display: none;">${fname}</p>
 					<div class="col-lg-3 text-center">
-									<p id="empname">${fname + " " + lname}</p> <p>${role}</p> <p>${isActive}</p>
+						<p id="${empID}empname">${fname + " " + lname}</p> <p>${role}</p> <p style="color:${activeColor}";>${isActive}</p>
 					</div>
 					<div class="col-lg-8 text-right">
-							<button id="detailButton" type="button" class="btn"data-toggle="modal" data-target="#myModal">View details</button>  <button id="messageButton" onClick=test() type="button" class="btn"id="message">Message</button>
+						<button id="${empID}" onClick="viewDetail(this.id) type="button" class="btn"data-toggle="modal" data-target="#myModal">View details</button>  <button id="${empID}" onClick=toggleMessageBox(this.id) type="button" class="btn"id="message">Message</button>
 					</div>
-					
-					<textarea class="form-control is-invalid" id="validationTextarea" style="display: none;"></textarea>
-					<button type="button" class="btn" id="sendButton" style="display: none">Send</button> <button type="button" class="btn" id="cancelButton" style="display: none">Cancel</button>
+
+					<div id="${empID}" style="display: none;">
+						<textarea class="form-control is-invalid" id="validationTextarea"></textarea>
+						<button type="button" class="btn" id="${empID}" onClick=sendMessage(this.id)>Send</button> <button type="button" class="btn" id="${empID}" onClick=cancelMessage(this.id)>Cancel</button>
+					</div>
 				</div>
 				`
 				$(".employeeCard").append(eachRow)
@@ -475,6 +494,29 @@ $("#logoutButton").click(function() {
 		});
 	}
 
+	function viewDetail(id) {
+
+	}
+
+	function sendMessage(id) {
+
+	}
+
+	function cancelMessage(id) {
+
+	}
+
+	// $("#messageButton").click(function() {
+	function toggleMessageBox(id) {
+		// alert($('#'+id+'empname').text());
+		
+		// alert("hello")
+		$('div[id='+ id + ']').toggle();
+	}
+		// $('#sendButton').toggle();
+		// $('#cancelButton').toggle();
+	// })
+
 
 
 	$("#pauseButton").click(function(e) {
@@ -518,4 +560,6 @@ $("#logoutButton").click(function() {
 		})
 
 </script>
+
+{% endblock custom_js %}
 
