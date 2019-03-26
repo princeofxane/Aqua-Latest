@@ -818,7 +818,7 @@ def editLead(request):
 @csrf_exempt
 def getSingleLead(request):
     if (request.method == "POST"):
-        leadID = request.POST.get("id", None)
+        leadID = request.POST.get("leadID", None)
         try:
             leadObj = Leads.objects.get(leadID=leadID)
         except expression as identifier:

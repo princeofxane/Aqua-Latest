@@ -166,12 +166,12 @@
 {% block custom_js %}
 <script type="text/javascript">
 
-    var dummyForTest = 'LD111444';
+    var leadID = localStorage.getItem("leadID");
 
     $(document).ready(function() {
         $.post( baseUrl + "getSingleLead/",
             {
-                id: dummyForTest
+                leadID: leadID
             },
             function(data, status) {
                 dataObj = JSON.parse(data);
@@ -208,8 +208,8 @@
 
     $("#updateButton").click(function() {
         //This is dummy id for testing
-        var leadID = "LD111444"
-        var emp_id = "1002"
+        var leadID = localStorage.getItem("leadID");
+        var emp_id = localStorage.getItem("empID");
 
         var fullName = $("#leadName").val();
         var nameArray = fullName.split(" ");
