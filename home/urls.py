@@ -74,6 +74,7 @@ urlpatterns = [
     path("getSingleProduct/", getSingleProduct),
     path("updateProduct/", updateProduct),
     path("getEmpTarget/", getEmpTarget),
+    path("getCallbackLeads/", getCallbackLeads),
     path("deleteMultipleLeads/", deleteMultipleLeads),
     path("addNewCustomer/", addNewCustomer),
     path("getSingleCustomer/", getSingleCustomer),

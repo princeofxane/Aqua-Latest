@@ -581,6 +581,33 @@ def getInterestedLeads(request):
             return success(leads_list)
     return fail("Error In Request")
 
+
+@csrf_exempt
+def getCallbackLeads(request):
+    if request.method == "POST":
+        try:
+            leadObj = Leads.objects.filter(isCallback=True)
+        except Exception as e:
+            print(e)
+        leads_list = []
+        for lead in leadObj:
+            eachRow = {}
+    #     for i in range(len(leads))
+    #         lead={}
+    #         lead['id']=leads[i].customer.id
+            eachRow['leadID'] = lead.leadID
+            eachRow['fname'] = lead.fname
+            eachRow['lname'] = lead.lname
+            eachRow['email'] = lead.email
+            eachRow['phone'] = lead.phone
+            eachRow['address'] = lead.address
+            eachRow['createdDate'] = str(lead.createdDate)
+            eachRow['pincode'] = lead.pincode
+            leads_list.append(eachRow)
+        return success(leads_list)
+    return fail("Error In Request")
+
+
 @csrf_exempt
 def setCommit(request):
     if request.method == "POST":
@@ -663,6 +690,7 @@ def getContactedLeads(request):
             return success(leads_list)
     return fail("Error In Request")
 
+#update lead function
 @csrf_exempt
 def editLead(request):
     if request.method == "POST":
@@ -680,6 +708,7 @@ def editLead(request):
         purchaseDate = request.POST.get("purchaseDate", None)
         pincode = request.POST.get("pincode", None)
         newComments = request.POST.get("comments", None)
+        isCallback = request.POST.get("isCallback", None)
         
         try:
             lead = Leads.objects.get(leadID = leadID)
@@ -706,6 +735,8 @@ def editLead(request):
         if comments is not None:
             # this part need to be fixed
             lead.comments = comments
+        if isCallback == 'true':
+            leads.isCallback = True
             # oldComment = lead.comments
             # newComment = oldComment + "\n\n\n" + "----------------------------" + "\n" + \
             #     comments + "\n" + "----------------------------" + "\n" + timeNow + ' ' + emp_id
