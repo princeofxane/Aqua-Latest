@@ -84,15 +84,27 @@ urlpatterns = [
     path("leadDataFileParser/", leadDataFileParser),
     #----------------------------------------------#
     path("", loginPage),
+
+    path("obAdmin_tc_homePage/", obAdmin_tc_homePage),
+    path("obAdmin_commitHistoryPage/", obAdmin_commitHistoryPage),
+    path("obAdmin_callHistoryPage/", obAdmin_callHistoryPage),
+    path("obAdmin_reportsPage/", obAdmin_reportsPage),
+    
     path("tc_homePage/", tc_homePage),
     path("ad_homePage/", ad_homePage),
     path("homePageCommittedLeads/", homePageCommittedLeads),
     path("homePageContactLeads/", homePageContactLeads),
     path("callHistoryPage/", callHistoryPage),
+    path("Edit_Remarks/",Edit_Remarks),
     path("commitHistoryPage/", commitHistoryPage),
     path("changedp_tc/", changedp_tc),
     path("adminStatistics/", adminStatistics),
-    
+    path("adminTask/", adminTask),
+    path("Add_Leads/", Add_Leads),
+    path("Assign_Leads/", Assign_Leads),
+    path("Reassign_Leads/",Reassign_Leads),
+    path("Lead_Status/",Lead_Status),
+    path("assign_Employee/", assign_Employee),
     path("changedp_ad/", changedp_ad),
     path("forgotPassword/", forgotPassword),
     path("logoutPage/", logoutPage),
