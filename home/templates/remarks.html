@@ -6,24 +6,21 @@
 
 
 
-    <div class="container" style="margin-top:5%;">
+    <div class="container" style="margin-top:10%;">
         <div class="row">
-            <div class="col-md-12 " style="font-size:28px;">
+            <div class="col-md-12 col-md-offset-3" style="font-size:28px;">
                 <!-- <div class="float-left">Customer Lead Id is <span>1003</span></div> -->
-                <div class="float-right">Phone Number is <span>99*******9</span></div>
+                <div class="float-right">Phone Number is <span id="phoneNumber"></span></div>
             </div>
         </div> 
-        <div class="row">
-            <button class="offset-md-1 col-md-2 btn btn-primary" data-toggle="modal" data-target="#myModal">Script</button>
-            <button class="offset-md-6 col-md-2 btn btn-primary" data-toggle="modal" data-target="#myModal">Call Now</button>
-        </div>
+        
         <br<br>
         <div class="row" style="margin-top:5%">
-            <div class="offset-md-3 col-md-6">
+            <div class=" col-md-6 col-md-offset-3">
                 <form class="">
                     <div class="form-group" >
                         <label for="Fname">Full Name</label>
-                        <input type="text" class="form-control" value="Robert John" placeholder="First Name">
+                        <input id="leadName" type="text" class="form-control" placeholder="First Name">
                     </div>
                     <!-- <div class="form-group" >
                         <label for="lname">Last Name</label>
@@ -32,48 +29,107 @@
                     <div class="form-group" >
                         <label for="address">Address</label>
                         <!-- <input type="text" class="form-control" placeholder="Address"> -->
-                        <textarea class="form-control" rows="4" placeholder="Address">Due to the widespread use of tables across we’ve designed our tables to be opt-in. Just add</textarea>
+                        <textarea id="address" class="form-control" rows="4" placeholder="Address">Due to the widespread use of tables across we’ve designed our tables to be opt-in. Just add</textarea>
                     </div>
                     <div class="form-group" >
                         <label for="alternateNumber">Alternate Number</label>
-                        <input type="text" class="form-control" value="9795768765" placeholder="Alternate Number">
+                        <input id="alternateNumber" type="text" class="form-control" value="9795768765" placeholder="Alternate Number">
                     </div>
                     <div class="form-group" >
                         <label for="emailAddress">Email Address</label>
-                        <input type="text" class="form-control" value="add@gmail.com" placeholder="Email Address">
+                        <input id="email" type="text" class="form-control" value="add@gmail.com" placeholder="Email Address">
+                    </div>
+                    <div class="form-group" >
+                        <label for="modal name">Modal name</label>
+                        <input id="product" type="text" class="form-control" value="Input modal name" placeholder="modal name">
                     </div>
                     <div class="form-group" >
                         <label for="AppointmentDate">Apointment Date</label>
-                        <input type="date" class="form-control" placeholder="Set Apointment Date">
+                        <input id="datePicker" type="date" class="form-control" placeholder="Set Apointment Date">
                     </div>
                     <div class="form-group" >
                         <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true">
-                            <input type="text" placeholder="Set Appoointment Time" value="00:00" class="form-control">
+                            <input id="clockPicker" type="text" class="form-control">
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-time"></span>
                             </span>
                         </div>
                     </div>
-                    <div class="pull-left">
-                        <label class=" checkbox-inline">
-                            <input type="checkbox" value="">Set Commit</label>
-                        <label class="offset-md-1 checkbox-inline">
-                            <input type="checkbox" value="">Feedback</label>
-                    </div>
-                    <div class="clearfix"></div>
                     <div class="form-group" >
-                        <!-- <label for="address">Feedback</label> -->
-                        <!-- <input type="text" class="form-control" placeholder="Address"> -->
-                        <textarea class="form-control" rows="4" placeholder="Your Feedback"></textarea>
+
+                        <label class=" checkbox-inline">
+                            <input id="isCommitted" type="checkbox" value="">Set Commit
+                        </label>
+                        <!-- <label class="offset-md-1 checkbox-inline">
+                            <input type="checkbox" value="">Feedback
+                       </label> -->
+                       
+                            <label class="offset-md-2 checkbox-inline">
+                            <input id="isCallback" type="checkbox" value="">Call back
+                        </label>
+                
                     </div>
-                    <button type="submit" class=" offset-md-4 col-md-4 btn btn-primary">Update</button>
+                         <div class="form-group" >
+                        <!-- <label for="modal name">Feedback Details</label> -->
+                        
+                        <!-- <select class="form-control">
+                            <option>Call back</option>
+                            <option>Set commit</option>
+                            <option>Feedback</option>
+                        </select> -->
+    </div>
+     <textarea id="comment" class="form-control" rows="4" placeholder="Your Feedback"></textarea>
+     <!-- <button id="testButton">testButton</button> -->
+                    <div class="clearfix"></div>
+                   
+                   
                 </form>
             </div>
         </div>
-        <br>
-        <br>
-        <br>
-    </center>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-md-offset-1">
+         <h2>Previous Feedback</h2>
+                        <table id="dataTable" class = "table table-hover dataTable">
+                                <thead>
+                                    <tr>
+                                        <th style="border-bottom:2pt solid black;">#</th>
+                                        <th style="border-bottom:2pt solid black;">Feedback</th>
+                                        <th style="border-bottom:2pt solid black;">Date Time</th>
+                                        
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>1
+                                    </td>
+                                    <td>due to the wide spred use od table acress we have design a table to be opt-in just add
+                                    </td>
+                                    <td>21-2-2017 11:22:30
+                                    </td></tr>
+                                    <tr><td>2
+                                    </td>
+                                    <td>due to the wide spred use od table acress we have design a table to be opt-in just add
+                                    </td>
+                                    <td>21-2-2017 11:22:30
+                                    </td></tr>
+                                </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="row text-center">
+                            <div class="col-md-6 text-right">
+                                <button id="updateButton" type="submit" class=" btn btn-primary">Update</button>
+                            </div>
+                            <div class="col-md-1 text-left">
+                                <button type="submit" class=" btn btn-primary">Call now</button>
+                            </div>
+                        </div>
+                    </div>
+                   <br><br>
+
         <!-- <div class="row">
             <h3>Previous Feedback</h3>
             <table class="table">
@@ -104,7 +160,178 @@
             </table>
         </div> -->
     </div>
+{% endblock body_content %}
 
+
+{% block custom_js %}
+<script type="text/javascript">
+
+    var dummyForTest = 'LD111444';
+
+    $(document).ready(function() {
+        $.post( baseUrl + "getSingleLead/",
+            {
+                id: dummyForTest
+            },
+            function(data, status) {
+                dataObj = JSON.parse(data);
+                if (dataObj.result == "fail") {
+                    alert(dataObj.description)
+                } else {
+                    var fname = dataObj.description['fname'];
+                    var lname = dataObj.description['lname'];
+                    var address = dataObj.description['address'];
+                    var phone = dataObj.description['phone'];
+                    var alternateNumber = dataObj.description['alternateNumber'];
+                    var email = dataObj.description['email'];    
+                    var product = dataObj.description['product'];
+                    var appointmentDate = dataObj.description['appointmentDate'];
+                    var feedback = dataObj.description['comments'];
+
+                    $("#phoneNumber").html(phone)
+                    $("#leadName").val(fname + ' ' + lname)
+                    $("#address").val(address)
+                    $("#alternateNumber").val(alternateNumber)
+                    $("#email").val(email)
+                    $("#product").val(product)
+
+                    var _d = Date.parse(appointmentDate);
+                    var d = new Date(_d);
+                    stringedDate = d.getFullYear() + '-' + ("0" + (d.getMonth() + 1)).slice(-2) + '-' + ("0" + (d.getDay() + 1)).slice(-2)
+                    $("#datePicker").val(stringedDate)
+                    var stringedTime = (("0" + d.getHours()).slice(-2) + ':' + ("0" + d.getMinutes()).slice(-2))
+                    $("#clockPicker").val(stringedTime)
+                }
+            }
+        )
+    })
+
+    $("#updateButton").click(function() {
+        //This is dummy id for testing
+        var leadID = "LD111444"
+        var emp_id = "1002"
+
+        var fullName = $("#leadName").val();
+        var nameArray = fullName.split(" ");
+        var fname = nameArray[0];
+        var lname = nameArray[1];
+        var address = $("#address").val();
+        var altNumber = $("#alternateNumber").val();
+        var email = $("#email").val();
+        var product = $("#product").val();
+        var comment = $("#comment").val(); 
+
+        var _date = $("#datePicker").val();
+        var _time = $("#clockPicker").val();
+        var appointmentDate = _date + " " + _time + "." + "000000"
+
+        var isCommitted = false;
+        var isCallback = false;
+        if ($("#isCommitted").prop("checked") == true) {
+            isCommitted = true
+        } 
+        if ($("#isCallback").prop("checked") == true) {
+            isCallback = true
+        } 
+
+        $.post( baseUrl + "editLead/",
+        {
+            emp_id: emp_id,
+            leadID: leadID,
+            fname: fname,
+            lname: lname,
+            address: address,
+            alternatePhone: altNumber,
+            product: product,
+            comments: comment,
+            isCallback: isCallback,
+            isInterested: isCommitted,
+            appointmentDate: appointmentDate
+        },
+        function(data, status) {
+            var dataObj = JSON.parse(data);
+            if (dataObj.result == "fail") {
+                alert(dataObj.description)
+            } else {
+                alert(dataObj.description)
+            }
+        })
+
+
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ClockStuff
+
+$('.clockpicker').clockpicker()
+    .find('input').change(function(){
+        console.log(this.value);
+    });
+var input = $('#single-input').clockpicker({
+    placement: 'bottom',
+    align: 'left',
+    autoclose: true,
+    'default': 'now'
+});
+
+$('.clockpicker-with-callbacks').clockpicker({
+        donetext: 'Done',
+        init: function() { 
+            console.log("colorpicker initiated");
+        },
+        beforeShow: function() {
+            console.log("before show");
+        },
+        afterShow: function() {
+            console.log("after show");
+        },
+        beforeHide: function() {
+            console.log("before hide");
+        },
+        afterHide: function() {
+            console.log("after hide");
+        },
+        beforeHourSelect: function() {
+            console.log("before hour selected");
+        },
+        afterHourSelect: function() {
+            console.log("after hour selected");
+        },
+        beforeDone: function() {
+            console.log("before done");
+        },
+        afterDone: function() {
+            console.log("after done");
+        }
+    })
+    .find('input').change(function(){
+        console.log(this.value);
+    });
+
+// Manually toggle to the minutes view
+$('#check-minutes').click(function(e){
+    // Have to stop propagation here
+    e.stopPropagation();
+    input.clockpicker('show')
+            .clockpicker('toggleView', 'minutes');
+});
+if (/mobile/i.test(navigator.userAgent)) {
+    $('input').prop('readOnly', true);
+}
+</script>
 <script src="https://weareoutman.github.io/clockpicker/assets/js/jquery.min.js"></script>
 <script src="https://weareoutman.github.io/clockpicker/assets/js/bootstrap.min.js"></script>
 <script src="https://weareoutman.github.io/clockpicker/dist/bootstrap-clockpicker.min.js"></script>
@@ -112,4 +339,4 @@
 <script type="text/javascript">
     $('.clockpicker').clockpicker();
 </script>
-{% endblock body_content %}
+{% endblock custom_js %}

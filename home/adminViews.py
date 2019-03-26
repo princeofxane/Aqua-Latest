@@ -696,9 +696,10 @@ def editLead(request):
     if request.method == "POST":
         timeNow = str(datetime.datetime.now())
         # Also require employee id to store along with remarks
-        emp_id = request.POST.get("emp_id", None)
+        # emp_id = request.POST.get("emp_id", None)
 
-        leadID = request.POST.get("id", None)
+        emp_id = request.POST.get("emp_id", None)
+        leadID = request.POST.get("leadID", None)
         fname = request.POST.get("fname", None)
         lname = request.POST.get("lname", None)
         address = request.POST.get("address", None)
@@ -706,9 +707,12 @@ def editLead(request):
         phone = request.POST.get("phone", None)
         alternatePhone = request.POST.get("alternatePhone", None)
         purchaseDate = request.POST.get("purchaseDate", None)
+        product = request.POST.get("product", None)
         pincode = request.POST.get("pincode", None)
-        newComments = request.POST.get("comments", None)
+        comment = request.POST.get("comments", None)
         isCallback = request.POST.get("isCallback", None)
+        isInterested = request.POST.get("isCommit", None)
+        appointmentDate = request.POST.get("appointmentDate", None)
         
         try:
             lead = Leads.objects.get(leadID = leadID)
@@ -730,13 +734,26 @@ def editLead(request):
             lead.alternatePhone = alternatePhone
         if purchaseDate is not None:
             lead.purchaseDate = purchaseDate
+        if product is not None:
+            lead.product = product
         if pincode is not None:
             lead.pincode = pincode
-        if comments is not None:
-            # this part need to be fixed
-            lead.comments = comments
+        if appointmentDate is not None:
+            lead.appointmentDate = appointmentDate
+        if comment is not None:
+            oldComment = lead.comments
+            newComment = oldComment + "\n\n\n" + "----------------------------" + "\n" + comment + "\n" + "----------------------------" + "\n" + timeNow + ' ' + emp_id
+            lead.comments = newComment
+
         if isCallback == 'true':
-            leads.isCallback = True
+            lead.isCallback = True
+        if isCallback == 'false':
+            lead.isCallback = False
+
+        if isInterested == 'true':
+            lead.isInterested = True
+        if isInterested == 'false':
+            lead.isInterested = False
             # oldComment = lead.comments
             # newComment = oldComment + "\n\n\n" + "----------------------------" + "\n" + \
             #     comments + "\n" + "----------------------------" + "\n" + timeNow + ' ' + emp_id
@@ -755,14 +772,15 @@ def getSingleLead(request):
             return fail("Lead Not Found")
         lead = {}
 
-        lead['id'] = leadObj.id
+        lead['leadID'] = leadObj.leadID
         lead['fname'] = leadObj.fname
         lead['lname'] = leadObj.lname
         lead['email'] = leadObj.email
-        lead['mobile'] = leadObj.phone
+        lead['phone'] = leadObj.phone
         lead['alternatePhone'] = leadObj.alternatePhone
         lead['address'] = leadObj.address
-        lead['createdDate'] = leadObj.createdDate
+        lead['createdDate'] = str(leadObj.createdDate)
+        lead['appointmentDate'] = leadObj.appointmentDate
         lead['purchaseDate'] = leadObj.purchaseDate
         lead['pincode'] = leadObj.pincode
         lead['comments'] = leadObj.comments

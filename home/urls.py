@@ -34,7 +34,7 @@ urlpatterns = [
     # path("getCallCount/",getCallCount),
     # path("setCallCount/",setCallCount),
     path("editLead/", editLead),
-    path("displaySingleLead/", getSingleLead),
+    path("getSingleLead/", getSingleLead),
     # path("registerTicketExist/",existCustomerProblemRegistration),
     # path("registerTicket/",CustomerProblemRegistration),
     # path("checkPhone/",checkPhone),
