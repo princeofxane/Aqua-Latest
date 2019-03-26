@@ -1,6 +1,6 @@
  //put the id of 
 
-    var baseUrl = "http://localhost:8000/"
+    var baseUrl = "http://34.73.62.26/";
     var timerId="time";
 
 
