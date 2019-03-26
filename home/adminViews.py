@@ -44,18 +44,47 @@ def tc_homePage(request):
     return render(request, 'index.html')
 
 
+@csrf_exempt
+def obAdmin_tc_homePage(request):
+    currentSession = getSession(request, True)
+    if currentSession == '':
+        loginPage(request)
+    return render(request, 'obAdmin_tc_homePage.html')
+
+@csrf_exempt
+def obAdmin_callHistoryPage(request):
+    return render(request, 'obAdmin_callHistoryPage.html')
+
+@csrf_exempt
+def obAdmin_commitHistoryPage(request):
+    return render(request, 'obAdmin_commitHistoryPage.html')
+
+@csrf_exempt
+def obAdmin_reportsPage(request):
+    print("im coming here")
+    return render(request, 'obAdmin_reportsPage.html')
+
+
+
+
+
 
 @csrf_exempt
 def ad_homePage(request):
     currentSession = getSession(request, True)
     if currentSession == '':
         loginPage(request)
-    return render(request, 'admin_employee.html')
+    return render(request, 'obAdmin_tc_homePage.html')
 
 
 @csrf_exempt
 def homePageCommittedLeads(request):
     return render(request, 'committedLeads.html')
+
+
+@csrf_exempt
+def Edit_Remarks(request):
+    return render(request, 'remarks.html')
 
 
 @csrf_exempt
@@ -106,6 +135,22 @@ def adminTask(request):
 @csrf_exempt
 def assign_Employee(request):
     return render(request,'assign_employee.html')
+
+@csrf_exempt
+def Add_Leads(request):
+    return render(request,'add_leads.html')
+
+@csrf_exempt
+def Reassign_Leads(request):
+    return render(request,'reassign_leads.html')
+
+@csrf_exempt
+def Lead_Status(request):
+    return render(request,'Lead_Status.html')
+
+@csrf_exempt
+def Assign_Leads(request):
+    return render(request,'assign_leads.html')
 
 
 @csrf_exempt

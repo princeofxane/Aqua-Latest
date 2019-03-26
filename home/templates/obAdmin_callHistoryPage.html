@@ -1,34 +1,33 @@
-{% extends "base.html" %}
+{% extends "base_ad.html" %}
 
 {% block body_content %}
 
 	
+	
+<!-- </head> -->
 
-	<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 10%; margin-left: 12%;">
-		
+<body>
+	<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 10%;margin-left: 10%;">
+	
 							<table id="dataTable" class = "table table-hover dataTable">
 								<thead>
 									<tr>
 										<th>No</th>
-										<th>Date</th>
+										<th>Req ID</th>
 										<!-- <th>Request No</th>  -->
-										<th>Commits</th>
-										<th>Call Backs</th>
-										<th>Feed Backs</th>
-										<th>Login Time</th>
-										<th>Logout Time</th>
-										<th>Day wise feedback</th>
-										<th>Pause Time</th>
-										<th>Day status</th>
+										<th>Name</th>
+										<th>Phone Number</th>
+										<th>Address</th>
+										<th>Remarks</th>
 										<!-- <th>Appointment</th> -->
+										<th>Appointment</th>
 										<!-- <th> Edit</th> -->
-										<th></th>
 									</tr>
 								</thead>
 								<tbody></tbody>
 								</table>
 						</div>
-				
+			
 	<!-- This is to show pause -->
 	<div id="modalForPause" class="modal fade" role="dialog" style="border: 3px solid #7CB9E8">
 		<div class="modal-dialog">
@@ -56,7 +55,7 @@
 	<br>
 </body>
 {% endblock body_content %}
-
+	
 
 	{% block custom_js %}
 	<!-- All script starts here -->
@@ -147,7 +146,7 @@ function fetchTableData(emp_id) {
 			var table = $('#dataTable').DataTable();
 			$.ajax({
 			type: "post",
-			url: baseUrl+"getInterestedLeads/",
+			url: baseUrl+"getContactedLeads/",
 			data: {
 				id: emp_id
 			},
@@ -157,7 +156,7 @@ function fetchTableData(emp_id) {
 					data=data.description;
 					var i = 0;
 				$.each(data, function(key,value) {
-					i++
+					i++;
 					table.row.add($(
 						'<tr>' +
 						'<td>'+i+'</td>' +
@@ -166,12 +165,13 @@ function fetchTableData(emp_id) {
 						// '<td>'+value.email+'</td>' +
 						'<td>'+value.phone+'</td>' +
 						'<td>'+value.address+'</td>' +
-						'<td>'+ +'</td>' +
+						'<td>'+value.comments+'</td>' +
+						'<td>'+value.appointmentDate+'</td>' +
 						// '<td>'+value.comments+'</td>' +
 						// '<td>'+value.pincode+'</td>' +
-						`<td></td>`+
+						// `<td><input type="button" onClick=test() class="btn btn-primary" value="Set Commit"></td>`+
 						'<td></td>'+
-						'<td></td>'+
+						'<td><input type="button" class="btn btn-primary" value="Call now"></td>'+
 						'</tr>')).draw(false);
 				})
 			}
@@ -187,34 +187,34 @@ function fetchTableData(emp_id) {
 				window.location.href = baseUrl
 			}else{
 				emp_id = dataObj.description;
-				getProfilePicture(emp_id);
+				// getProfilePicture(emp_id);
 				getUserData(emp_id);
 				fetchTableData(emp_id);
-				getEmpTarget(emp_id);
+				// getEmpTarget(emp_id);
 			}
 		});
 
 	})
 
-		function getEmpTarget(empID) {
-			$.post( baseUrl + "getEmpTarget/",
-				{
-          emp_id: empID
-				},
-				function(data, status) {
-					dataObj = JSON.parse(data);
-					if (dataObj.result == "fail") {
-						alert(dataObj.description)
-					} else {
-						// alert(dataObj.description)
-						var callTarget = dataObj.description["calls"]
-						var commitTarget = dataObj.description["commits"]
-						$("#targetCalls").text(callTarget)
-						$("#targetCommit").text(commitTarget)
-						getProgress(emp_id, callTarget, commitTarget);
-					}
-				})
-		}
+		// function getEmpTarget(empID) {
+		// 	$.post( baseUrl + "getEmpTarget/",
+		// 		{
+    //       emp_id: empID
+		// 		},
+		// 		function(data, status) {
+		// 			dataObj = JSON.parse(data);
+		// 			if (dataObj.result == "fail") {
+		// 				alert(dataObj.description)
+		// 			} else {
+		// 				// alert(dataObj.description)
+		// 				var callTarget = dataObj.description["calls"]
+		// 				var commitTarget = dataObj.description["commits"]
+		// 				$("#targetCalls").text(callTarget)
+		// 				$("#targetCommit").text(commitTarget)
+		// 				getProgress(emp_id, callTarget, commitTarget);
+		// 			}
+		// 		})
+		// }
 
 		function getProgress(emp_id, callTarget, commitTarget) {
 
@@ -353,26 +353,7 @@ function announceList(){
   }
 
 
-	// function getUserData(emp_id) {
-	// 	$.post( baseUrl + "getUserData/",
-	// 	{
-	// 		id: emp_id,
-	// 	},
-	// 	function(data, status) {
-	// 		dataObj=JSON.parse(data);
-	// 		if(dataObj.result=="fail") {
-	// 			alert("request failed")
-	// 		}else{
-
-	// 			$("#loginTime").text('Logged in at: ' + d.getHours() + ' : ' + d.getMinutes())
-	// 			$("#loginDate").text('DATE: ' + d.getDate() + '-' + date + '-' + d.getFullYear())
-
-	// 			$("#welcomeTag").text(fname + ' ' +lname);
-	// 			//To a change welcome
-	// 		}
-	// 		getCallTable(emp_id)
-	// 	});
-	// }
+	
 
 		function getUserData(emp_id) {
 			$.post( baseUrl + "getUserData/",
@@ -404,7 +385,7 @@ function announceList(){
 		}
 
 
-
+	
 		function orderCells(headers) {
 			for (var header of headers) {
 				console.log(header)
@@ -484,23 +465,7 @@ function announceList(){
 	}
 	
 
-		// function addAllColumnHeaders(myList) {
-		// 	var columnSet = [];
-		// 	var headerTr$ = $('<tr/>');
-		// 	for (var i = 0 ; i < dataObj.description.length ; i++) {
-		// 		var rowHash = dataObj.description[i];
-		// 		for (var key in rowHash) {
-		// 			if ($.inArray(key, columnSet) == -1){
-		// 				columnSet.push(key);
-		// 				headerTr$.append($('<th />').html(key));
-		// 			}
-		// 		}
-		// 	}
-		// 	headerTr$.append($('<th />').html(' '));
-		// 	$("#main-table").append(headerTr$);
-
-		// 	return columnSet;
-		// } 
+		
 
 		$(document).ready(function() {
 			setInterval(function() {

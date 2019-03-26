@@ -6,20 +6,17 @@
 
 
 
-    <div class="container" style="margin-top:5%;">
+    <div class="container" style="margin-top:10%;">
         <div class="row">
-            <div class="col-md-12 " style="font-size:28px;">
+            <div class="col-md-12 col-md-offset-3" style="font-size:28px;">
                 <!-- <div class="float-left">Customer Lead Id is <span>1003</span></div> -->
                 <div class="float-right">Phone Number is <span>99*******9</span></div>
             </div>
         </div> 
-        <div class="row">
-            <button class="offset-md-1 col-md-2 btn btn-primary" data-toggle="modal" data-target="#myModal">Script</button>
-            <button class="offset-md-6 col-md-2 btn btn-primary" data-toggle="modal" data-target="#myModal">Call Now</button>
-        </div>
+        
         <br<br>
         <div class="row" style="margin-top:5%">
-            <div class="offset-md-3 col-md-6">
+            <div class=" col-md-6 col-md-offset-3">
                 <form class="">
                     <div class="form-group" >
                         <label for="Fname">Full Name</label>
@@ -43,37 +40,99 @@
                         <input type="text" class="form-control" value="add@gmail.com" placeholder="Email Address">
                     </div>
                     <div class="form-group" >
+                        <label for="modal name">Modal name</label>
+                        <input type="text" class="form-control" value="Input modal name" placeholder="modal name">
+                    </div>
+                    <div class="form-group" >
                         <label for="AppointmentDate">Apointment Date</label>
                         <input type="date" class="form-control" placeholder="Set Apointment Date">
                     </div>
                     <div class="form-group" >
-                        <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true">
-                            <input type="text" placeholder="Set Appoointment Time" value="00:00" class="form-control">
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-time"></span>
-                            </span>
-                        </div>
+<div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true">
+    <input type="text" class="form-control" value="13:14">
+    <span class="input-group-addon">
+        <span class="glyphicon glyphicon-time"></span>
+    </span>
+</div>
+<script type="text/javascript">
+$('.clockpicker').clockpicker();
+</script>
                     </div>
-                    <div class="pull-left">
-                        <label class=" checkbox-inline">
-                            <input type="checkbox" value="">Set Commit</label>
-                        <label class="offset-md-1 checkbox-inline">
-                            <input type="checkbox" value="">Feedback</label>
-                    </div>
-                    <div class="clearfix"></div>
                     <div class="form-group" >
-                        <!-- <label for="address">Feedback</label> -->
-                        <!-- <input type="text" class="form-control" placeholder="Address"> -->
-                        <textarea class="form-control" rows="4" placeholder="Your Feedback"></textarea>
+
+                        <label class=" checkbox-inline">
+                            <input type="checkbox" value="">Set Commit
+                        </label>
+                        <label class="offset-md-1 checkbox-inline">
+                            <input type="checkbox" value="">Feedback
+                       </label>
+                       
+                            <label class="offset-md-2 checkbox-inline">
+                            <input type="checkbox" value="">Call back
+                        </label>
+                
                     </div>
-                    <button type="submit" class=" offset-md-4 col-md-4 btn btn-primary">Update</button>
+                         <div class="form-group" >
+                        <label for="modal name">Feedback Details</label>
+                        
+                        <select class="form-control">
+  <option>Call back</option>
+  <option>Set commit</option>
+  <option>Feedback</option>
+  
+</select>
+    </div>
+     <textarea class="form-control" rows="4" placeholder="Your Feedback"></textarea>
+                    <div class="clearfix"></div>
+                   
+                   
                 </form>
             </div>
         </div>
-        <br>
-        <br>
-        <br>
-    </center>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-md-offset-1">
+         <h2>Previous Feedback</h2>
+                        <table id="dataTable" class = "table table-hover dataTable">
+                                <thead>
+                                    <tr>
+                                        <th style="border-bottom:2pt solid black;">#</th>
+                                        <th style="border-bottom:2pt solid black;">Feedback</th>
+                                        <th style="border-bottom:2pt solid black;">Date Time</th>
+                                        
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>1
+                                    </td>
+                                    <td>due to the wide spred use od table acress we have design a table to be opt-in just add
+                                    </td>
+                                    <td>21-2-2017 11:22:30
+                                    </td></tr>
+                                    <tr><td>2
+                                    </td>
+                                    <td>due to the wide spred use od table acress we have design a table to be opt-in just add
+                                    </td>
+                                    <td>21-2-2017 11:22:30
+                                    </td></tr>
+                                </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="row text-center">
+                            <div class="col-md-6 text-right">
+                                <button type="submit" class=" btn btn-primary">Update</button>
+                            </div>
+                     <div class="col-md-1 text-left">
+                                <button type="submit" class=" btn btn-primary">Call now</button>
+                            </div>
+                        </div>
+                    </div>
+                   <br><br>
+
         <!-- <div class="row">
             <h3>Previous Feedback</h3>
             <table class="table">
@@ -104,7 +163,63 @@
             </table>
         </div> -->
     </div>
+<script type="text/javascript">
+$('.clockpicker').clockpicker()
+    .find('input').change(function(){
+        console.log(this.value);
+    });
+var input = $('#single-input').clockpicker({
+    placement: 'bottom',
+    align: 'left',
+    autoclose: true,
+    'default': 'now'
+});
 
+$('.clockpicker-with-callbacks').clockpicker({
+        donetext: 'Done',
+        init: function() { 
+            console.log("colorpicker initiated");
+        },
+        beforeShow: function() {
+            console.log("before show");
+        },
+        afterShow: function() {
+            console.log("after show");
+        },
+        beforeHide: function() {
+            console.log("before hide");
+        },
+        afterHide: function() {
+            console.log("after hide");
+        },
+        beforeHourSelect: function() {
+            console.log("before hour selected");
+        },
+        afterHourSelect: function() {
+            console.log("after hour selected");
+        },
+        beforeDone: function() {
+            console.log("before done");
+        },
+        afterDone: function() {
+            console.log("after done");
+        }
+    })
+    .find('input').change(function(){
+        console.log(this.value);
+    });
+
+// Manually toggle to the minutes view
+$('#check-minutes').click(function(e){
+    // Have to stop propagation here
+    e.stopPropagation();
+    input.clockpicker('show')
+            .clockpicker('toggleView', 'minutes');
+});
+if (/mobile/i.test(navigator.userAgent)) {
+    $('input').prop('readOnly', true);
+}
+</script>
 <script src="https://weareoutman.github.io/clockpicker/assets/js/jquery.min.js"></script>
 <script src="https://weareoutman.github.io/clockpicker/assets/js/bootstrap.min.js"></script>
 <script src="https://weareoutman.github.io/clockpicker/dist/bootstrap-clockpicker.min.js"></script>
