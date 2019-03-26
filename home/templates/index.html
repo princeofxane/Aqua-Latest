@@ -252,7 +252,7 @@ function fetchTableData(emp_id) {
 				function(data, status) {
 					dataObj = JSON.parse(data);
 					if (dataObj.result == "fail") {
-						alert(dataObj.description)
+						// alert(dataObj.description)
 					} else {
 						// alert(dataObj.description)
 						var callTarget = dataObj.description["calls"]
