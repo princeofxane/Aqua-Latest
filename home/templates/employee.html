@@ -4,61 +4,16 @@
 
 <div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 10%;margin-left: 15%;">
 	<div class="container">
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="col-lg-7 text-right">
-					<p id="Strength"style="font-size: 20px;">Strength</p>
-				</div>
-				<div class="col-lg-4 text-right">
-					<p id="Strength"style="font-size: 20px;">Active</p>
-				</div>
+			<p>employee.html</p>
+			<div class="container">
+					<div>
+						<!-- <a><p id="addNewEmployee">Add new employee</p></a> -->
+						<p id="Employees_A27_Text_658"data-toggle="modal" data-target="#myModal">Add new employee</p>
+					</div>
 			</div>
-		</div>
-	</div>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-4 text-center">
-				<p id="Telecallers"style="font-size: 20px;">Telecallers</p>
-			</div>
-			<div class="col-md-4 text-center">
-					<p id="Telecallers"style="font-size: 20px;">52</p>
-			</div>
-			<div class="col-md-4 text-center">
-				<p id="Telecallers"style="font-size: 20px;">50</p>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-4 text-center">
-				<p id="Telecallers"style="font-size: 20px;">Technicians</p>
-			</div>
-			<div class="col-md-4 text-center">
-					<p id="Telecallers"style="font-size: 20px;">52</p>
-			</div>
-			<div class="col-md-4 text-center">
-				<p id="Telecallers"style="font-size: 20px;">50</p>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-4 text-center">
-				<p id="Telecallers"style="font-size: 20px;">Team Leads</p>
-			</div>
-			<div class="col-md-4 text-center">
-					<p id="Telecallers"style="font-size: 20px;">52</p>
-			</div>
-			<div class="col-md-4 text-center">
-				<p id="Telecallers"style="font-size: 20px;">50</p>
-			</div>
-		</div>
-	</div>	
 </div>
 
 
-<div class="container">
-		<div>
-			<a href="add_employee.html"><p id="Employees_A27_Text_658">Add new employee</p></a>
-		</div>
-	
-</div>
 
 
 <div class="modal fade" id="myModal" role="dialog">
@@ -68,22 +23,22 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">
-			<div class="container">
-				<div class="row">
+					<div class="container">
+						<div class="row">
 					<!-- <div class="col-lg-6 text-center">
 						<img src="images/Avatar.png"width="100px;"height="100px;"/>
 						</div>	 -->
-					<div class="col-lg-5">
-						<span class="glyphicon glyphicon-option-vertical"style="margin-left:-15%;"id="menubar1"></span>
-						<span id="iconbox1">
-	<p><a href="">Make admin</a>
-		<br>
-		<a href="">Delete employee</a>
-		<button style="font-size:40px;margin-top:-5vh;" class="close" aria-label="Close"id="close1">
-			<span aria-hidden="true">&times;</span>
-		</button>
-	</p>
-</span>
+							<div class="col-lg-5">
+								<!-- <span class="glyphicon glyphicon-option-vertical"style="margin-left:-15%;"id="menubar1"></span>
+								<span id="iconbox1">
+								<p><a href="">Make admin</a>
+								<br>
+								<a href="">Delete employee</a>
+								<button style="font-size:40px;margin-top:-5vh;" class="close" aria-label="Close"id="close1">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								</p>
+								</span> -->
 					</div>
 
 
@@ -171,6 +126,7 @@
 <br>
 <br>
 <br><br>
+{% endblock body_content %}
 <!-- <footer><br>
 	<div class="container">
 		<div class="row">
@@ -182,7 +138,11 @@
 		</div>
 	</div><br>
 </footer> -->
+{% block custom_js %}
 <script>
+	$("#addNewEmployee").click(function() {
+		$("#myModal").show()
+	})
 
 $(document).ready(function(){
 	
@@ -289,14 +249,16 @@ $("#iconbox1").hide();
 			role: empRole
 		 },
 		 function(data, status) {
-				dataObj=JSON.parse(data);
+				var dataObj = JSON.parse(data);
 				if(dataObj.result=="fail") {
 					alert(dataObj.description)
 				} else {
-					alert("New Employee has been created. The ID is: ", dataObj.description)
+					// var empID = dataObj.description.toString()
+					// alert("New Employee has been created. The ID is: ", empID)
+					alert(`New Employee has been created. The ID is: ${dataObj.description}`)
 				}
 		 })
 	})
 
 </script>
-{% endblock body_content %}
+{% endblock custom_js %}

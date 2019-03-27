@@ -101,6 +101,7 @@ urlpatterns = [
     path("adminStatistics/", adminStatistics),
     path("adminTask/", adminTask),
     path("Add_Leads/", Add_Leads),
+    path("addEmployee/", addEmployee),
     path("setEmpTargetPage/", setEmpTargetPage),
     path("Assign_Leads/", Assign_Leads),
     path("Reassign_Leads/",Reassign_Leads),

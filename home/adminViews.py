@@ -105,6 +105,11 @@ def mainEmployee(request):
     return render(request, 'employee.html')
 
 @csrf_exempt
+def addEmployee(request):
+    return render(request, 'employee.html')
+
+
+@csrf_exempt
 def admin_tasks(request):
     return render(request, 'admin_tasks.html')
 
