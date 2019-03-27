@@ -4,21 +4,44 @@
 
 <div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 10%;margin-left: 12%;">
 	<div class="container">
+		<p>add_leads.html</p>
         <center>
-        <h2>ADD LEADS FROM CSV</h2>
-		</center><div class="row">
+    	    <h2>ADD LEADS FROM CSV</h2>
+		</center>
+
+		<div class="row">
             <form id="rawDataFileForm" method="POST" action="http://localhost:8000/leadDataFileParser/" enctype="multipart/form-data">
-    		<div class="col-md-4" style="margin-left: 28%;">
-    			<div class="form-group">
-    			<label for="exampleInputFile">File input</label>
-                        <input class="btn" type="file" name="dataFile" id="rawDataFile" style="display: inline-block"> </div>
-    		</div>
-    		<div class="col-md-4" style="margin-top: 2%;">
-    			<div class="form-group">
-    			<input type="submit" id="uploadLeads" class="btn" value="Upload"></input></div>
-    		</div>
-    	</div>
+				<div class="col-md-4" style="margin-left: 28%;">
+					<div class="form-group">
+						<label for="exampleInputFile">File input</label>
+						<input class="btn" type="file" name="dataFile" id="rawDataFile" style="display: inline-block"> 
+					</div>
+				</div>
+				<div class="col-md-4" style="margin-top: 2%;">
+					<div class="form-group">
+						<input type="submit" id="uploadLeads" class="btn" value="Upload"></input>
+					</div>
+				</div>
+            </form>
+		</div>
+		
     </div>
 </div>
 
 {% endblock body_content %}
+
+{$ block custom_js %}
+
+<script>
+	// $('#rawDataFileForm').ajaxForm(function() { 
+	// 	alert("Leads have uploaded"); 
+	// }); 
+	$('#rawDataFileForm').submit(function(e) { 
+		console.log("hello")
+		alert("hello")
+		e.preventDefault();
+		alert("Leads have uploaded"); 
+	}); 
+</script>
+
+{$ endblock custom_js %}

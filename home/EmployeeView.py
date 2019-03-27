@@ -10,35 +10,36 @@ import random
 
 @csrf_exempt
 def createNewEmployee(request):
-    if (request.method=="POST"):
-        fname = request.POST.get("fname",None)
-        lname = request.POST.get("lname",None)
-        phone = request.POST.get("phone",None)
-        email = request.POST.get("email",None)
+    if (request.method == "POST"):
+        fname = request.POST.get("fname", None)
+        lname = request.POST.get("lname", None)
+        phone = request.POST.get("phone", None)
+        email = request.POST.get("email", None)
         address = request.POST.get("address", None)
         pincode = request.POST.get("pincode", None)
         role = request.POST.get("role", None)
 
         print(fname, lname, phone, email, address, pincode, role)
-        if fname==None or role==None or phone==None or email==None:
-           return fail("Invalid details")
-        else:
-            if role == "Admin":
-                role = "ad"
-            if role == "Telecaller":
-                role = "tc"
-            if role == "Technician":
-                role = "ts"
-            if role == "QC":
-                role = "qc"
-            if role == "HR":
-                role = "hr"
-            if role == "TL":
-                role = "tl"
-            newEmpID = generateRandomEmployeeID()
-            employee = Employee(empID = newEmpID, fname=fname, lname=lname, phone=phone, email=email, role=role, pincode = pincode)
-            employee.save()
-        return success(newEmpID)
+        if fname is '' or role is '' or phone is '' or email is '':
+            return fail("Invalid details")
+
+        if role == "Admin":
+            role = "ad"
+        if role == "Telecaller":
+            role = "tc"
+        if role == "Technician":
+            role = "ts"
+        if role == "QC":
+            role = "qc"
+        if role == "HR":
+            role = "hr"
+        if role == "TL":
+            role = "tl"
+        newEmpID = generateRandomEmployeeID()
+        print(newEmpID)
+        employee = Employee(empID = newEmpID, fname=fname, lname=lname, phone=phone, email=email, role=role, pincode = pincode)
+        employee.save()
+    return success(newEmpID)
     return fail("Error in request")
 
 def generateRandomEmployeeID():
@@ -283,7 +284,7 @@ def assignLeads(request):
             return fail("Employee does not exist")
 
         # leads = Leads.objects.filter(id__range(startRow, endRow))
-        leads = Leads.objects.filter(id__in=leadIDs).update(assignee = empObj)
+        leads = Leads.objects.filter(leadID__in=leadIDs).update(assignee = empObj)
         # for lead in leads:
         #     lead.assignee = empObj
         # lead.save()
