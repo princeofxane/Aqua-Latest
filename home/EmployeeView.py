@@ -50,7 +50,6 @@ def generateRandomEmployeeID():
 def getAllEmployees(request):
     employees=Employee.objects.all()
     employee_list=[]
-    print(len(employees))
     if (len(employees)==0):
         return fail("No employee in db")
     else:
@@ -64,14 +63,12 @@ def getAllEmployees(request):
             emp['role']=employees[i].role
             emp['id']=employees[i].id
             emp['isActive']=employees[i].isActive
-            print("------------------is active is ------------")
-            print(employees[i].isActive)
             emp['pincode']=employees[i].pincode
             try:
                 imgUrl = employees[i].profile_logo.url
                 emp['picture']=employees[i].profile_logo.url
             except Exception as e:
-                print("no picture present")
+                print("No picture present")
             employee_list.append(emp)
 
         return success(employee_list)

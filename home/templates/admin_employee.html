@@ -3,7 +3,7 @@
 
 
 <div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 10%;margin-left: 12%;">
-	<div class="container">>
+	<div class="container">
 		<div class="card-body1">
 			<div class="panel-body employeeCard">
 				<p>admin_employee.html</p>
@@ -345,6 +345,10 @@ $("#logoutButton").click(function() {
 				address = empList[i].address
 				imageSrc = empList[i].picture
 
+				// alert(imageSrc)
+				if (imageSrc == null) {
+					imageSrc = '/media/nopicture.jpg'
+				}
 				if (role == 'ad') {
 					role = 'Admin'
 				} else if (role == 'tc') {
@@ -376,9 +380,12 @@ $("#logoutButton").click(function() {
 
 					<div id="${empID}" style="display: none;">
 						<textarea class="form-control is-invalid" id="validationTextarea"></textarea>
-						<button type="button" class="btn" id="${empID}" onClick=sendMessage(this.id)>Send</button> <button type="button" class="btn" id="${empID}" onClick=cancelMessage(this.id)>Cancel</button>
+						<center>
+							<button type="button" class="btn" id="${empID}" onClick=sendMessage(this.id)>Send</button> <button type="button" class="btn" id="${empID}" onClick=cancelMessage(this.id)>Cancel</button>
+						</center>
 					</div>
 				</div>
+				<hr>
 				`
 				$(".employeeCard").append(eachRow)
 			}
@@ -486,7 +493,7 @@ $("#logoutButton").click(function() {
 	}
 
 	function cancelMessage(id) {
-
+		$('div[id='+ id + ']').hide();
 	}
 
 	function toggleMessageBox(id) {

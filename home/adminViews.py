@@ -292,10 +292,14 @@ def getProfilePicture(request):
             return fail("Provide employee id")
         else:
             try:
-                employee = Employee.objects.get(empID=id)
+                empObj = Employee.objects.get(empID=id)
             except Exception as e:
                 return fail("Employee Id Not Foud")
-            return success(employee.profile_logo.url)
+            try:
+                imageUrl =  empObj.profile_logo.url
+            except Exception as e:
+                imageUrl = ''
+            return success(imageUrl)
     return fail("Bad request")
 
 
@@ -896,10 +900,14 @@ def leadDataFileParser(request):
             email, fname, lname, address, phone, alternatePhone, pincode, source, purchaseDate = data.loc[i, ['email', 'fname', 'lname', 'address', 'phone', 'alternatePhone', 'pincode', 'source', 'purchaseDate']]
             lead = Leads(leadID = generateRandomLeadID(), email=email, fname=fname, lname=lname, address=address, phone=phone, alternatePhone=alternatePhone, pincode=pincode, source=source, purchaseDate=purchaseDate)
             rows.append(lead)
-        Leads.objects.bulk_create(
-            rows
-        )
-        print(data)
+
+        try:
+            Leads.objects.bulk_create(
+                rows
+            )
+        except Exception as e:
+            print(e)
+            return fail("Lead upload failed")
         return success("completed upload")
     return fail("Error in request")
 

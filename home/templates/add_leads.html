@@ -33,15 +33,24 @@
 {$ block custom_js %}
 
 <script>
-	// $('#rawDataFileForm').ajaxForm(function() { 
+	$(document).ready(function(){
+		$('#rawDataFileForm').ajaxForm({
+			success: function(e) { 
+				e.preventDefault();
+				alert("Leads have uploaded"); 
+			},
+			error: function(e) {
+				e.preventDefault();
+				alert("csv upload failed")
+			}
+		}); 
+	})
+	// $('#rawDataFileForm').submit(function(e) { 
+	// 	console.log("hello")
+	// 	alert("hello")
+	// 	e.preventDefault();
 	// 	alert("Leads have uploaded"); 
 	// }); 
-	$('#rawDataFileForm').submit(function(e) { 
-		console.log("hello")
-		alert("hello")
-		e.preventDefault();
-		alert("Leads have uploaded"); 
-	}); 
 </script>
 
 {$ endblock custom_js %}

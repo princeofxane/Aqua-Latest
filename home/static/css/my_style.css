@@ -23,16 +23,16 @@ table {
 
 .dataTables_filter {
 	float: right !important;
-	color: #06BBE1;
+	color: #0D385D;
 	margin-right: 3%;
-display: none;
+	/* display: none; */
 }
 
 
 .dataTables_length {
 	margin-left: 3%;
 	color: #0D385D;
-	/* position: ; */
+	position: relative;
 	bottom: 0;
 }
 
