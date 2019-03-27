@@ -31,6 +31,11 @@ def Test(request):
 def remarks(request):
     return render(request, 'remarks.html')
 
+
+@csrf_exempt
+def setEmpTargetPage(request):
+    return render(request, 'set_employee_target.html')
+
 @csrf_exempt
 def reportsPage(request):
     print("im coming here")
@@ -74,7 +79,7 @@ def ad_homePage(request):
     currentSession = getSession(request, True)
     if currentSession == '':
         loginPage(request)
-    return render(request, 'obAdmin_tc_homePage.html')
+    return render(request, 'admin_employee.html')
 
 
 @csrf_exempt
@@ -150,7 +155,7 @@ def Lead_Status(request):
 
 @csrf_exempt
 def Assign_Leads(request):
-    return render(request,'assign_leads.html')
+    return render(request,'assign_employee.html')
 
 
 @csrf_exempt
@@ -549,10 +554,12 @@ def deleteMultipleLeads(request):
 @csrf_exempt
 def getAssignedLeads(request):
     if request.method == "POST":
-        id = request.POST.get("id", None)
-        if id != None:
+        emp_id = request.POST.get("emp_id", None)
+        if emp_id != None:
+        # if emp_id == None:
             try:
-                employee = Employee.objects.get(empID=id)
+                # employee = Employee.objects.get(empID=emp_id)
+                employee = Employee.objects.all()
             except Exception as e:
                 return fail("Employee Id Not Foud")
             # tip: leads = CustomerEmployee.objects.filter(employee=employee , status='ip')

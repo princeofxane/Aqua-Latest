@@ -283,7 +283,7 @@ def assignLeads(request):
             return fail("Employee does not exist")
 
         # leads = Leads.objects.filter(id__range(startRow, endRow))
-        leads = Leads.objects.filter(id__in=leadIDs).update(assignee = empObj)
+        leads = Leads.objects.filter(leadID__in=leadIDs).update(assignee = empObj)
         # for lead in leads:
         #     lead.assignee = empObj
         # lead.save()

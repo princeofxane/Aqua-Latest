@@ -1,264 +1,436 @@
 {% extends "base_ad.html" %}
+
+
+
 {% block body_content %}
+<div class="container-fluid">
+
+	<p style="text-align:center;">reassign_leads.html</p>
+
+	<div class="row">
+		<div class="row">
+			<p style="margin-left: 30%;">Search Employee</p>
+			<div class="col-md-4">
+				<p style="margin-left: 50%;">Employee ID</p>
+			</div>
+			<div class="col-md-2">
+				<input id="empID1" type="text" style="border-radius:5px;border:2px solid #06BBE1;">
+			</div>
+			<div class="col-md-4">
+				<button id="searchEmpButton" type="button" class="btn">Search</button>
+				<!-- <p style="margin-left: 50%;">Employee ID</p> -->
+			</div>
+
+		</div>	
+	</div>
+
+	<div class="row">
+		<p>Lead list</p>
+			<div class="card leadListA scrollbar-ripe-malinka">
+				<div class="card-body">
+					<table id="dataTable" class="table table-hover">
+						<thead>
+							<tr>
+								<th>Lead ID</th>
+								<th>Name </th>
+								<th>Number </th>
+								<th>select</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>			
+		</div>
 
 
-<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 10%;margin-left: 10%;">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-1">
-                <span id="tablehead"style="font-size: 20px;">From:</span> 
-                        </div>
-                        <div class="col-lg-3">
-                            <input type="number" class="form-control" name="phone" id="phone">
-                        </div>
-                        <div class="col-lg-1">
-                            <span id="tablehead"style="font-size: 20px;">To:</span> 
-                        </div>
-                        <div class="col-lg-3">
-                            <input type="number" class="form-control" name="phone" id="phone">
-                        </div>
-                         <div class="col-lg-2">
-                            <input type="text" class="form-control" id="empID"placeholder="Employee ID">
-                        </div>
-                        <div class="col-lg-2 text-left">
-                            <button type="button" id="assignLeads" class="btn">Assign</button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <table id="dataTable2" class="table table-hover">
-                       <thead>
-                          <tr>
-               <th>Lead ID</th>
-               <th>Name </th>
-               <th>MOB</th>
-                <th>Address</th>
-            </tr>
-              </thead>
-              <tbody></tbody>
-          </table>
-                        
-                    </div>
-                </div>
-            </div>
-<script type="text/javascript">
-  <script>
-  var leads = [];
-  $(document).ready(function() {
-    $.post( baseUrl + "getSession/",
-    {},
-    function(data, status) {
-      dataObj=JSON.parse(data);
-      if(dataObj.result=="fail") {
-        window.location.href = baseUrl
-      }else{
-        emp_id = dataObj.description;
-        getProfilePicture(emp_id);
-        getUserData(emp_id);
-        fetchTableData();
-        // fetchTableData2();
-      }
-    });
-    // $.each($("input[name='lead']:checked"), function(){            
+		<div class="row">
+			<p style="margin-left: 30%;">Assign leads to</p>
+			<div class="col-md-4">
+				<p style="margin-left: 50%;">Employee ID</p>
+			</div>
+			<div class="col-md-2">
+				<input id="empID2" type="text" style="border-radius:5px;border:2px solid #06BBE1;">
+			</div>
+		</div>	
+
+
+			<br><br>
+					
+
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<button id="assignLeadButton" type="button" class="btn">assign</button>
+			</div>
+		</div>
+
+
+		<br><br><br>
+				
+
+		<!-- <div class="row">
+			<div class="col-md-6">
+				<p style="margin-left: 50%;" id="callTargetCount">Call assigned per day :</p>
+			</div>
+			<div class="col-md-6">
+				<input id="callValue" type="text" class="form-control" name="phone" id="phone">
+			</div>
+		</div>
+
+
+		<br>
+
+
+		<div class="row">
+			<div class="col-md-6">
+				<p style="margin-left: 50%;" id="commitTargetCount">Commits assigned per day :</p>
+			</div>
+			<div class="col-md-6">
+				<input id="commitValue" type="text" class="form-control" name="phone" id="phone">
+			</div>
+		</div>
+
+
+		<br> -->
+
+<!-- 
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<button id="assignTarget" type="button"class="btn">assign target</button>
+			</div>
+		</div>
+			 -->
+		<!-- <div class="col-md-4">
+			<p id="Employees_A27_Text_658">Leads Status</p>
+			
+			<div class="card example-1 scrollbar-ripe-malinka">
+					<div class="card-body">
+				 		 <table id="dataTable2" class="table table-hover">
+							<thead>
+								<tr>
+									<th>Lead ID</th>
+									<th>status </th>
+									<th>assigned to </th>
+									<th>Date</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>0123122</td>
+									<td>assigned</td>
+									<td>emp212</td>
+									<td>2/9/19</td>
+								</tr>
+								<tr>
+									<td>0123122</td>
+									<td>assigned</td>
+									<td>emp212</td>
+									<td>2/9/19</td>
+								</tr>
+								<tr>
+									<td>0123122</td>
+									<td>assigned</td>
+									<td>emp212</td>
+									<td>2/9/19</td>
+								</tr>
+							</tbody>
+						 </table>
+
+					</div>
+				</div>
+
+		</div> -->
+
+<!-- This is to show pause -->
+	<div id="modalForPause" class="modal fade" role="dialog" style="border: 3px solid #7CB9E8">
+		<div class="modal-dialog">
+			<div class="modal-content" style="background-color: rgb(135, 202, 193)">
+				<div class="modal-header">
+					<div style="margin-bottom: 150px">
+						<img src="/static/images/download.png" class="user"/>
+					</div>
+				</div>
+				<div class="modal-body">
+					<h4 class="modal-title text-center">Paused</h4>
+					<div class="text-center">    
+						<p id="ptime" style="font-weight: bold;"></p>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="text-center">
+						<input type="submit" id="resume" value="Resume" class="btn btn-primary" style="color: #7CB9E8">
+					</div>
+				</div>
+      </div>
+    </div>
+	</div>
+
+</div>
+
+<br><br>
+{% endblock body_content %}
+
+
+{% block custom_js %}
+<script>
+$('#OpenImgUpload').click(function(){ $('#imgupload').trigger('click'); });
+
+
+$(document).ready(function(){
+	$(".iconbox").hide();
+		$("#menubar").click(function(){
+		$('#menubar').hide();
+			$(".iconbox").show();
+});
+});
+
+		$(".close").click(function(){
+		$('#menubar').show();
+			$(".iconbox").hide();
+});
+
+
+$('#pass').click(function(){
+	var val=$('#pass').val();
+	if(val=="TAKE A BREAK"){
+		$('#pass').val("RESUME");
+	}
+	else{
+		$('#pass').val("TAKE A BREAK");
+	}
+})
+</script>
+<script>
+	var leads = [];
+	$(document).ready(function() {
+		$.post( baseUrl + "getSession/",
+		{},
+		function(data, status) {
+			dataObj=JSON.parse(data);
+			if(dataObj.result=="fail") {
+				window.location.href = baseUrl
+			}else{
+				emp_id = dataObj.description;
+				getProfilePicture(emp_id);
+				getUserData(emp_id);
+				// fetchTableData();
+				// fetchTableData2();
+			}
+		});
+		// $.each($("input[name='lead']:checked"), function(){            
     //             leads.push($(this).val());
 
 
 
 
-  });
+	});
 
-  $("#assignLeads").click(function() {
-    empID = $("#empID").val()
-    $.each($("input[name='lead']:checked"), function(){            
+	$("#assignLeadButton").click(function() {
+		empID = $("#empID2").val()
+		$.each($("input[name='lead']:checked"), function(){            
       leads.push($(this).val());
-    })
-    alert(leads)
-    $.post( baseUrl + "assignLeads/",
-      {
-        emp_id: empID,
-        leadIDs: leads
-      },
-      function(data, status) {
-        dataObj = JSON.parse(data);
-        if (dataObj.result == "fail") {
-          alert(dataObj.description)
-        }else {
-          leads = [];
-          alert(dataObj.description)
-          location.reload();
-        }
-      }
-    )
-  });
+		})
+		if (leads.length == 0) {
+			alert("No leads selected")
+		}	else {
+			$.post( baseUrl + "assignLeads/",
+				{
+					emp_id: empID,
+					leadIDs: leads
+				},
+				function(data, status) {
+					dataObj = JSON.parse(data);
+					if (dataObj.result == "fail") {
+						alert(dataObj.description)
+					}else {
+						leads = [];
+						alert(dataObj.description)
+						location.reload();
+					}
+				}
+			)
+		}
+	});
 
-  function fetchTableData(){
-    var table = $('#dataTable').DataTable();
-      $.ajax({
-      method: "POST",
-      url: baseUrl + "getAllUnAssignedLeads/",
-      data: {
+	$("#searchEmpButton").click(function() {
+		alert('eh')
+		var empID = $("#empID1").val()
+		fetchTableData(empID);
+		
+	})
 
-      },
-      success: function (data) {
-        dataObj=JSON.parse(data);
-        data=dataObj.description
-        $.each(data, function(key,value) {
-          table.row.add($(
-            '<tr>' +
-            '<td>'+value.leadID+'</td>' +
-            '<td>'+value.fname+ ' ' + value.lname+'</td>'+
-            '<td>'+value.phone+'</td>' +
-            '<td><input type="checkbox" name="lead" value="'+value.leadID+'"></td>'+
-            '</tr>')).draw(false);
-        });
-      },
-      error: function(data) {
-        data=JSON.parse(data);
-        alert(data.description)
-      }
-    });
-  }
+	function fetchTableData(empID){
+		var table = $('#dataTable').DataTable();
+			$.ajax({
+			method: "POST",
+			// url: baseUrl + "getAllUnAssignedLeads/",
+			url: baseUrl + "getAssignedLeads/",
+			data: {
+				emp_id: empID
+			},
+			success: function (data) {
+				dataObj=JSON.parse(data);
+				data=dataObj.description
+				$.each(data, function(key,value) {
+					table.row.add($(
+						'<tr>' +
+						'<td>'+value.leadID+'</td>' +
+						'<td>'+value.fname+ ' ' + value.lname+'</td>'+
+						'<td>'+value.phone+'</td>' +
+						'<td><input type="checkbox" name="lead" value="'+value.leadID+'"></td>'+
+						'</tr>')).draw(false);
+				});
+			},
+			error: function(data) {
+				data=JSON.parse(data);
+				alert(data.description)
+			}
+		});
+	}
+	// function fetchTableData2(){
+	// 	var table = $('#dataTable2').DataTable();
+	// 		$.ajax({
+	// 		type: "post",
+	// 		url: baseUrl+"",
+	// 		data: {
+				
+	// 		},
+	// 		success: function (data) {
+	// 				data=JSON.parse(data);
+	// 				// console.log(data);
+	// 				data=data.description;
+	// 			$.each(data, function(key,value) {
+	// 				table.row.add($(
+	// 					'<tr>' +
+	// 					'<td>'+ID+'</td>' +
+	// 					'<td>'+Status+'</td>'+
+	// 					'<td>'+EmployeeNAMe+'</td>' +
+	// 					'<td>'+DATE+'</td>'+
+						
+	// 					'</tr>')).draw(false);
+	// 			});
+	// 		}
+	// 	});
 
-  // function fetchTableData2(){
-  //  var table = $('#dataTable2').DataTable();
-  //    $.ajax({
-  //    type: "post",
-  //    url: baseUrl+"",
-  //    data: {
-        
-  //    },
-  //    success: function (data) {
-  //        data=JSON.parse(data);
-  //        // console.log(data);
-  //        data=data.description;
-  //      $.each(data, function(key,value) {
-  //        table.row.add($(
-  //          '<tr>' +
-  //          '<td>'+ID+'</td>' +
-  //          '<td>'+Status+'</td>'+
-  //          '<td>'+EmployeeNAMe+'</td>' +
-  //          '<td>'+DATE+'</td>'+
-            
-  //          '</tr>')).draw(false);
-  //      });
-  //    }
-  //  });
-
-  // }
+	// }
 
 
-    function getProfilePicture(emp_id) {
-    $.post( baseUrl + "getProfilePicture/",
-    {
-      id: emp_id,
-    },
-    function(data, status) {
-      dataObj=JSON.parse(data);
-      if(dataObj.result=="fail") {
-        alert("Something's Wrong With Profile Picture")
-      }else{
-        // console.log(dataObj.description);
-        document.getElementById("imageid").src=".." + dataObj.description ;
-      }
-    });
-  }
+		function getProfilePicture(emp_id) {
+		$.post( baseUrl + "getProfilePicture/",
+		{
+			id: emp_id,
+		},
+		function(data, status) {
+			dataObj=JSON.parse(data);
+			if(dataObj.result=="fail") {
+				alert("Something's Wrong With Profile Picture")
+			}else{
+				// console.log(dataObj.description);
+				document.getElementById("imageid").src=".." + dataObj.description ;
+			}
+		});
+	}
 
-    function getUserData(emp_id) {
-      $.post( baseUrl + "getUserData/",
-      {
-        id: emp_id,
-      },
-      function(data, status) {
-        dataObj=JSON.parse(data);
-        if(dataObj.result=="fail") {
-          alert("request failed")
-        }else{
-          console.log(dataObj)
-          var fname = dataObj.description['fname']
-          var lname = dataObj.description['lname']
-          loginTime = dataObj.description['loginTime']
-          var d = new Date(loginTime);
+		function getUserData(emp_id) {
+			$.post( baseUrl + "getUserData/",
+			{
+				id: emp_id,
+			},
+			function(data, status) {
+				dataObj=JSON.parse(data);
+				if(dataObj.result=="fail") {
+					alert("request failed")
+				}else{
+					console.log(dataObj)
+					var fname = dataObj.description['fname']
+					var lname = dataObj.description['lname']
+					loginTime = dataObj.description['loginTime']
+					var d = new Date(loginTime);
 
-          var date = d.getMonth() + 1
+					var date = d.getMonth() + 1
 
-          $("#loginTime").text('Logged in at: ' + d.getHours() + ' : ' + d.getMinutes())
-          $("#loginDate").text('Date: ' + d.getDate() + '-' + date + '-' + d.getFullYear())
+					$("#loginTime").text('Logged in at: ' + d.getHours() + ' : ' + d.getMinutes())
+					$("#loginDate").text('Date: ' + d.getDate() + '-' + date + '-' + d.getFullYear())
 
-          fullName = makeItUpper(fname, lname)
-          $("#welcomeTag").text("Hello " + fullName);
-          //To a change welcome
-        }
-        // getCallTable(emp_id)
-      });
-    }
+					fullName = makeItUpper(fname, lname)
+					$("#welcomeTag").text("Hello " + fullName);
+					//To a change welcome
+				}
+				// getCallTable(emp_id)
+			});
+		}
 
-    $("#assignTarget").click(function() {
-      // alert("hello")
-      var empID = $("#empID").val();
-      var callValue = $("#callValue").val();
-      var commitValue = $("#commitValue").val();
-      
-      if (empID == "") {
-        alert("Provide employee id")
-      }
+		$("#assignTarget").click(function() {
+			// alert("hello")
+			var empID = $("#empID").val();
+			var callValue = $("#callValue").val();
+			var commitValue = $("#commitValue").val();
+			
+			if (empID == "") {
+				alert("Provide employee id")
+			}
 
-      $.post( baseUrl + "setEmpTarget/",
-        {
-          emp_id: empID,
-          callTarget: callValue,
-          commitTarget: commitValue
-        },
-        function(data, status) {
-          dataObj = JSON.parse(data);
-          if (dataObj.result == "fail") {
-            alert(dataObj.description)
-          } else {
-            alert(dataObj.description)
-          }
-        })
-    })
+			$.post( baseUrl + "setEmpTarget/",
+				{
+					emp_id: empID,
+					callTarget: callValue,
+					commitTarget: commitValue
+				},
+				function(data, status) {
+					dataObj = JSON.parse(data);
+					if (dataObj.result == "fail") {
+						alert(dataObj.description)
+					} else {
+						alert(dataObj.description)
+					}
+				})
+		})
 
-  $(document).ready(function() {
-  $("#pass").click(function(e) {
-      e.preventDefault();
-      $('#modalForPause').modal('show');
-      startCounter();
-      $.post( baseUrl + "setPause/",
-      {
-        id: emp_id,
-        isPause: true
-      },
-      function(data, status) {
-        dataObj = JSON.parse(data);
-        if(dataObj.result == 'fail') {
-          alert(dataObj.description)
-        }else {
-          console.log(dataObj.description)
-        }
+	$(document).ready(function() {
+	$("#pass").click(function(e) {
+			e.preventDefault();
+			$('#modalForPause').modal('show');
+			startCounter();
+			$.post( baseUrl + "setPause/",
+			{
+				id: emp_id,
+				isPause: true
+			},
+			function(data, status) {
+				dataObj = JSON.parse(data);
+				if(dataObj.result == 'fail') {
+					alert(dataObj.description)
+				}else {
+					console.log(dataObj.description)
+				}
 
-      });
-    });
+			});
+		});
 
-    $('#resume').click(function(e){
-      e.preventDefault();
-      // location.reload();
-      resetCounter();
-      $("#modalForPause").modal("hide");
-      $.post(baseUrl + "setPause/",
-      {
-        id:emp_id,
-        isPause: false
-      },
-      function(data, status) {
-        dataObj = JSON.parse(data);
-        if(dataObj.result == 'fail') {
-          alert(dataObj.description)
-        }else {
-          pauseDuration = dataObj.description
-        }
-      });
-    });
-  });
+		$('#resume').click(function(e){
+			e.preventDefault();
+			// location.reload();
+			resetCounter();
+			$("#modalForPause").modal("hide");
+			$.post(baseUrl + "setPause/",
+			{
+				id:emp_id,
+				isPause: false
+			},
+			function(data, status) {
+				dataObj = JSON.parse(data);
+				if(dataObj.result == 'fail') {
+					alert(dataObj.description)
+				}else {
+					pauseDuration = dataObj.description
+				}
+			});
+		});
+	});
 </script>
 
-</script>
-{% endblock body_content %}
+{% endblock custom_js %}
+
+</body>
+</html>
