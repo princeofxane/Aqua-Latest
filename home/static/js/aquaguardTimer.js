@@ -1,5 +1,6 @@
  //put the id of 
 
+    //var baseUrl = "http://34.73.62.26/";
     var baseUrl = "http://34.73.62.26/";
     var timerId="time";
 

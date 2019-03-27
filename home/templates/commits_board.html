@@ -7,9 +7,29 @@
 <!-- </head> -->
 
 <body>
-	<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 10%;
+	<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 13%;
 	margin-left: 12%;">
-	
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<form class="form-inline">
+  <div class="form-group">
+    
+    <input type="text" class="form-control" id="exampleInputName2" placeholder="Enter ID">
+     <label for="exampleInputEmail2">From</label>
+    
+                 <input type="date" class="form-control">
+                  
+               <label for="exampleInputEmail2">To</label>
+                 <input type="date" class="form-control">
+
+                  <input type="time" class="form-control">
+  </div>
+    <button type="submit" class="btn btn-INFO">SEARCH</button>
+</form>
+</div>
+</div>
+</div>
 
 							<table id="dataTable" class = "table table-hover dataTable">
 								<thead>
@@ -148,7 +168,9 @@ var emp_id;
 var lead_id;
 
 function fetchTableData(emp_id) { 
-			var table = $('#dataTable').DataTable();
+			var table = $('#dataTable').DataTable({
+				"sDom": "Rfrtlip"
+			});
 			$.ajax({
 			type: "post",
 			url: baseUrl+"getInterestedLeads/",

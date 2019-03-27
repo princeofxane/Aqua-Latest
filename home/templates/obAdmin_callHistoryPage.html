@@ -7,7 +7,7 @@
 <!-- </head> -->
 
 <body>
-	<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 10%;margin-left: 10%;">
+	<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 15%;margin-left: 13%;">
 	
 							<table id="dataTable" class = "table table-hover dataTable">
 								<thead>
@@ -143,7 +143,9 @@ var emp_id;
 var lead_id;
 
 function fetchTableData(emp_id) { 
-			var table = $('#dataTable').DataTable();
+			var table = $('#dataTable').DataTable({
+				"sDom": "Rfrtlip"
+			});
 			$.ajax({
 			type: "post",
 			url: baseUrl+"getContactedLeads/",
