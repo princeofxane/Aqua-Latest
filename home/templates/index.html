@@ -155,9 +155,10 @@ function fetchTableData(emp_id) {
 			});
 			$.ajax({
 			type: "post",
-			url: baseUrl+"getContactedLeads/",
+			// url: baseUrl+"getContactedLeads/",
+			url: baseUrl+"getAssignedLeads/",
 			data: {
-				id: emp_id
+				emp_id: emp_id
 			},
 			success: function (data) {
 					data=JSON.parse(data);

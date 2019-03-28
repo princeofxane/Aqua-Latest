@@ -86,7 +86,7 @@ class Leads(models.Model):
     phone = models.CharField(max_length=12, unique=True, default=None, null=True)
     alternatePhone = models.CharField(max_length=12, default=None, null=True)
     purchaseDate = models.CharField(max_length=12, null=True)
-    pincode = models.CharField(max_length=6, default="000000")
+    pincode = models.CharField(max_length=6, default="000000", null=True)
     source = models.CharField(max_length=40, default=None, null=True)
     product = models.CharField(max_length=30, default=None, null=True)
     appointmentDate = models.CharField(max_length=12, default=None, null=True)

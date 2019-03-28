@@ -198,7 +198,6 @@ def setEmpTarget(request):
     if request.method=="POST":
         currDate = str(datetime.datetime.now().date())
         emp_id = request.POST.get("emp_id", None)
-        print(emp_id)
         if emp_id == None or emp_id == '':
             return fail("employee id hasn't provided")
         try:

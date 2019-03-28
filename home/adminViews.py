@@ -565,17 +565,15 @@ def getAssignedLeads(request):
     if request.method == "POST":
         emp_id = request.POST.get("emp_id", None)
         if emp_id != None:
-        # if emp_id == None:
             try:
-                # employee = Employee.objects.get(empID=emp_id)
-                employee = Employee.objects.all()
+                empObj = Employee.objects.get(empID=emp_id)
             except Exception as e:
                 return fail("Employee Id Not Foud")
-            # tip: leads = CustomerEmployee.objects.filter(employee=employee , status='ip')
+            try:
+                leads = Leads.objects.filter(assignee=empObj, isCallback=False, isInterested=False)
+            except Exception as e:
+                print(e)
 
-            # we supposed to get all leads based on assignee is equal to empid
-            # since it is a test its fine
-            leads = Leads.objects.all()
             if len(leads) == 0:
                 return fail("No leads in db")
             else:
@@ -608,11 +606,11 @@ def getAllUnAssignedLeads(request):
         leads_list = []
         for leadObj in leadsObj:
             eachRow = {}
-            eachRow['id'] = leadObj.id
+            eachRow['leadID'] = leadObj.leadID
             eachRow['fname'] = leadObj.fname
             eachRow['lname'] = leadObj.lname
             eachRow['address'] = leadObj.address
-            eachRow['createdDate'] = leadObj.createdDate
+            eachRow['createdDate'] = str(leadObj.createdDate)
             eachRow['email'] = leadObj.email
             eachRow['phone'] = leadObj.phone
             eachRow['alternatePhone'] = leadObj.alternatePhone
@@ -627,13 +625,23 @@ def getAllUnAssignedLeads(request):
 @csrf_exempt
 def getInterestedLeads(request):
     if request.method == "POST":
-        leads = Leads.objects.all().filter(isInterested=True)
-        print("length of leads", len(leads))
-        if len(leads) == 0:
-            return fail("No employee in db")
+        emp_id = request.POST.get('emp_id', None)
+        # leads = Leads.objects.all().filter(isInterested=True)
+        try:
+            empObj = Employee.objects.get(empID=emp_id)
+        except Exception as e:
+            return fail("Employee doesn't exist")
+
+        try:
+            leadsObj = Leads.objects.filter(isInterested=True, assignee=empObj)
+        except Exception as e:
+            return fail("Something went wrong")
+
+        if len(leadsObj) == 0:
+            return fail("No committed leads")
         else:
             leads_list = []
-            for lead in leads:
+            for lead in leadsObj:
                 eachRow = {}
         #     for i in range(len(leads))
         #         lead={}
@@ -654,10 +662,16 @@ def getInterestedLeads(request):
 @csrf_exempt
 def getCallbackLeads(request):
     if request.method == "POST":
+        emp_id = request.POST.get("emp_id", None)
+
         try:
-            leadObj = Leads.objects.filter(isCallback=True)
+            empObj = Employee.objects.get(empID=emp_id)
         except Exception as e:
-            print(e)
+            return fail("Employee doesn't exist")
+        try:
+            leadObj = Leads.objects.filter(isCallback=True, assignee=empObj)
+        except Exception as e:
+            print("Something went wrong")
         leads_list = []
         for lead in leadObj:
             eachRow = {}
@@ -789,29 +803,31 @@ def editLead(request):
             print(e)
             return fail("Lead is not present in the db")
 
-        if fname is not None:
+        if fname is not '':
             lead.fname = fname
-        if lname is not None:
+        if lname is not '':
             lead.lname = lname
-        if address is not None:
+        if address is not '':
             lead.address = address
-        if email is not None:
+        if email is not '':
             lead.email = email
-        if phone is not None:
+        if phone is not '':
             lead.phone = phone
-        if alternatePhone is not None:
-            lead.alternatePhone = alternatePhone
-        if purchaseDate is not None:
-            lead.purchaseDate = purchaseDate
-        if product is not None:
+        if product is not '':
             lead.product = product
-        if pincode is not None:
+        if alternatePhone is not '':
+            lead.alternatePhone = alternatePhone
+        if purchaseDate is not '':
+            lead.purchaseDate = purchaseDate
+        if product is not '':
+            lead.product = product
+        if pincode is not '':
             lead.pincode = pincode
-        if appointmentDate is not None:
+        if appointmentDate is not '':
             lead.appointmentDate = appointmentDate
-        if comment is not None:
-            oldComment = lead.comments
-            newComment = oldComment + "\n\n\n" + "----------------------------" + "\n" + comment + "\n" + "----------------------------" + "\n" + timeNow + ' ' + emp_id
+        if comment is not '':
+            oldComment = str(lead.comments)
+            newComment = oldComment + "\n\n\n" + "----------------------------" + "\n" + comment + "\n" + "----------------------------" + "\n" + str(timeNow) + ' ' + emp_id
             lead.comments = newComment
 
         if isCallback == 'true':
@@ -845,6 +861,7 @@ def getSingleLead(request):
         lead['fname'] = leadObj.fname
         lead['lname'] = leadObj.lname
         lead['email'] = leadObj.email
+        lead['product'] = leadObj.product
         lead['phone'] = leadObj.phone
         lead['alternatePhone'] = leadObj.alternatePhone
         lead['address'] = leadObj.address

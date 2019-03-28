@@ -1,2 +1,15 @@
-db.sqlite3
 *.pyc
+
+*html.orig
+
+*.log
+
+*.pot
+
+*/*/*/__pycache__/
+
+*/*/__pycache__/
+
+*/__pycache__/
+
+home/migrations/*

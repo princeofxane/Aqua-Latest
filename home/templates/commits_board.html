@@ -175,7 +175,7 @@ function fetchTableData(emp_id) {
 			type: "post",
 			url: baseUrl+"getInterestedLeads/",
 			data: {
-				id: emp_id
+				emp_id: emp_id
 			},
 			success: function (data) {
 					data=JSON.parse(data);

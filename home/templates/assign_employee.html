@@ -214,7 +214,6 @@ $('#pass').click(function(){
 		$.each($("input[name='lead']:checked"), function(){            
       leads.push($(this).val());
 		})
-		alert(leads)
 		$.post( baseUrl + "assignLeads/",
 			{
 				emp_id: empID,
@@ -238,7 +237,7 @@ $('#pass').click(function(){
 			$.ajax({
 			method: "POST",
 			// url: baseUrl + "getAllUnAssignedLeads/",
-			url: baseUrl + "getAssignedLeads/",
+			url: baseUrl + "getAllUnAssignedLeads/",
 			data: {
 
 			},
