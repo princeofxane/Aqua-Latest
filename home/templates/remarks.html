@@ -40,6 +40,10 @@
                         <input id="email" type="text" class="form-control" value="add@gmail.com" placeholder="Email Address">
                     </div>
                     <div class="form-group" >
+                        <label for="pin Code">Pin code</label>
+                        <input id="text" type="text" class="form-control" value="45678" placeholder="pincode">
+                    </div>
+                    <div class="form-group" >
                         <label for="modal name">Modal name</label>
                         <input id="product" type="text" class="form-control" value="Input modal name" placeholder="modal name">
                     </div>
@@ -239,7 +243,7 @@
         var _date = $("#datePicker").val();
         var _time = $("#clockPicker").val();
         var appointmentDate = _date + " " + _time + "." + "000000"
-
+        var pincode = "1234";
         var isCommitted = false;
         if ($("#isCommitted").prop("checked") == true) {
             isCommitted = true
@@ -258,6 +262,7 @@
             comments: comment,
             callAction: callAction,
             isInterested: isCommitted,
+            pincode:pincode,
             appointmentDate: appointmentDate
         },
         function(data, status) {

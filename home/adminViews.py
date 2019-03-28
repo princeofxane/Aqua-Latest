@@ -795,6 +795,7 @@ def editLead(request):
         comment = request.POST.get("comments", None)
         callAction = request.POST.get("callAction", None)
         isInterested = request.POST.get("isCommit", None)
+        pincode = request.POST.get("pincode",None)
         appointmentDate = request.POST.get("appointmentDate", None)
         
         try:
