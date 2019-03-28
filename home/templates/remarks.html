@@ -60,13 +60,24 @@
                         <label class=" checkbox-inline">
                             <input id="isCommitted" type="checkbox" value="">Set Commit
                         </label>
+                        <br>
+                        <br>
+
                         <!-- <label class="offset-md-1 checkbox-inline">
                             <input type="checkbox" value="">Feedback
                        </label> -->
                        
-                            <label class="offset-md-2 checkbox-inline">
-                            <input id="isCallback" type="checkbox" value="">Call back
-                        </label>
+                        <!-- <label class="offset-md-6 checkbox-inline"> -->
+                            <!-- <input id="isCallback" type="checkbox" value="">Call back -->
+                            <select id="callAction" class="form-control" id="exampleFormControlSelect1"style="width:50%;">
+                                <option name="df" selected="selected">--Select Action--</option>
+                                <option name="wn" style="font-weight: bold;">wrong number</option>
+                                <option name="so" style="font-weight: bold;">switched off</option>
+                                <option name="nr" style="font-weight: bold;">not reachable</option>
+                                <option name="cni" style="font-weight: bold;">customer not interested</option>
+                                <option name="cb" style="font-weight: bold;">callback</option>
+                            </select>
+                        <!-- </label> -->
                 
                     </div>
                          <div class="form-group" >
@@ -188,6 +199,7 @@
                     var product = dataObj.description['product'];
                     var appointmentDate = dataObj.description['appointmentDate'];
                     var feedback = dataObj.description['comments'];
+                    var callAction = dataObj.description['callAction']
 
                     $("#phoneNumber").html(phone)
                     $("#leadName").val(fname + ' ' + lname)
@@ -195,6 +207,7 @@
                     $("#alternateNumber").val(alternateNumber)
                     $("#email").val(email)
                     $("#product").val(product)
+                    $("#callAction option[name=" + callAction +"]").prop('selected', true);
 
                     var _d = Date.parse(appointmentDate);
                     var d = new Date(_d);
@@ -221,19 +234,17 @@
         var email = $("#email").val();
         var product = $("#product").val();
         var comment = $("#comment").val(); 
+        var callAction = $("#callAction option:selected").attr("name")
 
         var _date = $("#datePicker").val();
         var _time = $("#clockPicker").val();
         var appointmentDate = _date + " " + _time + "." + "000000"
 
         var isCommitted = false;
-        var isCallback = false;
         if ($("#isCommitted").prop("checked") == true) {
             isCommitted = true
         } 
-        if ($("#isCallback").prop("checked") == true) {
-            isCallback = true
-        } 
+
 
         $.post( baseUrl + "editLead/",
         {
@@ -245,7 +256,7 @@
             alternatePhone: altNumber,
             product: product,
             comments: comment,
-            isCallback: isCallback,
+            callAction: callAction,
             isInterested: isCommitted,
             appointmentDate: appointmentDate
         },

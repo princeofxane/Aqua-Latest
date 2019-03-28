@@ -91,7 +91,7 @@ class Leads(models.Model):
     product = models.CharField(max_length=30, default=None, null=True)
     appointmentDate = models.CharField(max_length=12, default=None, null=True)
     comments = models.TextField(null=True)
-    isCallback = models.BooleanField(default=False)
+    callAction = models.CharField(max_length=4, default='df', null=True)
     assignee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
     createdDate = models.DateTimeField(default=timezone.now)
     isContacted = models.BooleanField(default=False)

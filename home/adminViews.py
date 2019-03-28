@@ -570,7 +570,7 @@ def getAssignedLeads(request):
             except Exception as e:
                 return fail("Employee Id Not Foud")
             try:
-                leads = Leads.objects.filter(assignee=empObj, isCallback=False, isInterested=False)
+                leads = Leads.objects.filter(assignee=empObj, isInterested=False, isContacted=False)
             except Exception as e:
                 print(e)
 
@@ -669,7 +669,7 @@ def getCallbackLeads(request):
         except Exception as e:
             return fail("Employee doesn't exist")
         try:
-            leadObj = Leads.objects.filter(isCallback=True, assignee=empObj)
+            leadObj = Leads.objects.filter(callAction='cb', assignee=empObj)
         except Exception as e:
             print("Something went wrong")
         leads_list = []
@@ -793,7 +793,7 @@ def editLead(request):
         product = request.POST.get("product", None)
         pincode = request.POST.get("pincode", None)
         comment = request.POST.get("comments", None)
-        isCallback = request.POST.get("isCallback", None)
+        callAction = request.POST.get("callAction", None)
         isInterested = request.POST.get("isCommit", None)
         appointmentDate = request.POST.get("appointmentDate", None)
         
@@ -829,11 +829,7 @@ def editLead(request):
             oldComment = str(lead.comments)
             newComment = oldComment + "\n\n\n" + "----------------------------" + "\n" + comment + "\n" + "----------------------------" + "\n" + str(timeNow) + ' ' + emp_id
             lead.comments = newComment
-
-        if isCallback == 'true':
-            lead.isCallback = True
-        if isCallback == 'false':
-            lead.isCallback = False
+        lead.callAction = callAction
 
         if isInterested == 'true':
             lead.isInterested = True
