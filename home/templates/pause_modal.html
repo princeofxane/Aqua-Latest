@@ -1,0 +1,24 @@
+{% load staticfiles %}
+<!-- This is to show pause -->
+<div id="modalForPause" class="modal fade" role="dialog" style="border: 3px solid #7CB9E8">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: rgb(135, 202, 193)">
+            <div class="modal-header">
+                <div style="margin-bottom: 150px">
+                    <img src="/static/images/download.png" class="user"/>
+                </div>
+            </div>
+            <div class="modal-body">
+                <h4 class="modal-title text-center">Paused</h4>
+                <div class="text-center">    
+                    <p id="ptime" style="font-weight: bold;"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="text-center">
+                    <input type="submit" id="resume" value="Resume" class="btn btn-primary" style="color: #7CB9E8">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
