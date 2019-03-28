@@ -564,14 +564,13 @@ def deleteMultipleLeads(request):
 def getAssignedLeads(request):
     if request.method == "POST":
         emp_id = request.POST.get("emp_id", None)
-        print(emp_id)
         if emp_id != None:
             try:
                 empObj = Employee.objects.get(empID=emp_id)
             except Exception as e:
                 return fail("Employee Id Not Foud")
             try:
-                leads = Leads.objects.filter(assignee=empObj)
+                leads = Leads.objects.filter(assignee=empObj, isCallback=False, isInterested=False)
             except Exception as e:
                 print(e)
 
