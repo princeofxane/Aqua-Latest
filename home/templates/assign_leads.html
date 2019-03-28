@@ -40,8 +40,12 @@
                     </div>
                 </div>
             </div>
+{% block body_content %}
+
+
+
+{% endblock custom_js %}
 <script type="text/javascript">
-  <script>
   var leads = [];
   $(document).ready(function() {
     $.post( baseUrl + "getSession/",
@@ -71,7 +75,6 @@
     $.each($("input[name='lead']:checked"), function(){            
       leads.push($(this).val());
     })
-    alert(leads)
     $.post( baseUrl + "assignLeads/",
       {
         emp_id: empID,
@@ -259,6 +262,4 @@
     });
   });
 </script>
-
-</script>
-{% endblock body_content %}
+{% endblock custom_js %}
