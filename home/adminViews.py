@@ -861,6 +861,7 @@ def getSingleLead(request):
         lead['phone'] = leadObj.phone
         lead['alternatePhone'] = leadObj.alternatePhone
         lead['address'] = leadObj.address
+        lead['callAction'] = leadObj.callAction
         lead['createdDate'] = str(leadObj.createdDate)
         lead['appointmentDate'] = leadObj.appointmentDate
         lead['purchaseDate'] = leadObj.purchaseDate
