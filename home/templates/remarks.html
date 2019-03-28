@@ -182,6 +182,7 @@
                     var lname = dataObj.description['lname'];
                     var address = dataObj.description['address'];
                     var phone = dataObj.description['phone'];
+                    var product = dataObj.description['product'];
                     var alternateNumber = dataObj.description['alternateNumber'];
                     var email = dataObj.description['email'];    
                     var product = dataObj.description['product'];
@@ -253,6 +254,7 @@
             if (dataObj.result == "fail") {
                 alert(dataObj.description)
             } else {
+                location.reload()
                 alert(dataObj.description)
             }
         })
