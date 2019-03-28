@@ -26,8 +26,7 @@ from .ProductViews import *
 from .CustomerViews import *
 
 urlpatterns = [
-    path("test/",Test),
-    path("createNewEmployee/",createNewEmployee),
+    path("createNewEmployee/", createNewEmployee),
     # path("displayEmployee/",displayAllEmployee),
     # path("deactivateEmployee/",deactivateEmployee),
     # path("updateStatus/",updateStatus),

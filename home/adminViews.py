@@ -565,17 +565,11 @@ def getAssignedLeads(request):
     if request.method == "POST":
         emp_id = request.POST.get("emp_id", None)
         if emp_id != None:
-        # if emp_id == None:
             try:
-                # employee = Employee.objects.get(empID=emp_id)
-                employee = Employee.objects.all()
+                empObj = Employee.objects.get(empID=emp_id)
             except Exception as e:
                 return fail("Employee Id Not Foud")
-            # tip: leads = CustomerEmployee.objects.filter(employee=employee , status='ip')
-
-            # we supposed to get all leads based on assignee is equal to empid
-            # since it is a test its fine
-            leads = Leads.objects.all()
+            leads = Leads.objects.filter(assignee=empObj)
             if len(leads) == 0:
                 return fail("No leads in db")
             else:
@@ -608,11 +602,11 @@ def getAllUnAssignedLeads(request):
         leads_list = []
         for leadObj in leadsObj:
             eachRow = {}
-            eachRow['id'] = leadObj.id
+            eachRow['leadID'] = leadObj.leadID
             eachRow['fname'] = leadObj.fname
             eachRow['lname'] = leadObj.lname
             eachRow['address'] = leadObj.address
-            eachRow['createdDate'] = leadObj.createdDate
+            eachRow['createdDate'] = str(leadObj.createdDate)
             eachRow['email'] = leadObj.email
             eachRow['phone'] = leadObj.phone
             eachRow['alternatePhone'] = leadObj.alternatePhone

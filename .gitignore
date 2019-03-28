@@ -1,2 +1,17 @@
 db.sqlite3
+
+*.sqlite3*
+
 *.pyc
+
+*.orig
+
+*.log
+
+*.pot
+
+*/*/*/__pycache__/
+
+*/*/__pycache__/
+
+*/__pycache__/
