@@ -3,9 +3,12 @@
 
 
 {% block body_content %}
-<div class="container-fluid">
 
-	<p style="text-align:center;">set_employee_target.html</p>
+<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 0%;margin-left: 12%;">
+
+
+
+	<p>set_employee_target.html</p>
 <!-- 
 	<div class="row">
 		<p>Lead list</p>
@@ -27,19 +30,22 @@
 			</div>			
 		</div> -->
 
-
+<div class="container">
 		<div class="row">
-			<p style="margin-left: 30%;">Search Employee</p>
-			<div class="col-md-4">
-				<p style="margin-left: 50%;">Employee ID</p>
+			<div class="col-lg-12 text-center">
+				<p>Search Employee</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6 text-right">
+				<p>Employee ID</p>
 			</div>
 			<div class="col-md-2">
-				<input id="empID" type="text" style="border-radius:5px;border:2px solid #06BBE1;">
+				<input id="empID" type="text" style="border:2px solid #06BBE1;">
 			</div>
 		</div>	
 
-
-			<br><br>
+</div>
 					
 
 		<!-- <div class="row">
@@ -51,39 +57,37 @@
 
 		<br><br><br> -->
 				
-
+<div class="container">
 		<div class="row">
-			<div class="col-md-6">
-				<p style="margin-left: 50%;" id="callTargetCount">Call assigned per day :</p>
+			<div class="col-md-6 text-center">
+				<p id="callTargetCount">Call assigned per day :</p>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<input id="callValue" type="text" class="form-control" name="phone" id="phone">
 			</div>
 		</div>
-
-
-		<br>
-
+<br>
 
 		<div class="row">
-			<div class="col-md-6">
-				<p style="margin-left: 50%;" id="commitTargetCount">Commits assigned per day :</p>
+			<div class="col-md-6 text-center">
+				<p id="commitTargetCount">Commits assigned per day :</p>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<input id="commitValue" type="text" class="form-control" name="phone" id="phone">
 			</div>
 		</div>
 
-
+</div>
 		<br>
 
-
+<div class="container">
 		<div class="row">
 			<div class="col-md-12 text-center">
 				<button id="assignTarget" type="button"class="btn">assign target</button>
 			</div>
 		</div>
-			
+			</div>
+		</div>
 		<!-- <div class="col-md-4">
 			<p id="Employees_A27_Text_658">Leads Status</p>
 			
