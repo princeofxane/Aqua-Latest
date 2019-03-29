@@ -33,7 +33,7 @@
                     </div>
                     <div class="form-group" >
                         <label for="alternateNumber">Alternate Number</label>
-                        <input id="alternateNumber" type="text" class="form-control" value="9795768765" placeholder="Alternate Number">
+                        <input id="alternatePhone" type="text" class="form-control" value="9795768765" placeholder="Alternate Number">
                     </div>
                     <div class="form-group" >
                         <label for="emailAddress">Email Address</label>
@@ -135,7 +135,7 @@
                                 <button id="updateButton" type="submit" class=" btn btn-primary">Update</button>
                             </div>
                             <div class="col-md-1 text-left">
-                                <button type="submit" class=" btn btn-primary">Call now</button>
+                                <button id="callButton" type="submit" class=" btn btn-primary">Call now</button>
                             </div>
                         </div>
                     </div>
@@ -178,6 +178,7 @@
 <script type="text/javascript">
 
     var leadID = localStorage.getItem("leadID");
+    var phoneNumber = '';
 
     $(document).ready(function() {
         $.post( baseUrl + "getSingleLead/",
@@ -194,7 +195,7 @@
                     var address = dataObj.description['address'];
                     var phone = dataObj.description['phone'];
                     var product = dataObj.description['product'];
-                    var alternateNumber = dataObj.description['alternateNumber'];
+                    var alternatePhone = dataObj.description['alternatePhone'];
                     var email = dataObj.description['email'];    
                     var product = dataObj.description['product'];
                     var appointmentDate = dataObj.description['appointmentDate'];
@@ -204,10 +205,14 @@
                     $("#phoneNumber").html(phone)
                     $("#leadName").val(fname + ' ' + lname)
                     $("#address").val(address)
-                    $("#alternateNumber").val(alternateNumber)
+                    $("#alternatePhone").val(alternatePhone)
                     $("#email").val(email)
                     $("#product").val(product)
                     $("#callAction option[name=" + callAction +"]").prop('selected', true);
+
+                    //store phone number to the global variable to make available in another funciton
+                    console.log(phone)
+                    phoneNumber = phone
 
                     var _d = Date.parse(appointmentDate);
                     var d = new Date(_d);
@@ -230,7 +235,7 @@
         var fname = nameArray[0];
         var lname = nameArray[1];
         var address = $("#address").val();
-        var altNumber = $("#alternateNumber").val();
+        var alternatePhone = $("#alternatePhone").val();
         var email = $("#email").val();
         var product = $("#product").val();
         var comment = $("#comment").val(); 
@@ -253,7 +258,8 @@
             fname: fname,
             lname: lname,
             address: address,
-            alternatePhone: altNumber,
+            email: email,
+            alternatePhone: alternatePhone,
             product: product,
             comments: comment,
             callAction: callAction,
@@ -274,6 +280,25 @@
     })
 
 
+    $("#callButton").click(function() {
+        var emp_id = localStorage.getItem("empID");
+        var lead_id = localStorage.getItem("leadID");
+
+        $.post( baseUrl + "makeCall/",
+        {
+            emp_id: emp_id,
+            lead_id: lead_id,
+            phone: phoneNumber
+        },
+        function(data, status){
+            var dataObj = JSON.parse(data);
+            if (dataObj.result === "fail") {
+                alert(dataObj.description)
+            } else {
+                alert(dataObj.description)
+            }
+        })
+    })
 
 
 
