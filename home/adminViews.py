@@ -1,7 +1,7 @@
 from django.views.decorators.csrf import csrf_exempt
 # from django.core import serializers
 from .views import success, fail
-from .models import Customers, Employee, Leads, EmpStatus, Notifications
+from .models import Customers, Employee, Leads, EmpStatus, Notifications, CallData
 from django.shortcuts import HttpResponse, render
 from .tests import cleanDatabase, fill_database_with_dummy_values
 from django.utils import timezone
@@ -570,7 +570,7 @@ def getAssignedLeads(request):
             except Exception as e:
                 return fail("Employee Id Not Foud")
             try:
-                leads = Leads.objects.filter(assignee=empObj, isCallback=False, isInterested=False)
+                leads = Leads.objects.filter(assignee=empObj, isInterested=False, isContacted=False)
             except Exception as e:
                 print(e)
 
@@ -669,7 +669,7 @@ def getCallbackLeads(request):
         except Exception as e:
             return fail("Employee doesn't exist")
         try:
-            leadObj = Leads.objects.filter(isCallback=True, assignee=empObj)
+            leadObj = Leads.objects.filter(callAction='cb', assignee=empObj)
         except Exception as e:
             print("Something went wrong")
         leads_list = []
@@ -787,13 +787,12 @@ def editLead(request):
         lname = request.POST.get("lname", None)
         address = request.POST.get("address", None)
         email = request.POST.get("email", None)
-        phone = request.POST.get("phone", None)
         alternatePhone = request.POST.get("alternatePhone", None)
         purchaseDate = request.POST.get("purchaseDate", None)
         product = request.POST.get("product", None)
         pincode = request.POST.get("pincode", None)
         comment = request.POST.get("comments", None)
-        isCallback = request.POST.get("isCallback", None)
+        callAction = request.POST.get("callAction", None)
         isInterested = request.POST.get("isCommit", None)
         appointmentDate = request.POST.get("appointmentDate", None)
         
@@ -811,8 +810,6 @@ def editLead(request):
             lead.address = address
         if email is not '':
             lead.email = email
-        if phone is not '':
-            lead.phone = phone
         if product is not '':
             lead.product = product
         if alternatePhone is not '':
@@ -829,11 +826,7 @@ def editLead(request):
             oldComment = str(lead.comments)
             newComment = oldComment + "\n\n\n" + "----------------------------" + "\n" + comment + "\n" + "----------------------------" + "\n" + str(timeNow) + ' ' + emp_id
             lead.comments = newComment
-
-        if isCallback == 'true':
-            lead.isCallback = True
-        if isCallback == 'false':
-            lead.isCallback = False
+        lead.callAction = callAction
 
         if isInterested == 'true':
             lead.isInterested = True
@@ -865,6 +858,7 @@ def getSingleLead(request):
         lead['phone'] = leadObj.phone
         lead['alternatePhone'] = leadObj.alternatePhone
         lead['address'] = leadObj.address
+        lead['callAction'] = leadObj.callAction
         lead['createdDate'] = str(leadObj.createdDate)
         lead['appointmentDate'] = leadObj.appointmentDate
         lead['purchaseDate'] = leadObj.purchaseDate
@@ -894,8 +888,23 @@ def changeEmpPass(request):
 @csrf_exempt
 def makeCall(request):
     if (request.method == "POST"):
+        lead_id = request.POST.get("lead_id", None)
+        emp_id = request.POST.get("emp_id", None)
         phone = request.POST.get("phone", None)
-        # connect to vici dialler api
+
+        if phone == "":
+            return fail("Phone number is not provided")
+        empObj = Employee.objects.get(empID=emp_id)
+        leadObj = Leads.objects.get(leadID=lead_id)
+        callObj = CallData(leadID=leadObj, empID=empObj, phone=phone)
+        callObj.save()
+        return success("Call has been placed")
+    return fail("Error in request")
+
+# @csrf_exempt
+# def getCallReport(request):
+#     if (request.method == "POST"):
+
 
 
 @csrf_exempt

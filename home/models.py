@@ -91,7 +91,7 @@ class Leads(models.Model):
     product = models.CharField(max_length=30, default=None, null=True)
     appointmentDate = models.CharField(max_length=12, default=None, null=True)
     comments = models.TextField(null=True)
-    isCallback = models.BooleanField(default=False)
+    callAction = models.CharField(max_length=4, default='df', null=True)
     assignee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
     createdDate = models.DateTimeField(default=timezone.now)
     isContacted = models.BooleanField(default=False)
@@ -100,10 +100,12 @@ class Leads(models.Model):
 class CallData(models.Model):
     id = models.IntegerField(auto_created=True, primary_key=True)
     leadID = models.ForeignKey(Leads, on_delete=models.SET_NULL, null=True)
-    duration = models.DurationField()
+    empID = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
+    duration = models.DurationField(null=True)
+    createdAt = models.DateTimeField(default=timezone.now)
     phone = models.CharField(max_length=12, default=None)
-    remarks = models.TextField(default=None)
-    recordLink = models.TextField()
+    remarks = models.TextField(default=None, null=True)
+    recordLink = models.TextField(null=True)
 
 
 class Complaints(models.Model):
