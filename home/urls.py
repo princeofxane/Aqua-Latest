@@ -66,6 +66,8 @@ urlpatterns = [
     path("getNotification/", getNotification),
     path("setCommit/", setCommit),
     path("setPause/", togglePause),
+    path("generateReport/", generateReport),
+    path("registerProgress/", registerProgress),
     path("deleteSingleLead/", deleteSingleLead),
     path("setEmpTarget/", setEmpTarget),
     path("addNewProduct/", addNewProduct),

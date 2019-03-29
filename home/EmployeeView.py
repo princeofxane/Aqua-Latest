@@ -2,9 +2,10 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from .views import success,fail
-from .models import Employee, EmpTarget, Leads
+from .models import Employee, EmpTarget, Leads, Metrics
 from django.shortcuts import HttpResponse
 import datetime
+from django.utils import timezone
 import random
 
 
@@ -139,9 +140,133 @@ def getSingleEmployee(request):
         return success(employee)
     return HttpResponse("Error In Request")
 
+# This function used to change progress on calls and commits you have made
+@csrf_exempt
+def registerProgress(request):
+    if request.method == "POST":
+        timeNow = datetime.datetime.now()
+        testTimeNow = timezone.now()
+
+        emp_id = request.POST.get("emp_id", None)
+        action = request.POST.get("action", None)
+
+        if emp_id is None or action is None:
+            return fail("Necessary data haven't provided")
+
+        # print(timeNow.date())
+        # print(testTimeNow.date())
+
+        try:
+            empObj = Employee.objects.get(empID=emp_id)
+        except Exception as e:
+            return fail("Employee doesn't exist")
+
+        if action == 'call':
+            try:
+                metricsObj = Metrics.objects.get(empID=empObj)
+            except Exception as e:
+                # progress hasn't been tracking for this employee so create
+                # a new one
+                metricsObj = Metrics(empID=empObj, callCount=1, currDate=timeNow)                
+                metricsObj.save()
+                return success("Progress for new employee has been recorded")
+            
+            if metricsObj.currDate.date() == timeNow.date():
+                metricsObj.callCount = metricsObj.callCount + 1
+                metricsObj.save()
+                return success("Call count for the same day has been increased")
+            else:
+                metricsObj.empID = empObj
+                metricsObj.callCount = 1
+                metricsObj.currDate = timeNow
+                metricsObj.save()
+                return success("Call count for the new day has been increased")
+        if action == 'commit':
+            try:
+                metricsObj = Metrics.objects.get(empID=empObj)
+            except Exception as e:
+                # progress hasn't been tracking for this employee so create
+                # a new one
+                metricsObj = Metrics(empID=empObj, commitCount=1, currDate=timeNow)                
+                metricsObj.save()
+                return success("Progress for new employee has been recorded")
+            
+            if metricsObj.currDate.date() == timeNow.date():
+                metricsObj.commitCount = metricsObj.commitCount + 1
+                metricsObj.save()
+                return success("Commit count for the same day has been increased")
+            else:
+                metricsObj.empID = empObj
+                metricsObj.commitCount = 1
+                metricsObj.currDate = timeNow
+                metricsObj.save()
+                return success("Commit count for the new day has been increased")
+    return fail("Error in request")
+
+
+@csrf_exempt
+def generateReport(request):
+    if request.method == "POST":
+        timeNow = datetime.datetime.now()
+        emp_id = request.POST.get("emp_id", None)
+        is_for_all_employees = request.POST.get("is_for_all_employees", None)
+        is_day_wise = request.POST.get("is_day_wise", None)
+        is_custom_date = request.POST.get("is_custom_date", None)
+        from_date = request.POST.get("from_date", None)
+        to_date = request.POST.get("to_date", None)
+
+        print(timeNow.year())
+        print(timeNow.month())
+        print(timeNow.day())
+
+        if is_day_wise == 'true':
+            if is_for_all_employees == 'false': 
+                try: 
+                    empObj = Employee.objects.get(empID=emp_id)
+                except Exception as e:
+                    return fail("Employee doesn't exist")
+                try:
+                    metricsObj = Metrics.objects.filter(empID=empObj, createdAt__year=timeNow.year(), createdAt__month=timeNow.month(), createdAt__day=timeNow.day())
+                except Exception as e:
+                    return fail("No records available for today")
+                dataSet = {
+                    "calls": metricsObj.callCount,
+                    "commitCount": metricsObj.commitCount
+                }
+                return success(dataSet)
+
+            else: 
+
+                try:
+                    metricsObj = Metrics.objects.filter(createdAt__year=timeNow.year, createdAt__month=timeNow.month, createdAt__day=timeNow.day)
+                except Exception as e:
+                    return fail("No records available for today")
+
+                if len(metricsObj) == 0:
+                    return fail("No progress found in db")
+
+                dataList = []
+                for metricObj in metricsObj:
+                    dataSet = {}
+
+                    dataSet['emp_id'] = metricsObj.empID,
+                    dataSet['calls'] = metricsObj.callCount,
+                    dataSet['commitCount'] = metricsObj.commitCount,
+
+                    dataList.append(dataSet)
+                return success(dataList)
+            #Write custom date report generation here
+    return fail("Error in request")
+
+
+        
+
+        
+
+
 @csrf_exempt
 def updateEmployee(request):
-    if (request.method == "POST"):
+    if request.method == "POST":
         emp_id = request.POST.get("id", None)
         fname = request.POST.get("fname", None)
         lname = request.POST.get("lname", None)

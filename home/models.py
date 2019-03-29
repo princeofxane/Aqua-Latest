@@ -107,6 +107,13 @@ class CallData(models.Model):
     remarks = models.TextField(default=None, null=True)
     recordLink = models.TextField(null=True)
 
+class Metrics(models.Model):
+    id = models.IntegerField(auto_created=True, primary_key=True)
+    empID = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
+    callCount = models.IntegerField(default=0, null=True)
+    commitCount = models.IntegerField(default=0, null=True)
+    createdAt = models.DateTimeField(default=timezone.now)
+    currDate = models.DateTimeField(null=True)
 
 class Complaints(models.Model):
     bookingID = models.CharField(max_length=10, default=None, primary_key=True)
