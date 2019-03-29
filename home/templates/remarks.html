@@ -69,12 +69,16 @@
                     </div>
                     <div class="form-group" >
                         <label for="address">Address</label>
+
                         <input id="address" class="form-control" type="text" placeholder="Address">
                         <!-- <textarea id="address" class="form-control" rows="4" placeholder="Address">Due to the widespread use of tables across we’ve designed our tables to be opt-in. Just add</textarea> -->
                         <br>
                         <br>
                         <br>
                         <div id="map"></div>
+
+                        <!-- <input type="text" class="form-control" placeholder="Address"> -->
+                        <!-- <textarea id="address" class="form-control" rows="4" placeholder="Address">Due to the widespread use of tables across we’ve designed our tables to be opt-in. Just add</textarea> -->
                     </div>
                     <div class="form-group" >
                         <label for="alternateNumber">Alternate Number</label>
@@ -151,20 +155,19 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-md-offset-1">
-         <h2>Previous Feedback</h2>
-                        <table id="dataTable" class = "table table-hover dataTable">
+         <h4 style="margin-left: 18%;">Previous Feedback</h4>
+                        <!-- <table id="dataTable" class = "table table-hover dataTable">
                                 <thead>
                                     <tr>
                                         <th style="border-bottom:2pt solid black;">#</th>
                                         <th style="border-bottom:2pt solid black;">empid:</th>
                                         <th style="border-bottom:2pt solid black;">Feedback</th>
-                                        <th style="border-bottom:2pt solid black;">Date Time</th>
-                                        
-                                        
-                                    </tr>
+                                        <th style="border-bottom:2pt solid black;"></th> -->
+                                        <!-- <th style="border-bottom:2pt solid black;">Date Time</th> -->
+                                    <!-- </tr>
                                 </thead>
-                                <tbody>
-                                    <tr><td>1
+                                <tbody> -->
+                                    <!-- <tr><td>1
                                     </td>
                                     <td>1002
                                     </td>
@@ -180,11 +183,13 @@
                                     <td>due to the wide spred use od table acress we have design a table to be opt-in just add
                                     </td>
                                     <td>21-2-2017 11:22:30
-                                    </td></tr>
-                                </tbody>
-                                </table>
+                                    </td></tr> -->
+                                <!-- </tbody>
+                                </table> -->
                             </div>
                         </div>
+                    </div>
+                    <div id="feedBack" style="margin-left: 30%; font-size: 18px;">
                     </div>
                     <div class="container">
                         <div class="row text-center">
@@ -206,6 +211,7 @@
 
     var leadID = localStorage.getItem("leadID");
     var phoneNumber = '';
+    var table = $("#dataTable").DataTable()
 
     $(document).ready(function() {
         jQuery.post( baseUrl + "getSingleLead/",
@@ -236,9 +242,26 @@
                     $("#email").val(email)
                     $("#product").val(product)
                     $("#callAction option[name=" + callAction +"]").prop('selected', true);
+                    // if (feedback != null) {
+                    //     table.row.add($(
+                    //         '<tr> '+
+                    //         '<td>'+feedback+'</td>' +
+                    //         '</tr>'
+                    //     )).draw(false);
+                    // }
+                    var feedBacks = feedback.split("*");
+                    for (var i = 0; i < feedBacks.length; i++) {
+                        eachRow = `
+                        <div class="row">
+                            ${feedBacks[i]}
+                        <div>
+                        `
+                        $("#feedBack").append(eachRow)
+                    }
+                    alert(feedBacks.length)
+
 
                     //store phone number to the global variable to make available in another funciton
-                    console.log(phone)
                     phoneNumber = phone
 
                     var _d = Date.parse(appointmentDate);

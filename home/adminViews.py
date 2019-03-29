@@ -831,7 +831,7 @@ def editLead(request):
             lead.appointmentDate = appointmentDate
         if comment is not '':
             oldComment = str(lead.comments)
-            newComment = oldComment + "\n\n\n" + "----------------------------" + "\n" + comment + "\n" + "----------------------------" + "\n" + str(timeNow) + ' ' + emp_id
+            newComment = oldComment + "\n\n\n" + "----------------------------" + "\n" + comment + "\n" + "----------------------------" + "\n" + str(timeNow) + ' ' + emp_id + '*'
             lead.comments = newComment
         lead.callAction = callAction
 

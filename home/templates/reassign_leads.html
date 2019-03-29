@@ -3,29 +3,37 @@
 
 
 {% block body_content %}
-<div class="container-fluid">
 
-	<p style="text-align:center;">reassign_leads.html</p>
 
+<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 0%;margin-left: 12%;">
+<div class="container">
+
+	<p>reassign_leads.html</p>
+<div class="container">
 	<div class="row">
-		<div class="row">
-			<p style="margin-left: 30%;">Search Employee</p>
-			<div class="col-md-4">
-				<p style="margin-left: 50%;">Employee ID</p>
+		<div class="col-lg-12 text-center">
+			<p>Search Employee</p>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+			<div class="col-md-4 text-right">
+				<p>Employee ID</p>
 			</div>
 			<div class="col-md-2">
-				<input id="empID1" type="text" style="border-radius:5px;border:2px solid #06BBE1;">
+				<input id="empID1" type="text" style="border:2px solid #06BBE1;">
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-3 text-left">
 				<button id="searchEmpButton" type="button" class="btn">Search</button>
 				<!-- <p style="margin-left: 50%;">Employee ID</p> -->
 			</div>
 
 		</div>	
 	</div>
-
+<div class="container">
 	<div class="row">
-		<p>Lead list</p>
+		<p style="color:#06BBE1;font-size: 20px;font-weight: bold;">Lead list</p>
 			<div class="card leadListA scrollbar-ripe-malinka">
 				<div class="card-body">
 					<table id="dataTable" class="table table-hover">
@@ -43,21 +51,26 @@
 				</div>
 			</div>			
 		</div>
+</div>
 
-
+<br>
+<div class="container">
 		<div class="row">
-			<p style="margin-left: 30%;">Assign leads to</p>
-			<div class="col-md-4">
-				<p style="margin-left: 50%;">Employee ID</p>
+			<div class="col-lg-12  text-center">
+				<p>Assign leads to</p>
 			</div>
-			<div class="col-md-2">
-				<input id="empID2" type="text" style="border-radius:5px;border:2px solid #06BBE1;">
+		</div>
+		<div class="row">
+			<div class="col-md-5 text-right">
+				<p>Employee ID</p>
+			</div>
+			<div class="col-md-3 text-center">
+				<input id="empID2" type="text" style="border:2px solid #06BBE1;">
 			</div>
 		</div>	
+	</div>
 
-
-			<br><br>
-					
+<div class="container">
 
 		<div class="row">
 			<div class="col-md-12 text-center">
@@ -65,9 +78,7 @@
 			</div>
 		</div>
 
-
-		<br><br><br>
-				
+</div>
 
 		<!-- <div class="row">
 			<div class="col-md-6">
@@ -167,7 +178,7 @@
 	</div>
 
 </div>
-
+</div>
 <br><br>
 {% endblock body_content %}
 

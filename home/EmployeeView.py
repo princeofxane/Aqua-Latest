@@ -7,6 +7,7 @@ from django.shortcuts import HttpResponse
 import datetime
 from django.utils import timezone
 import random
+from django.db import connection
 
 
 @csrf_exempt
@@ -172,6 +173,7 @@ def registerProgress(request):
                 return success("Progress for new employee has been recorded")
             
             if metricsObj.currDate.date() == timeNow.date():
+                metricsObj.empID = empObj
                 metricsObj.callCount = metricsObj.callCount + 1
                 metricsObj.save()
                 return success("Call count for the same day has been increased")
@@ -192,6 +194,7 @@ def registerProgress(request):
                 return success("Progress for new employee has been recorded")
             
             if metricsObj.currDate.date() == timeNow.date():
+                metricsObj.empID = empObj
                 metricsObj.commitCount = metricsObj.commitCount + 1
                 metricsObj.save()
                 return success("Commit count for the same day has been increased")
@@ -207,17 +210,19 @@ def registerProgress(request):
 @csrf_exempt
 def generateReport(request):
     if request.method == "POST":
-        timeNow = datetime.datetime.now()
+        timeNow = timezone.now()
+        # timeNow = datetime.datetime.now()
+        # date = timeNow.date()
+        date = datetime.datetime.now().date()
+
+
+
         emp_id = request.POST.get("emp_id", None)
         is_for_all_employees = request.POST.get("is_for_all_employees", None)
         is_day_wise = request.POST.get("is_day_wise", None)
         is_custom_date = request.POST.get("is_custom_date", None)
         from_date = request.POST.get("from_date", None)
         to_date = request.POST.get("to_date", None)
-
-        print(timeNow.year())
-        print(timeNow.month())
-        print(timeNow.day())
 
         if is_day_wise == 'true':
             if is_for_all_employees == 'false': 
@@ -226,9 +231,11 @@ def generateReport(request):
                 except Exception as e:
                     return fail("Employee doesn't exist")
                 try:
-                    metricsObj = Metrics.objects.filter(empID=empObj, createdAt__year=timeNow.year(), createdAt__month=timeNow.month(), createdAt__day=timeNow.day())
+                    # metricsObj = Metrics.objects.filter(createdAt__year=timeNow.year, createdAt__month=timeNow.month, createdAt__day=timeNow.day)
+                    metricsObj = Metrics.objects.filter(createdAt__after=date)
                 except Exception as e:
                     return fail("No records available for today")
+                
                 dataSet = {
                     "calls": metricsObj.callCount,
                     "commitCount": metricsObj.commitCount
@@ -238,7 +245,7 @@ def generateReport(request):
             else: 
 
                 try:
-                    metricsObj = Metrics.objects.filter(createdAt__year=timeNow.year, createdAt__month=timeNow.month, createdAt__day=timeNow.day)
+                    metricsObj = Metrics.objects.get(empID=empObj, createdAt__year=timeNow.year, createdAt__month=timeNow.month, createdAt__day=timeNow.day)
                 except Exception as e:
                     return fail("No records available for today")
 
