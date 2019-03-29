@@ -1,6 +1,9 @@
 {% load staticfiles %}
 <style type="text/css">
-	      
+	    body
+        {
+
+        }  
     #noti_Container {
         position:relative;
     }
@@ -70,7 +73,7 @@
         border-bottom:solid 1px rgba(100, 100, 100, .30);
     }
         
-    .seeAll {
+   /* .seeAll {
         background:#F6F7F8;
         padding:8px;
         font-size:12px;
@@ -78,13 +81,14 @@
         border-top:solid 1px rgba(100, 100, 100, .30);
         text-align:center;
     }
-    .seeAll a {
-        color:#3b5998;
-    }
-    .seeAll a:hover {
-     /*   background:#F6F7F8;
-        color:#3b5998;
-        text-decoration:underline;*/
+   */
+    
+     #option
+    {
+        color: #0D385D; 
+        font-size: 30px;
+        margin-top: 0px;
+
     }
 </style>
 <script type="text/javascript">
@@ -143,22 +147,22 @@
         });
     });
 </script>
-<nav class="navbar navbar-default navbar-static-top navbar-fixed-top" role="navigation" style="margin-bottom: 0; height:12.1%;background-color: #d6d8db;">
+<nav class="navbar navbar-default navbar-static-top navbar-fixed-top" role="navigation" style="margin-bottom: 0; height:12.1%;background-color: white;">
     <div class="navbar-header" style="width:50%;">
-        <a id="home" class="navbar-brand" href="#"><img src="../static/images/forbes1.png" style=" width: 250px; height: 50px;margin-top: -1vh;"></a>
-         <div><img src="../static/images/globe1.gif"style="width: 25px;margin-left: -22%;margin-top: 14px;"/></div>
+        <a id="home" class="navbar-brand" href="#">
+            <img src="../static/images/forbeslogonew.png" style=" width: 250px; height: 50px;"></a>
+        
     </div>
 
 
-    <div class="navbar-header" style="width:50%;">
 
-
-	    <ul class="nav navbar-top-links navbar-right" style="z-index: -1;">
+	    <ul class="nav navbar-top-links navbar-right">
 	        <li class="dropdown">
-	            <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="" >
-	               <span id="assoc_id">{{user.username}}</span> <i class="fa fa-user fa-fw" style="color: #0D385D; font-size: 25px;margin-top: 1vh;"> </i> <i class="fa fa-caret-down" style="color: #0D385D;font-size:20px;"></i>
+	            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+	               <span id="assoc_id">{{user.username}}</span> 
+                        <i class="fa fa-user fa-fw"id="option"> </i> <i class="fa fa-caret-down"style="font-size:20px;color: #0D385D; "></i>
 	            </a>
-	            <ul class="dropdown-menu dropdown-user" style="z-index: -1">
+	            <ul class="dropdown-menu dropdown-user">
 	                <li><a id="dashboard" href="../tc_homePage"><i class="fa fa-home fa-fw"></i> Dashboard</a></li>
 	                <li><a id="settings" href="../changedp_tc"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
 	                <li class="divider"></li>
@@ -178,7 +182,7 @@
          <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                   <span id="assoc_id">{{user.username}}</span> <i class="glyphicon glyphicon-bell" style="color: #0D385D; font-size: 25px;margin-top: 1vh;"> </i> 
+                   <span id="assoc_id">{{user.username}}</span> <i class="glyphicon glyphicon-bell" id="option"> </i> 
                 </a>
                
             </li>
@@ -204,7 +208,7 @@
 	     <ul class="nav navbar-top-links navbar-right">
 	 		<li class="dropdown">
 	            <a  href="/callHistoryPage">
-	               <span id="assoc_id">{{user.username}}</span><i class="glyphicon glyphicon-earphone"style="color: #0D385D; font-size: 25px;margin-top: 1vh;"> </i> 
+	               <span id="assoc_id">{{user.username}}</span><i class="glyphicon glyphicon-earphone"id="option"> </i> 
 	            </a>
 	           
 	        </li>
@@ -214,15 +218,15 @@
 				<div class="values"></div>
 			</div>
 	    </ul>
-     </div>
+    
 </nav>
 
 <!-- Progress bar -->
-<nav class="navbar navbar-default navbar-static-top navbar-fixed-top" role="navigation" style="margin-bottom: 0; margin-top: 5%;height: 15%; background-color: #0D385D;z-index: 900">
-    <div class="row row-content"style="margin-left: 10%;margin-top: 20px;">
+<nav class="navbar navbar-default" role="navigation" style="background-color: #0D385D;">
+    <div class="row row-content"style="margin-left: 10%;margin-top:6%;">
         <div class="col-xs-12  col-sm-12 col-md-10 col-lg-12">
-            <div class="col-xs-2  col-sm-2 col-md-2 col-lg-2 color-blue;">
-                <label style="padding-top: 0px;font-size: 14px; color: white;">Calls Made:</label>
+            <div class="col-xs-2  col-sm-2 col-md-2 col-lg-2">
+                <label style="font-size: 14px; color: white;">Calls Made:</label>
             </div>
             <div class="progress">
                 <div id="callProgresBar" class="progress-bar progress-bar-striped progress-bar-animated"  id="ed" style="width:40%"></div>
