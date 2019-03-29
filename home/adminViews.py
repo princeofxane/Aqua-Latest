@@ -48,6 +48,12 @@ def tc_homePage(request):
         loginPage(request)
     return render(request, 'index.html')
 
+@csrf_exempt
+def tc_dashboard(request):
+    currentSession = getSession(request, True)
+    if currentSession == '':
+        loginPage(request)
+    return render(request, 'tc_dashboard.html')
 
 @csrf_exempt
 def obAdmin_tc_homePage(request):

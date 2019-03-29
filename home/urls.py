@@ -88,7 +88,7 @@ urlpatterns = [
     path("obAdmin_commitHistoryPage/", obAdmin_commitHistoryPage),
     path("obAdmin_callHistoryPage/", obAdmin_callHistoryPage),
     path("obAdmin_reportsPage/", obAdmin_reportsPage),
-    
+    path("tc_dashboard/", tc_dashboard),
     path("tc_homePage/", tc_homePage),
     path("ad_homePage/", ad_homePage),
     path("homePageCommittedLeads/", homePageCommittedLeads),
