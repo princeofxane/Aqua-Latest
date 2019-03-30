@@ -1,52 +1,45 @@
 {% extends "base.html" %}
-
+{% load staticfiles %}
 {% block body_content %}
-
-	
-	
-<!-- </head> -->
-
-<body>
-	<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 13%;margin-left: 12%;">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<form class="form-inline">
-  <div class="form-group">
-    
-    <input type="text" class="form-control" id="exampleInputName2" placeholder="Enter ID">
-     <label for="exampleInputEmail2">From</label>
-    
-                 <input type="date" class="form-control">
-                  
-               <label for="exampleInputEmail2">To</label>
-                 <input type="date" class="form-control">
-
-                  <input type="time" class="form-control">
-  </div>
-    <button type="submit" class="btn btn-INFO">SEARCH</button>
-</form>
+<style type="text/css">#dataTable_filter{display: none;}</style>
+<div id="page-wrapper" class="pt60" >
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<form class="form-inline">
+				<div class="form-group">
+					<input type="text" class="form-control" id="exampleInputName2" placeholder="Enter ID">
+					<label for="exampleInputEmail2">From Date:</label>
+					<input class="date_range_filter date" type="text" id="datepicker_from" />
+					<label for="exampleInputEmail2">To Date:</label>
+                   <input class="date_range_filter date" type="text" id="datepicker_to" /> <label for="exampleInputEmail2">From Time:</label>
+					<input type="time" class="form-control">
+					<label for="exampleInputEmail2">To Time:</label>
+                    <input type="time" class="form-control">
+                     <button type="submit" class="btn btn-INFO">SEARCH</button>
+                </div>
+               
+            </form>
+        </div>
+    </div>
 </div>
+<br><br><br>
+	<table id="dataTable" class = "table table-hover dataTable">
+		<thead>
+			<tr>
+				<th>No</th>
+				<th>Req ID</th>
+				<th>Name</th>
+				<th>Phone Number</th>
+				<th>Address</th>
+				<th>Feedback</th>
+				<th>Appointment</th>
+				<th>Status</th>
+			</tr>
+		</thead>
+		<tbody></tbody>
+		</table>
 </div>
-</div>
-							<table id="dataTable" class = "table table-hover dataTable">
-								<thead>
-									<tr>
-										<th>No</th>
-										<th>Req ID</th>
-										<!-- <th>Request No</th>  -->
-										<th>Name</th>
-										<th>Phone Number</th>
-										<th>Address</th>
-										<th>Remarks</th>
-										<!-- <th>Appointment</th> -->
-										<th>Appointment</th>
-										<!-- <th> Edit</th> -->
-									</tr>
-								</thead>
-								<tbody></tbody>
-								</table>
-						</div>
 			
 	<!-- This is to show pause -->
 	<div id="modalForPause" class="modal fade" role="dialog" style="border: 3px solid #7CB9E8">
@@ -72,8 +65,28 @@
     </div>
 	</div>
 
-	<br>
-</body>
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#basicExampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Calling Lead</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Call On GOing...
+      </div>
+     
+    </div>
+  </div>
+</div>
 {% endblock body_content %}
 	
 
@@ -187,16 +200,11 @@ function fetchTableData(emp_id) {
 						'<td>'+i+'</td>' +
 						'<td>'+value.leadID+'</td>' +
 						'<td>'+value.fname+ ' ' +value.lname+'</td>' +
-						// '<td>'+value.email+'</td>' +
 						'<td>'+value.phone+'</td>' +
 						'<td>'+value.address+'</td>' +
 						'<td>'+value.comments+'</td>' +
 						'<td>'+value.appointmentDate+'</td>' +
-						// '<td>'+value.comments+'</td>' +
-						// '<td>'+value.pincode+'</td>' +
-						// `<td><input type="button" onClick=test() class="btn btn-primary" value="Set Commit"></td>`+
-						'<td></td>'+
-						'<td><input type="button" class="btn btn-primary" value="Call now"></td>'+
+						'<td><a id="${value.leadID}" onClick=setLocalStorage(this.id) type="button" href="../remarks" class="btn btn-primary">EDIT</a><a  data-toggle="modal" data-target="#basicExampleModal" type="button" class="btn btn-primary">CALL NOW</a></td>'+
 						'</tr>')).draw(false);
 				})
 			}
@@ -558,6 +566,56 @@ function announceList(){
 				}
 			})
 		})
+
+var oTable = $('#datatable').DataTable();
+
+// filter for date code begins here
+$("#datepicker_from").datepicker({
+    "onSelect": function(date) {
+      minDateFilter = new Date(date).getTime();
+      oTable.fnDraw();
+    }
+  }).keyup(function() {
+    minDateFilter = new Date(this.value).getTime();
+    oTable.fnDraw();
+  });
+
+  $("#datepicker_to").datepicker({
+    "onSelect": function(date) {
+      maxDateFilter = new Date(date).getTime();
+      oTable.fnDraw();
+    }
+  }).keyup(function() {
+    maxDateFilter = new Date(this.value).getTime();
+    oTable.fnDraw();
+  });
+
+
+// Date range filter
+minDateFilter = "";
+maxDateFilter = "";
+
+$.fn.dataTableExt.afnFiltering.push(
+  function(oSettings, aData, iDataIndex) {
+    if (typeof aData._date == 'undefined') {
+      aData._date = new Date(aData[0]).getTime();
+    }
+
+    if (minDateFilter && !isNaN(minDateFilter)) {
+      if (aData._date < minDateFilter) {
+        return false;
+      }
+    }
+
+    if (maxDateFilter && !isNaN(maxDateFilter)) {
+      if (aData._date > maxDateFilter) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+);
 	</script>
 
 

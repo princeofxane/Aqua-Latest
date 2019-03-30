@@ -1,7 +1,7 @@
 from django.views.decorators.csrf import csrf_exempt
 # from django.core import serializers
 from .views import success, fail
-from .models import Customers, Employee, Leads, EmpStatus, Notifications
+from .models import Customers, Employee, Leads, EmpStatus, Notifications, CallData
 from django.shortcuts import HttpResponse, render
 from .tests import cleanDatabase, fill_database_with_dummy_values
 from django.utils import timezone
@@ -48,6 +48,12 @@ def tc_homePage(request):
         loginPage(request)
     return render(request, 'index.html')
 
+@csrf_exempt
+def tc_dashboard(request):
+    currentSession = getSession(request, True)
+    if currentSession == '':
+        loginPage(request)
+    return render(request, 'tc_dashboard.html')
 
 @csrf_exempt
 def obAdmin_tc_homePage(request):
@@ -787,7 +793,6 @@ def editLead(request):
         lname = request.POST.get("lname", None)
         address = request.POST.get("address", None)
         email = request.POST.get("email", None)
-        phone = request.POST.get("phone", None)
         alternatePhone = request.POST.get("alternatePhone", None)
         purchaseDate = request.POST.get("purchaseDate", None)
         product = request.POST.get("product", None)
@@ -812,8 +817,6 @@ def editLead(request):
             lead.address = address
         if email is not '':
             lead.email = email
-        if phone is not '':
-            lead.phone = phone
         if product is not '':
             lead.product = product
         if alternatePhone is not '':
@@ -828,7 +831,7 @@ def editLead(request):
             lead.appointmentDate = appointmentDate
         if comment is not '':
             oldComment = str(lead.comments)
-            newComment = oldComment + "\n\n\n" + "----------------------------" + "\n" + comment + "\n" + "----------------------------" + "\n" + str(timeNow) + ' ' + emp_id
+            newComment = oldComment + "\n\n\n" + "----------------------------" + "\n" + comment + "\n" + "----------------------------" + "\n" + str(timeNow) + ' ' + emp_id + '*'
             lead.comments = newComment
         lead.callAction = callAction
 
@@ -892,8 +895,23 @@ def changeEmpPass(request):
 @csrf_exempt
 def makeCall(request):
     if (request.method == "POST"):
+        lead_id = request.POST.get("lead_id", None)
+        emp_id = request.POST.get("emp_id", None)
         phone = request.POST.get("phone", None)
-        # connect to vici dialler api
+
+        if phone == "":
+            return fail("Phone number is not provided")
+        empObj = Employee.objects.get(empID=emp_id)
+        leadObj = Leads.objects.get(leadID=lead_id)
+        callObj = CallData(leadID=leadObj, empID=empObj, phone=phone)
+        callObj.save()
+        return success("Call has been placed")
+    return fail("Error in request")
+
+# @csrf_exempt
+# def getCallReport(request):
+#     if (request.method == "POST"):
+
 
 
 @csrf_exempt
