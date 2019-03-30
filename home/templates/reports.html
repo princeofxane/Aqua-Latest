@@ -1,29 +1,26 @@
 {% extends "base.html" %}
-
+{% load staticfiles %}
 {% block body_content %}
-
-	
-
-	<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 15%; margin-left: 12%;">
-		
+<<<<<<< HEAD
+<style type="text/css">#dataTable_filter{display: none;}</style>
+<div id="page-wrapper" class="pt60" >	
 		<div class="container">
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-12 text-center">
 				<form class="form-inline">
   <div class="form-group">
     
     <select class="form-control">
-  <option>Complaints</option>
-  <option>Commits</option>
+  <option>Complete</option>
+ <option>Commits</option>
   <option>Feedback</option>
   
 </select>
      <label for="exampleInputEmail2">From</label>
     
-                 <input type="date" class="form-control">
-                  
-               <label for="exampleInputEmail2">To</label>
-                 <input type="date" class="form-control">
+                 <input class="date_range_filter date" type="text" id="datepicker_from" />
+					<label for="exampleInputEmail2">To Date:</label>
+                   <input class="date_range_filter date" type="text" id="datepicker_to" />
 
                  
   </div>
@@ -39,8 +36,8 @@
 									<tr>
 										<th>No</th>
 										<th>Date</th>
-										<!-- <th>Request No</th>  -->
 										<th>Commits</th>
+										<th>Completes</th>
 										<th>Call Backs</th>
 										<th>Feed Backs</th>
 										<th>Login Time</th>
@@ -171,6 +168,7 @@
 var emp_id;
 var lead_id;
 
+var oTable = $('#datatable').DataTable();
 function fetchTableData(emp_id) { 
 			var table = $('#dataTable').DataTable({
 				"sDom": "Rfrtlip"
@@ -193,7 +191,7 @@ function fetchTableData(emp_id) {
 						'<td>'+i+'</td>' +
 						'<td>'+value.leadID+'</td>' +
 						'<td>'+value.fname+ ' ' +value.lname+'</td>' +
-						// '<td>'+value.email+'</td>' +
+						'<td>'+value.email+'</td>' +
 						'<td>'+value.phone+'</td>' +
 						'<td>'+value.address+'</td>' +
 						'<td>'+ +'</td>' +
@@ -598,6 +596,55 @@ function announceList(){
 				}
 			})
 		})
+
+
+// filter for date code begins here
+$("#datepicker_from").datepicker({
+    "onSelect": function(date) {
+      minDateFilter = new Date(date).getTime();
+      oTable.fnDraw();
+    }
+  }).keyup(function() {
+    minDateFilter = new Date(this.value).getTime();
+    oTable.fnDraw();
+  });
+
+  $("#datepicker_to").datepicker({
+    "onSelect": function(date) {
+      maxDateFilter = new Date(date).getTime();
+      oTable.fnDraw();
+    }
+  }).keyup(function() {
+    maxDateFilter = new Date(this.value).getTime();
+    oTable.fnDraw();
+  });
+
+
+// Date range filter
+minDateFilter = "";
+maxDateFilter = "";
+
+$.fn.dataTableExt.afnFiltering.push(
+  function(oSettings, aData, iDataIndex) {
+    if (typeof aData._date == 'undefined') {
+      aData._date = new Date(aData[0]).getTime();
+    }
+
+    if (minDateFilter && !isNaN(minDateFilter)) {
+      if (aData._date < minDateFilter) {
+        return false;
+      }
+    }
+
+    if (maxDateFilter && !isNaN(maxDateFilter)) {
+      if (aData._date > maxDateFilter) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+);
 	</script>
 
 

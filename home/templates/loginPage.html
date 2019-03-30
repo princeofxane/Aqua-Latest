@@ -5,14 +5,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <!-- <link rel="stylesheet" href="css/my_style.css"> -->
   <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <script src="../static/js/aquaguardTimer.js"></script>
 
   <style>
-        .main-content {
+    .main-content {
             margin-top: 120px;
         }
 
@@ -59,28 +58,26 @@
             background-image: linear-gradient(to bottom, #23b3ec, #07527e);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#a7cfdf, endColorstr=#23538a);
         }
 
+    body, html 
+    {
+        height: 100%;
+    }
 
-        .footer {
-            position: fixed;
-            bottom: 0;
-            height: 220px;
-            margin-top: 30px;
-            width: 100%;
-            
-        }
-
-        .footer img {
-            position: fixed;
-            bottom: 0;
-            height: 210px;
-            width: 100%;
-        }
+/*.bg { 
+  background-image: url("../static/images/back.png");
+  height: 100%; 
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}*/
   </style>
 </head>
-<body>
-    <div class="container-fluid">
+<body style="background-color: #f7f7f7;" class="bg">
+    <div class="container-fluid" > 
         <div class="row text-center main-content">
-            <img src="../static/images/forbeslogonew.png"/> <br><br>
+            <img src="../static/images/logo1.jpeg"/> 
+            <BR><BR><BR>
+
 				<form id="login-form" method="POST">
 					<input type="text" name="username" id="login-username" placeholder="Employee ID"style=""/><br><br>
 					<input type="password" name="password" id="login-password" placeholder="Employee Password"style=""/><br><br>
@@ -91,9 +88,9 @@
         </div>
     </div>
 
-    <footer class="footer">
+    <<!-- footer class="footer">
         <img src="../static/images/footer.png">
-    </footer>
+    </footer> -->
 
 <script>
     $("#loginButton").click(function(){
@@ -134,12 +131,6 @@
 </script>
 
 <script>
-    $(window).ready(function() {
-        // $("#forgotPassword").click(function() {
-        //     window.location.href = baseUrl + "forgotPassword/"
-        // });
-    })
-
     function alertUser() {
         alert("Contact admin to reset your password");
     };

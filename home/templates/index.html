@@ -1,48 +1,34 @@
 {% extends "base.html" %}
-
+{% load staticfiles %}
 {% block body_content %}
-
-
-
-<body>
-	<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 15%;margin-left: 12%;">
-	
-
-							
-							 <table id="dataTable" class = "table table-hover dataTable">
-								<thead>
-									<tr>
-										<th style="border-bottom:2pt solid black;">No</th>
-										<th style="border-bottom:2pt solid black;">Req ID</th>
-										<th style="border-bottom:2pt solid black;">Source</th>
-										<!-- <th>Request No</th>  -->
-										<th style="border-bottom:2pt solid black;">Name</th>
-										<th style="border-bottom:2pt solid black;">Phone Number</th>
-										<th style="border-bottom:2pt solid black;">Address</th>
-										<th style="border-bottom:2pt solid black;">Remarks</th>
-										<th style="border-bottom:2pt solid black;">Appointment</th>
-										
-									</tr>
-								</thead>
-								<tbody></tbody>
-								</table>
-       
-
-		</div>
-
-
-	<br>
-
-
-
+<style type="text/css">#dataTable_filter{display: none;}</style>
+<div id="page-wrapper" class="pt60">
+	<table id="dataTable" class = "table table-hover dataTable">
+	<thead>
+		<tr style="border-bottom:2pt solid black;">
+			<th width="5%">No</th>
+			<th width="5%">Req ID</th>
+			<th width="10%">Source</th>
+			<th width="10%">Name</th>
+			<th width="10%">Phone Number</th>
+			<th width="25%">Address</th>
+			<th width="10%">FeedBack</th>
+			<th width="10%">Appointment</th>
+			<th width="10%">Action</th>		
+		</tr>
+	</thead>
+	<tbody></tbody>
+	</table>
+</div>
+<br>
 
 <!-- This is to show pause -->
 <div id="modalForPause" class="modal fade" role="dialog" style="border: 3px solid #7CB9E8">
-    <div class="modal-dialog">
-        <div class="modal-content" style="background-color: rgb(135, 202, 193)">
-            <div class="modal-header">
-                <div style="margin-bottom: 150px">
-                    <img src="/static/images/download.png" class="user"/>
+	<div class="modal-dialog">
+		<div class="modal-content" style="background-color: rgb(135, 202, 193)">
+			<div class="modal-header">
+				<div style="margin-bottom: 150px">
+                    <img src='{% static "images/download.png" %}' class="user"/>
                 </div>
             </div>
             <div class="modal-body">
@@ -59,134 +45,129 @@
         </div>
     </div>
 </div>
-
-
-</body>
 {% endblock body_content %}
+{% block custom_js %}
+<!-- All script starts here -->
+<script>
+$(document).ready(function(){
+	$(".iconbox").hide();
+	$("#menubar").click(function(){
+		$('#menubar').hide();
+		$(".iconbox").show();
+	});
 
-	{% block custom_js %}
-	<!-- All script starts here -->
-	<script>
-	
+	$(".close").click(function(){
+		$('#menubar').show();
+		$(".iconbox").hide();
+	});
 
-		$(document).ready(function(){
-			$(".iconbox").hide();
-				$("#menubar").click(function(){
-				$('#menubar').hide();
-					$(".iconbox").show();
-		});
-		});
-
-		$(document).ready(function(){
-			
-				$(".close").click(function(){
-				$('#menubar').show();
-					$(".iconbox").hide();
-		});
-		});
-
-		$(document).ready(function(){
-				$("#menubar").click(function(){
-					$("#btn").hide();
-					$(".close").click(function(){
-				$('#btn').show();
-		});
-		});
-		});
-
-		$(document).ready(function(){
-			$("#menubar").click(function(){
-				$("#btn").hide();
-				$(".close").click(function(){
+	$("#menubar").click(function(){
+		$("#btn").hide();
+		$(".close").click(function(){
 			$('#btn').show();
 		});
-		});
-		});
+	});
 
+	$("#menubar").click(function(){
+		$("#btn").hide();
+		$(".close").click(function(){
+			$('#btn').show();
+		});
+	});
 
-		$(document).ready(function(){
-			$("#menubar").click(function(){
-				$("#btn1").hide();
-				$(".close").click(function(){
+	$("#menubar").click(function(){
+		$("#btn1").hide();
+		$(".close").click(function(){
 			$('#btn1').show();
 		});
-		});
+	});
 
-		
-		});
+	$.post( baseUrl + "getSession/",
+	{},
+	function(data, status)
+	{
+		dataObj=JSON.parse(data);
+		if(dataObj.result=="fail")
+		{
+			window.location.href = baseUrl
+		}
+		else
+		{
+			emp_id = dataObj.description;
+			getProfilePicture(emp_id);
+			getUserData(emp_id);
+			fetchTableData(emp_id);
+			getEmpTarget(emp_id);
+		}
+	}
+	);
+
+});
+
+$(".call-card").hide();
+$("#callnow").click(function(){
+	$(".call-card").show();
+});
+
+$("#goToDashboard").click(function(){
+	window.location.href = baseUrl + "tc_homePage/"
+});
 
 
-		$(".call-card").hide();
-		$("#callnow").click(function(){
-		
-			$(".call-card").show();
-		});
-
-		$("#goToDashboard").click(function(){
-			window.location.href = baseUrl + "tc_homePage/"
-		});
+$("#callsButton").click(function() {
+	//This page is temporary
+	window.location.href = baseUrl + "callHistoryPage/"
+});
 
 
-		$("#callsButton").click(function() {
-			//This page is temporary
-			window.location.href = baseUrl + "callHistoryPage/"
-		})
+$("#commitsButton").click(function() {
+	//This page is temporary
+	window.location.href = baseUrl + "commitHistoryPage/"
+});
 
 
-		$("#commitsButton").click(function() {
-			//This page is temporary
-			window.location.href = baseUrl + "commitHistoryPage/"
-		})
-
-
-		// $("#logoutButton").click(function() {
-		// 	window.location.href = baseUrl + "logoutPage/"
-		// });
-
-
-</script>
-<script>
 var emp_id;
 var lead_id;
 
-function fetchTableData(emp_id) { 
-			var table = $('#dataTable').DataTable({
-				"sDom": "Rfrtlip"
-			});
-			$.ajax({
-			type: "post",
-			// url: baseUrl+"getContactedLeads/",
-			url: baseUrl+"getAssignedLeads/",
-			data: {
-				emp_id: emp_id
-			},
-			success: function (data) {
-					data=JSON.parse(data);
-					// console.log(data);
-					data=data.description;
-					var i = 0;
-					console.log(data)
-				$.each(data, function(key,value) {
-					i++;
-					table.row.add($(
-						'<tr style="border-bottom:2pt solid black;">' +
-						'<td>'+i+'</td>' +
-						'<td>'+value.leadID+'</td>' +
-						'<td>'+value.source+'</td>' +
-						'<td>'+value.fname+ ' ' +value.lname+'</td>' +
-						// '<td>'+value.email+'</td>' +
-						'<td>'+value.phone+'</td>' +
-						'<td>'+value.address+'</td>' +
-						// '<td>'+value.createdDate+'</td>' +
-						'<td>'+ +'</td>' +
-						
-						
-						// '<td><input type="button" class="btn btn-primary" value="Edit"></td>'+
-						// '<td><input type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary" value="EDIT"></td>'+
-						`<td><a id="${value.leadID}" onClick=setLocalStorage(this.id) type="button" href="../remarks" class="btn btn-primary">EDIT</a></td>`+
+function fetchTableData(emp_id)
+{ 
+	var table = $('#dataTable').DataTable({"sDom": "Rfrtlip"});
+	$.ajax({
+		type: "post",
+		url: baseUrl+"getAssignedLeads/",
+		data:{
+			emp_id: emp_id
+		},
+		success: function (data) 
+		{
+			data=JSON.parse(data);
+			data=data.description;
+			var i = 0;
+			$.each(data, function(key,value)
+			{
+				var lastComment = ''
+				i++;
+				if (value.feedback.length > 0) {
+					for (var x = 0; x < value.feedback.length; x++) {
+						lastComment = value.feedback[x]
+					}
+				} else {
+					lastComment = "null"
+				}
+				table.row.add($(
+					'<tr style="border-bottom:2pt solid black;">' +
+					'<td>'+i+'</td>' +
+					'<td>'+value.leadID+'</td>' +
+					'<td>'+value.source+'</td>' +
+					'<td>'+value.fname+ ' ' +value.lname+'</td>' +
+					'<td>'+value.phone+'</td>' +
+					'<td>'+value.address+'</td>' +
+					'<td>'+ lastComment +'</td>' +
+					'<td>'+value.appointmentDate+'</td>' +
+					`<td><a id="${value.leadID}" onClick=setLocalStorage(this.id) type="button" href="../remarks" class="btn btn-primary">EDIT</a></td>`+
 						'</tr>')).draw(false);
-				})
-			}
+			})
+		}
 		})
 	}
 
@@ -197,89 +178,70 @@ function fetchTableData(emp_id) {
 
 	function navigate() {
 		window.location.href = baseUrl + "remarks/"
-	// 	$.post( baseUrl + "editReport/",
-	// 		{
-
-	// 		},
-	// 		function(data, status) {
-
-	// 		})
 	}
 
-	$(document).ready(function() {
-		$.post( baseUrl + "getSession/",
-		{},
-		function(data, status) {
-			dataObj=JSON.parse(data);
-			if(dataObj.result=="fail") {
-				window.location.href = baseUrl
-			}else{
-				emp_id = dataObj.description;
-				getProfilePicture(emp_id);
-				getUserData(emp_id);
-				fetchTableData(emp_id);
-				getEmpTarget(emp_id);
-			}
-		});
 
-	})
 
-		function getEmpTarget(empID) {
-			$.post( baseUrl + "getEmpTarget/",
-				{
-          emp_id: empID
-				},
-				function(data, status) {
-					dataObj = JSON.parse(data);
-					if (dataObj.result == "fail") {
-						// alert(dataObj.description)
-					} else {
-						// alert(dataObj.description)
-						var callTarget = dataObj.description["calls"]
-						var commitTarget = dataObj.description["commits"]
-						$("#targetCalls").text(callTarget)
-						$("#targetCommit").text(commitTarget)
-						getProgress(emp_id, callTarget, commitTarget);
-					}
-				})
-		}
+	function getEmpTarget(empID) 
+	{
+		$.post( baseUrl + "getEmpTarget/",
+			{
+      			emp_id: empID
+			},
+			function(data, status) {
+				dataObj = JSON.parse(data);
+				if (dataObj.result == "fail") {
+					// alert(dataObj.description)
+				} else {
+					// alert(dataObj.description)
+					var callTarget = dataObj.description["calls"]
+					var commitTarget = dataObj.description["commits"]
+					$("#targetCalls").text(callTarget)
+					$("#targetCommit").text(commitTarget)
+					getProgress(emp_id, callTarget, commitTarget);
+				}
+			})
+	}
 
-		function getProgress(emp_id, callTarget, commitTarget) {
+	function getProgress(emp_id, callTarget, commitTarget)
+	{
 
-			//These values are hardcoded for testing. Here we need to get actual 
-			//callCount and commitCount from db.
-			var callCount = 43
-			var commitCount = 42
+	var callCount = 43
+	var commitCount = 42
+
+	$("#currCallCount").text(callCount)
+	$("#currCommitCount").text(commitCount)
+
+	callPercentage = Math.trunc((callCount * 100)/callTarget)
+	commitPercentage = Math.trunc((commitCount * 100)/commitTarget)
+
+	$("#callProgressBar").css("width", callPercentage + "%")
+	$("#commitProgressBar").css("width", commitPercentage + "%")
+	}
 
 			$("#currCallCount").text(callCount)
 			$("#currCommitCount").text(commitCount)
 
-			callPercentage = Math.trunc((callCount * 100)/callTarget)
-			commitPercentage = Math.trunc((commitCount * 100)/commitTarget)
-
-			$("#callProgressBar").css("width", callPercentage + "%")
-			$("#commitProgressBar").css("width", commitPercentage + "%")
+	function getProfilePicture(emp_id) 
+	{
+	$.post( baseUrl + "getProfilePicture/",
+	{
+		id: emp_id,
+	},
+	function(data, status) {
+		dataObj=JSON.parse(data);
+		if(dataObj.result=="fail") {
+			alert("Something's Wrong With Profile Picture")
+		}else{
+			// console.log(dataObj.description);
+			document.getElementById("imageid").src=".." + dataObj.description ;
 		}
-
-
-		function getProfilePicture(emp_id) {
-		$.post( baseUrl + "getProfilePicture/",
-		{
-			id: emp_id,
-		},
-		function(data, status) {
-			dataObj=JSON.parse(data);
-			if(dataObj.result=="fail") {
-				alert("Something's Wrong With Profile Picture")
-			}else{
-				// console.log(dataObj.description);
-				document.getElementById("imageid").src=".." + dataObj.description ;
-			}
-		});
+	});
 	}
 	
 
-	function updateCommit(lead_id, isCommit){
+	function updateCommit(lead_id, isCommit)
+	{
 		$.post( baseUrl + "setCommit/",
 		{
 			lead_id: lead_id,
@@ -299,289 +261,191 @@ function fetchTableData(emp_id) {
 	}
 
 
-function announceList(){
-
+function announceList(){}
+	
+function setDetails(lead_id)
+{
+	console.log(lead_id)
+	$.post( baseUrl + "editLead/",
+	{
+    id : lead_id,
+    fname : document.getElementById("fnameLead").value,
+    lname :document.getElementById("lnameLead").value,
+			address :document.getElementById("addressLead").value,
+    email :document.getElementById("emailLead").value,
+    alternatePhone:document.getElementById("alternateNumberLead").value,
+    purchaseDate :document.getElementById("dateLead").value,
+    pincode :document.getElementById("pinLead").value,
+    comments :document.getElementById("commentsLead").value,
+	},
+	function(data, status) {
+		dataObj=JSON.parse(data);
+		if(dataObj.result=="fail") {
+			alert("request failed")
+			console.log(dataObj)
+		}else{
+			console.log(dataObj)
+		}
+		getCallTable(emp_id);
+	});
 }
-	
-	function setDetails(lead_id)
+
+function callLead(lead_id)
+{
+	console.log(lead_id)
+	$.post( baseUrl + "editLead/",
 	{
-		console.log(lead_id)
-		$.post( baseUrl + "editLead/",
-		{
-        id : lead_id,
-        fname : document.getElementById("fnameLead").value,
-        lname :document.getElementById("lnameLead").value,
-				address :document.getElementById("addressLead").value,
-        email :document.getElementById("emailLead").value,
-        alternatePhone:document.getElementById("alternateNumberLead").value,
-        purchaseDate :document.getElementById("dateLead").value,
-        pincode :document.getElementById("pinLead").value,
-        comments :document.getElementById("commentsLead").value,
-		},
-		function(data, status) {
-			dataObj=JSON.parse(data);
-			if(dataObj.result=="fail") {
-				alert("request failed")
-				console.log(dataObj)
-			}else{
-				console.log(dataObj)
-			}
-			getCallTable(emp_id);
-		});
-	}
-	
-	function callLead(lead_id)
+    id : lead_id,
+	},
+	function(data, status) {
+		dataObj=JSON.parse(data);
+		if(dataObj.result=="fail") {
+			alert("request failed")
+			console.log(dataObj)
+		}else{
+			console.log(dataObj)
+		}
+		getCallTable(emp_id);
+	});
+}
+
+
+
+
+function getDetails(lead_id)
+{
+	lead_id= lead_id
+	$.post( baseUrl + "displaySingleLead/",
 	{
-		console.log(lead_id)
-		$.post( baseUrl + "editLead/",
-		{
-        id : lead_id,
-		},
-		function(data, status) {
-			dataObj=JSON.parse(data);
-			if(dataObj.result=="fail") {
-				alert("request failed")
-				console.log(dataObj)
-			}else{
-				console.log(dataObj)
-			}
-			getCallTable(emp_id);
-		});
-  }
-
-
-
-
-	function getDetails(lead_id){
-		lead_id= lead_id
-		$.post( baseUrl + "displaySingleLead/",
-		{
-			id: lead_id,
-		},
-		function(data, status) {
-			dataObj=JSON.parse(data);
-			if(dataObj.result=="fail") {
-				alert("request failed")
-			}else{
-				console.log(dataObj)
-				document.getElementById("lead_id").innerText = lead_id;
-				document.getElementById("lead_phone").innerText = dataObj.description['mobile'];
-				document.getElementById("fnameLead").value = dataObj.description['fname'];
-				document.getElementById("lnameLead").value = dataObj.description['lname'];
-				document.getElementById("emailLead").value = dataObj.description['email'];
-				document.getElementById("alternateNumberLead").value = dataObj.description['alternatePhone'];
-				document.getElementById("pinLead").value = dataObj.description['pincode'];
-				document.getElementById("dateLead").value = dataObj.description['purchaseDate'];
-				document.getElementById("addressLead").value = dataObj.description['address'];
-				document.getElementById("commentsLead").value = dataObj.description['comments'];
-				document.getElementById("btnLead").setAttribute('onclick','setDetails('+lead_id+')')
-			}
-			getCallTable(emp_id);
-		});
-  }
-
-
-	// function getUserData(emp_id) {
-	// 	$.post( baseUrl + "getUserData/",
-	// 	{
-	// 		id: emp_id,
-	// 	},
-	// 	function(data, status) {
-	// 		dataObj=JSON.parse(data);
-	// 		if(dataObj.result=="fail") {
-	// 			alert("request failed")
-	// 		}else{
-
-	// 			$("#loginTime").text('Logged in at: ' + d.getHours() + ' : ' + d.getMinutes())
-	// 			$("#loginDate").text('DATE: ' + d.getDate() + '-' + date + '-' + d.getFullYear())
-
-	// 			$("#welcomeTag").text(fname + ' ' +lname);
-	// 			//To a change welcome
-	// 		}
-	// 		getCallTable(emp_id)
-	// 	});
-	// }
-
-		function getUserData(emp_id) {
-			$.post( baseUrl + "getUserData/",
-			{
-				id: emp_id,
-			},
-			function(data, status) {
-				dataObj=JSON.parse(data);
-				if(dataObj.result=="fail") {
-					alert("request failed")
-				}else{
-					console.log(dataObj)
-					var fname = dataObj.description['fname']
-					var lname = dataObj.description['lname']
-					loginTime = dataObj.description['loginTime']
-					var d = new Date(loginTime);
-
-					var date = d.getMonth() + 1
-
-					$("#loginTime").text('Logged in at: ' + d.getHours() + ' : ' + d.getMinutes())
-					$("#loginDate").text('Date: ' + d.getDate() + '-' + date + '-' + d.getFullYear())
-
-					fullName = makeItUpper(fname, lname)
-					$("#welcomeTag").text("Hello " + fullName);
-					//To a change welcome
-				}
-				// getCallTable(emp_id)
-			});
+		id: lead_id,
+	},
+	function(data, status) {
+		dataObj=JSON.parse(data);
+		if(dataObj.result=="fail") {
+			alert("request failed")
+		}else{
+			console.log(dataObj)
+			document.getElementById("lead_id").innerText = lead_id;
+			document.getElementById("lead_phone").innerText = dataObj.description['mobile'];
+			document.getElementById("fnameLead").value = dataObj.description['fname'];
+			document.getElementById("lnameLead").value = dataObj.description['lname'];
+			document.getElementById("emailLead").value = dataObj.description['email'];
+			document.getElementById("alternateNumberLead").value = dataObj.description['alternatePhone'];
+			document.getElementById("pinLead").value = dataObj.description['pincode'];
+			document.getElementById("dateLead").value = dataObj.description['purchaseDate'];
+			document.getElementById("addressLead").value = dataObj.description['address'];
+			document.getElementById("commentsLead").value = dataObj.description['comments'];
+			document.getElementById("btnLead").setAttribute('onclick','setDetails('+lead_id+')')
 		}
+		getCallTable(emp_id);
+	});
+}
 
-
-	// 	function getCallTable(emp_id) {
-	// 	document.getElementById('main-table').innerHTML=' ';
-	// 	$.post( baseUrl + "getAssignedLeads/",
-	// 	{
-	// 		id: emp_id,
-	// 	},
-	// 	function(data, status){
-	// 		dataObj = JSON.parse(data);
-	// 		if(dataObj.result == 'fail') {
-	// 			alert("Sorry No Data Assigned Yet");
-	// 		}else{
-	// 			// for (var i=0; i < dataObj.description.length; i++) {
-	// 			// 	console.log(dataObj.description[i]['fname'])
-	// 			// }
-	// 			var columns = addAllColumnHeaders(dataObj.description);
-	// 			for (var i = 0 ; i < dataObj.description.length ; i++) {
-	// 				var row$ = $('<tr/>');
-	// 				for (var colIndex = 0 ; colIndex < columns.length ; colIndex++) {
-	// 					var cellValue = dataObj.description[i][columns[colIndex]];
-	// 					if(typeof cellValue === "boolean"){
-	// 						lead_id = dataObj.description[i][columns[0]];
-	// 						if(cellValue == false){
-	// 							row$.append($('<td/>').html('<input type="button" class="btn" onclick="updateCommit('+lead_id+','+'1'+')" value="f">'));
-	// 							row$.append($('<td/>').html('<input type="button" class="btn" data-toggle="modal" data-target="#myModal" onclick="getDetails('+lead_id+')" value="Details">'));
-	// 							row$.append($('<td/>').html('<input type="button" class="btn" onclick="callLead('+lead_id+')" value="Call Now">'));
-	// 						}
-	// 						else if(cellValue == true){
-	// 							row$.append($('<td/>').html('<input type="button" class="btn" onclick="updateCommit('+lead_id+',)"value="Un Commit">'));
-	// 							row$.append($('<td/>').html('<input type="button" class="btn" data-toggle="modal" data-target="#myModal" onclick="getDetails('+lead_id+')" value="Details">'));
-	// 							row$.append($('<td/>').html('<input type="button" class="btn" onclick="callLead('+lead_id+')" value="Call Now">'));
-	// 						}
-	// 					}
-	// 					else{
-	// 						if (cellValue == null) { 
-	// 							cellValue = ""; 
-	// 						}
-	// 							//arrange header
-	// 							// var orderedCellValue = orderCells(cellValue);
-	// 						row$.append($('<td/>').html(cellValue));
-	// 					}
-	// 				}
-	// 				$("#main-table").append(row$);
-	// 				// row$.append($('<td/>').html('<button type="button" class="btn btn-secondary callButton">CallNow</button>'));
-	// 				// row$.append($('<td/>').html('<button type="button" id='+dataObj.description[i][columns[0]]+' class="btn" onclick="upgateCommit('+dataObj.description[i][columns[7]]+')">Set Commit</button>'));
-	// 				// row$.append($('<td/>').html('<button type="button" class="btn btn-secondary callButton">CallNow</button>'));
-	// 				// row$.append($('<td/>').html('<button type="button" class="btn"data-toggle="modal" data-target="#myModal">Details</button>'));
-	// 				// row$.append($('<td/>').html('<input type="button" class="btn" onclick="updateCommit('+dataObj.description[i][columns[0]]+',)"value="Un Commit">'));
-
-	// 			}
-	// 		}
-	// 	});
-	// }
-			// $('#excelDataTable').DataTable();
-
-		function orderCells(headers) {
-			for (var header of headers) {
-				console.log(header)
-			}
-		}
-
-		function getNotificationsTable() {
-		document.getElementById('main-table').innerHTML=' ';
-		$.post( baseUrl + "getNotification/",
+	function getUserData(emp_id) 
+	{
+		$.post( baseUrl + "getUserData/",
 		{
 			id: emp_id,
 		},
-		function(data, status){
-			dataObj = JSON.parse(data);
-			if(dataObj.result == 'fail') {
-				alert(dataObj.description);
+		function(data, status) {
+			dataObj=JSON.parse(data);
+			if(dataObj.result=="fail") {
+				alert("request failed")
 			}else{
-				// for (var i=0; i < dataObj.description.length; i++) {
-				// 	console.log(dataObj.description[i]['fname'])
-				// }
-				$("#main-table").append('--');				
-				$("#main-table").append('Only For You');
-				$("#main-table").append('----------------------');				
+				console.log(dataObj)
+				var fname = dataObj.description['fname']
+				var lname = dataObj.description['lname']
+				loginTime = dataObj.description['loginTime']
+				var d = new Date(loginTime);
 
-				var columns = addAllColumnHeaders(dataObj.description);
-				for (var i = 0 ; i < dataObj.description.length ; i++) {
-					var row$ = $('<tr/>');
-					for (var colIndex = 0 ; colIndex < columns.length ; colIndex++) {
-						var cellValue = dataObj.description[i][columns[colIndex]];
-						if(typeof cellValue === "boolean"){
-							lead_id = dataObj.description[i][columns[0]];
-						}
-						else{
-							if (cellValue == null) { 
-								cellValue = ""; 
-							}
-							row$.append($('<td/>').html(cellValue));
-						}
-					}
-					$("#main-table").append(row$);
-				}
-			}
-		});
-		$.post( baseUrl + "getNotification/",
-		{},
-		function(data, status){
-			dataObj = JSON.parse(data);
-			if(dataObj.result == 'fail') {
-				alert(dataObj.description);
-			}else{
-				// for (var i=0; i < dataObj.description.length; i++) {
-				// 	console.log(dataObj.description[i]['fname'])
-				// }
-				$("#main-table").append('--');				
-				$("#main-table").append('For All');				
-				$("#main-table").append('----------------------');				
+				var date = d.getMonth() + 1
 
-				var columns = addAllColumnHeaders(dataObj.description);
-				for (var i = 0 ; i < dataObj.description.length ; i++) {
-					var row$ = $('<tr/>');
-					for (var colIndex = 0 ; colIndex < columns.length ; colIndex++) {
-						var cellValue = dataObj.description[i][columns[colIndex]];
-						if(typeof cellValue === "boolean"){
-							lead_id = dataObj.description[i][columns[0]];
-						}
-						else{
-							if (cellValue == null) { 
-								cellValue = ""; 
-							}
-							row$.append($('<td/>').html(cellValue));
-						}
-					}
-					$("#main-table").append(row$);
-				}
+				$("#loginTime").text('Logged in at: ' + d.getHours() + ' : ' + d.getMinutes())
+				$("#loginDate").text('Date: ' + d.getDate() + '-' + date + '-' + d.getFullYear())
+
+				fullName = makeItUpper(fname, lname)
+				$("#welcomeTag").text("Hello " + fullName);
+				//To a change welcome
 			}
+			// getCallTable(emp_id)
 		});
 	}
-	
 
-		// function addAllColumnHeaders(myList) {
-		// 	var columnSet = [];
-		// 	var headerTr$ = $('<tr/>');
-		// 	for (var i = 0 ; i < dataObj.description.length ; i++) {
-		// 		var rowHash = dataObj.description[i];
-		// 		for (var key in rowHash) {
-		// 			if ($.inArray(key, columnSet) == -1){
-		// 				columnSet.push(key);
-		// 				headerTr$.append($('<th />').html(key));
-		// 			}
-		// 		}
-		// 	}
-		// 	headerTr$.append($('<th />').html(' '));
-		// 	$("#main-table").append(headerTr$);
+	function orderCells(headers) {
+		for (var header of headers) {
+			console.log(header)
+		}
+	}
 
-		// 	return columnSet;
-		// } 
+	function getNotificationsTable()
+	{
+	document.getElementById('main-table').innerHTML=' ';
+	$.post( baseUrl + "getNotification/",
+	{
+		id: emp_id,
+	},
+	function(data, status){
+		dataObj = JSON.parse(data);
+		if(dataObj.result == 'fail') {
+			alert(dataObj.description);
+		}else{
+			// for (var i=0; i < dataObj.description.length; i++) {
+			// 	console.log(dataObj.description[i]['fname'])
+			// }
+			$("#main-table").append('--');				
+			$("#main-table").append('Only For You');
+			$("#main-table").append('----------------------');				
+
+			var columns = addAllColumnHeaders(dataObj.description);
+			for (var i = 0 ; i < dataObj.description.length ; i++) {
+				var row$ = $('<tr/>');
+				for (var colIndex = 0 ; colIndex < columns.length ; colIndex++) {
+					var cellValue = dataObj.description[i][columns[colIndex]];
+					if(typeof cellValue === "boolean"){
+						lead_id = dataObj.description[i][columns[0]];
+					}
+					else{
+						if (cellValue == null) { 
+							cellValue = ""; 
+						}
+						row$.append($('<td/>').html(cellValue));
+					}
+				}
+				$("#main-table").append(row$);
+			}
+		}
+	});
+	$.post( baseUrl + "getNotification/",
+	{},
+	function(data, status){
+		dataObj = JSON.parse(data);
+		if(dataObj.result == 'fail') {
+			alert(dataObj.description);
+		}else{
+			$("#main-table").append('--');				
+			$("#main-table").append('For All');				
+			$("#main-table").append('----------------------');				
+
+			var columns = addAllColumnHeaders(dataObj.description);
+			for (var i = 0 ; i < dataObj.description.length ; i++) {
+				var row$ = $('<tr/>');
+				for (var colIndex = 0 ; colIndex < columns.length ; colIndex++) {
+					var cellValue = dataObj.description[i][columns[colIndex]];
+					if(typeof cellValue === "boolean"){
+						lead_id = dataObj.description[i][columns[0]];
+					}
+					else{
+						if (cellValue == null) { 
+							cellValue = ""; 
+						}
+						row$.append($('<td/>').html(cellValue));
+					}
+				}
+				$("#main-table").append(row$);
+			}
+		}
+	});
+}
 
 		$(document).ready(function() {
 			setInterval(function() {
@@ -606,9 +470,7 @@ function announceList(){
 				$("#runningTime").text(h + ":" + m + "." + s)
 			// $("#runningTime").text(d.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12:true }))
 			}, 1000)
-		})
-
-		// startTimer();
+		});
 
 		$("#pauseButton").click(function(e) {
 			e.preventDefault();
@@ -628,7 +490,7 @@ function announceList(){
 				}
 
 			})
-		})
+		});
 
 		$('#resume').click(function(e){
 			e.preventDefault();
@@ -648,13 +510,9 @@ function announceList(){
 					pauseDuration = dataObj.description
 				}
 			})
-		})
+		});
 	</script>
 
 
 {% endblock custom_js %}
 
-
-
-<!-- </body> -->
-</html>

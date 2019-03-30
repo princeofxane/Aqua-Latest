@@ -1,52 +1,121 @@
-
-
 {% extends "base.html" %}
-
 {% block body_content %}
+<script type="text/javascript">
+     $( function() {
+    $( "#datePicker" ).datepicker();
+  } );
+</script>
+<style type="text/css">
+    #datePicker{
+ z-index:9999 !important;
+}
+#map {
+        height: 425px;
+      }
+      #description {
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+      }
+
+      #infowindow-content .title {
+        font-weight: bold;
+      }
+
+      #infowindow-content {
+        display: none;
+      }
+
+      #map #infowindow-content {
+        display: inline;
+      }
+       #title {
+        color: #fff;
+        background-color: #4d90fe;
+        font-size: 25px;
+        font-weight: 500;
+        padding: 6px 12px;
+      }
+      #target {
+        width: 345px;
+      }
+      #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 400px;
+      }
+</style>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"> 
 
 
-
-    <div class="container" style="margin-top:10%;">
-        <div class="row">
-            <div class="col-md-12 col-md-offset-3" style="font-size:28px;">
-                <div class="float-right">Phone Number is <span id="phoneNumber"></span></div>
+<div class="container" style="margin-top:10%;">
+    <div class="row">
+        <div class="col-md-12 col-md-offset-3" style="font-size:28px;">
+            <div class="float-right">Phone Number is <span id="phoneNumber"></span></div>
             </div>
-        </div> 
-        
-        <br><br>
+    </div> 
+    <br><br>
+    <div class="row" style="margin-top:5%">
+        <div class=" col-md-6 col-md-offset-3">
+            <form class="">
+                <div class="form-group" >
+                    <label for="Fname">Full Name</label>
+                    <input id="leadName" type="text" class="form-control" placeholder="First Name">
 
-        <div class="row" style="margin-top:5%">
-            <div class=" col-md-6 col-md-offset-3">
-                <form class="">
-                    <div class="form-group" >
-                        <label for="Fname">Full Name</label>
-                        <input id="leadName" type="text" class="form-control" placeholder="First Name">
                     </div>
-                    <!-- <div class="form-group" >
-                        <label for="lname">Last Name</label>
-                        <input type="text" class="form-control" placeholder="Last Name">
-                    </div> -->
                     <div class="form-group" >
                         <label for="address">Address</label>
+
+                        <input id="address" class="form-control" type="text" placeholder="Address">
+                        <!-- <textarea id="address" class="form-control" rows="4" placeholder="Address">Due to the widespread use of tables across we’ve designed our tables to be opt-in. Just add</textarea> -->
+                        <br>
+                        <br>
+                        <br>
+                        <div id="map"></div>
+
                         <!-- <input type="text" class="form-control" placeholder="Address"> -->
-                        <textarea id="address" class="form-control" rows="4" placeholder="Address"></textarea>
+
+                        <!-- <textarea id="address" class="form-control" rows="4" placeholder="Address">Due to the widespread use of tables across we’ve designed our tables to be opt-in. Just add</textarea> -->
+
                     </div>
                     <div class="form-group" >
                         <label for="alternateNumber">Alternate Number</label>
                         <input id="alternatePhone" type="text" class="form-control" value="9795768765" placeholder="Alternate Number">
+                    </div>
+                     <div class="form-group" >
+                        <label for="AppointmentDate">Apointment Date</label>
+                        <input id="datePicker" type="text" class="form-control" placeholder="Set Apointment Date" style="z-index: 0px">
                     </div>
                     <div class="form-group" >
                         <label for="emailAddress">Email Address</label>
                         <input id="email" type="text" class="form-control" value="add@gmail.com" placeholder="Email Address">
                     </div>
                     <div class="form-group" >
+                        <label for="pin Code">Pin code</label>
+                        <input id="text" type="text" class="form-control" value="45678" placeholder="pincode">
+                    </div>
+                    <div class="form-group" >
+                        <label for="severity">Select Severity</label>
+                        <br>
+                        <!-- <input id="text" type="text" class="form-control" value="45678" placeholder="Severity"> -->
+                        <span id="1" style="font-size: 16px;" class="fa fa-star checked"></span>
+                        <span id="2" style="font-size: 16px;" class="fa fa-star checked"></span>
+                        <span id="3" style="font-size: 16px;" class="fa fa-star checked"></span>
+                        <span id="4" style="font-size: 16px;" class="fa fa-star checked"></span>
+                        <span id="5" style="font-size: 16px;" class="fa fa-star"></span>
+                    </div>
+                   
+
+                    <div class="form-group" >
                         <label for="modal name">Modal name</label>
                         <input id="product" type="text" class="form-control" value="Input modal name" placeholder="modal name">
                     </div>
-                    <div class="form-group" >
-                        <label for="AppointmentDate">Apointment Date</label>
-                        <input id="datePicker" type="date" class="form-control" placeholder="Set Apointment Date">
-                    </div>
+                    
                     <div class="form-group" >
                         <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true">
                             <input id="clockPicker" type="text" class="form-control">
@@ -55,8 +124,6 @@
                             </span>
                         </div>
                     </div>
-
-
                     <div class="form-group">
 
                         <label class=" checkbox-inline">
@@ -166,6 +233,7 @@
 <script type="text/javascript">
 
     var leadID = localStorage.getItem("leadID");
+    alert(leadID)
     var phoneNumber = '';
 	var table = $('#dataTable').DataTable({
         "columnDefs": [{
@@ -175,7 +243,7 @@
     });
 
     $(document).ready(function() {
-        $.post( baseUrl + "getSingleLead/",
+        jQuery.post( baseUrl + "getSingleLead/",
             {
                 leadID: leadID
             },
@@ -203,9 +271,26 @@
                     $("#email").val(email)
                     $("#product").val(product)
                     $("#callAction option[name=" + callAction +"]").prop('selected', true);
+                    // if (feedback != null) {
+                    //     table.row.add($(
+                    //         '<tr> '+
+                    //         '<td>'+feedback+'</td>' +
+                    //         '</tr>'
+                    //     )).draw(false);
+                    // }
+                    // var feedBacks = feedbacks.split("*");
+                    // for (var i = 0; i < feedBacks.length; i++) {
+                    //     eachRow = `
+                    //     <div class="row">
+                    //         ${feedBacks[i]}
+                    //     <div>
+                    //     `
+                    //     $("#feedBack").append(eachRow)
+                    // }
+                    // alert(feedBacks.length)
+
 
                     //store phone number to the global variable to make available in another funciton
-                    console.log(phone)
                     phoneNumber = phone
 
 
@@ -214,16 +299,9 @@
                         for (var i = 0; i < feedbacks.length; i++) {
                             var eachFeedback = feedbacks[i];
 
-                            // console.log(eachFeedback)
-                            
-                            // var feedback = eachFeedback['feedback'];
-                            
-                            // var emp_id = eachFeedback['empID']; 
-
-                            // console.log(feedback)
-                            // console.log(emp_id)
-
-                            // var createdAt = eachFeedback['createdAt'];
+                            var feedback = eachFeedback['feedback'];
+                            var emp_id = eachFeedback['empID']; 
+                            var createdAt = eachFeedback['createdAt'];
 
                             // console.log(createdAt)
 
@@ -231,17 +309,17 @@
                                 $(
                                     // '<tbody>' +
                                     '<tr>' +
-                                        '<td>' + i + '</td>' +
-                                        '<td>' + eachFeedback['feedback'] + '</td>' +
-                                        '<td>' + eachFeedback['emp_id'] + '</td>' +
-                                        '<td>' + eachFeedback['createdAt'] + '</td>' +
+                                        `<td>${i + 1}</td>` +
+                                        '<td>' + feedback + '</td>' +
+                                        '<td>' + emp_id + '</td>' +
+                                        '<td>' + createdAt + '</td>' +
                                     '</tr>'  
                                     // '</tbody>'
                                 )
                             ).draw(false);
                         }
                     }
-
+                    alert(appointmentDate)
                     var _d = Date.parse(appointmentDate);
                     var d = new Date(_d);
                     stringedDate = d.getFullYear() + '-' + ("0" + (d.getMonth() + 1)).slice(-2) + '-' + ("0" + (d.getDay() + 1)).slice(-2)
@@ -272,7 +350,7 @@
         var _date = $("#datePicker").val();
         var _time = $("#clockPicker").val();
         var appointmentDate = _date + " " + _time + "." + "000000"
-
+        var pincode = "1234";
         var isCommitted = false;
         if ($("#isCommitted").prop("checked") == true) {
             isCommitted = true
@@ -292,6 +370,7 @@
             comments: comment,
             callAction: callAction,
             isInterested: isCommitted,
+            pincode:pincode,
             appointmentDate: appointmentDate
         },
         function(data, status) {
@@ -299,13 +378,14 @@
             if (dataObj.result == "fail") {
                 alert(dataObj.description)
             } else {
-                location.reload()
                 alert(dataObj.description)
+                window.location.href = baseUrl + "tc_homePage/"
             }
         })
 
 
     })
+
 
 
     $("#callButton").click(function() {
@@ -327,18 +407,6 @@
             }
         })
     })
-
-
-
-
-
-
-
-
-
-
-
-
 
 // ClockStuff
 
@@ -398,11 +466,85 @@ if (/mobile/i.test(navigator.userAgent)) {
     $('input').prop('readOnly', true);
 }
 </script>
-<script src="https://weareoutman.github.io/clockpicker/assets/js/jquery.min.js"></script>
-<script src="https://weareoutman.github.io/clockpicker/assets/js/bootstrap.min.js"></script>
+ 
 <script src="https://weareoutman.github.io/clockpicker/dist/bootstrap-clockpicker.min.js"></script>
 <script src="https://weareoutman.github.io/clockpicker/assets/js/highlight.min.js"></script>
+
 <script type="text/javascript">
-    $('.clockpicker').clockpicker();
-</script>
+jQuery('.clockpicker').clockpicker();
+
+  </script>
+
+  <script>
+   
+      function initAutocomplete() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -33.8688, lng: 151.2195},
+          zoom: 13,
+          mapTypeId: 'roadmap'
+        });
+
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('address');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
+
+        var markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+          var places = searchBox.getPlaces();
+
+          if (places.length == 0) {
+            return;
+          }
+
+          // Clear out the old markers.
+          markers.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          markers = [];
+
+          // For each place, get the icon, name and location.
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach(function(place) {
+            if (!place.geometry) {
+              console.log("Returned place contains no geometry");
+              return;
+            }
+            var icon = {
+              url: place.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(25, 25)
+            };
+
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+              map: map,
+              icon: icon,
+              title: place.name,
+              position: place.geometry.location
+            }));
+
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+          });
+          map.fitBounds(bounds);
+        });
+      }
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKrObWSq1_SI_Abkr71Rdo3pKx29KJGJM&libraries=places&callback=initAutocomplete"
+         async defer></script>
 {% endblock custom_js %}

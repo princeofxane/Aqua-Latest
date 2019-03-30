@@ -5,6 +5,13 @@ body
 	font-family: Poppins;
 }
 
+.pt60
+{
+	padding-top: 0% !important;
+	padding-bottom: 0% !important; 
+	margin-top: 15%;
+	margin-left: 12%;
+}
 table.dataTable{
 	border-collapse:collapse !important;
 	color: #154e79;

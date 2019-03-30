@@ -1,57 +1,41 @@
 {% extends "base.html" %}
-
+{% load staticfiles %}
 {% block body_content %}
-
-	
-
-<!-- </head> -->
-
-<body>
-	<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 13%;
-	margin-left: 12%;">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<form class="form-inline">
-  <div class="form-group">
-    
-    <input type="text" class="form-control" id="exampleInputName2" placeholder="Enter ID">
-     <label for="exampleInputEmail2">From</label>
-    
-                 <input type="date" class="form-control">
-                  
-               <label for="exampleInputEmail2">To</label>
-                 <input type="date" class="form-control">
-
-                  <input type="time" class="form-control">
-  </div>
-    <button type="submit" class="btn btn-INFO">SEARCH</button>
-</form>
+<style type="text/css">#dataTable_filter{display: none;}</style>
+<div id="page-wrapper" class="pt60" >
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<form class="form-inline">
+				<div class="form-group">
+					<input type="text" class="form-control" id="exampleInputName2" placeholder="Enter ID">
+					<label for="exampleInputEmail2">From Date:</label>
+					<input class="date_range_filter date" type="text" id="datepicker_from" />
+					<label for="exampleInputEmail2">To Date:</label>
+                   <input class="date_range_filter date" type="text" id="datepicker_to" /><button type="submit" class="btn btn-INFO">SEARCH</button>
+                </div>
+               
+            </form>
+        </div>
+    </div>
 </div>
+<br><br><br>
+<table id="dataTable" class = "table table-hover dataTable">
+	<thead>
+		<tr>
+			<th>No</th>
+			<th>Req ID</th>
+			<th>Name</th>
+			<th>Phone Number</th>
+			<th>Address</th>
+			<th>Appointment</th>
+			<th>Feedback</th>
+			<th>Status</th>
+		</tr>
+	</thead>
+	<tbody></tbody>
+</table>
 </div>
-</div>
-
-							<table id="dataTable" class = "table table-hover dataTable">
-								<thead>
-									<tr>
-										<th>No</th>
-										<!-- <th>Request No</th>  -->
-										<th>Req ID</th>
-										<th>Name</th>
-										<th>Phone Number</th>
-										<th>Address</th>
-										<!-- <th>createdAt</th> -->
-										<th>Appointment</th>
-										<th>Remarks</th>
-										<th>Status</th>
-										<!-- <th>Appointment</th> -->
-										<!-- <th> Edit</th> -->
-										<th></th>
-									</tr>
-								</thead>
-								<tbody></tbody>
-							</table>
-				</div>
 	
 	<!-- This is to show pause -->
 	<div id="modalForPause" class="modal fade" role="dialog" style="border: 3px solid #7CB9E8">
@@ -189,17 +173,11 @@ function fetchTableData(emp_id) {
 						'<td>'+i+'</td>' +
 						'<td>'+value.leadID+'</td>' +
 						'<td>'+value.fname+ ' ' +value.lname+'</td>' +
-						// '<td>'+value.email+'</td>' +
 						'<td>'+value.phone+'</td>' +
 						'<td>'+value.address+'</td>' +
-						// '<td>'+value.createdDate+'</td>' +
 						'<td>'+value.appointmentDate+'</td>' +
-						'<td>'+ +'</td>' +
-						// '<td>'+value.comments+'</td>' +
-						// '<td>'+value.pincode+'</td>' +
-						`<td></td>`+
-						'<td></td>'+
-						'<td></td>'+
+						'<td>'+value.phone+'</td>' +
+						'<td>'+value.phone+'</td>' +
 						'</tr>')).draw(false);
 				})
 			}
@@ -596,6 +574,58 @@ function announceList(){
 				}
 			})
 		})
+
+
+
+
+var oTable = $('#datatable').DataTable();
+// filter for date code begins here
+$("#datepicker_from").datepicker({
+    "onSelect": function(date) {
+      minDateFilter = new Date(date).getTime();
+      oTable.fnDraw();
+    }
+  }).keyup(function() {
+    minDateFilter = new Date(this.value).getTime();
+    oTable.fnDraw();
+  });
+
+  $("#datepicker_to").datepicker({
+    "onSelect": function(date) {
+      maxDateFilter = new Date(date).getTime();
+      oTable.fnDraw();
+    }
+  }).keyup(function() {
+    maxDateFilter = new Date(this.value).getTime();
+    oTable.fnDraw();
+  });
+
+
+// Date range filter
+minDateFilter = "";
+maxDateFilter = "";
+
+$.fn.dataTableExt.afnFiltering.push(
+  function(oSettings, aData, iDataIndex) {
+    if (typeof aData._date == 'undefined') {
+      aData._date = new Date(aData[0]).getTime();
+    }
+
+    if (minDateFilter && !isNaN(minDateFilter)) {
+      if (aData._date < minDateFilter) {
+        return false;
+      }
+    }
+
+    if (maxDateFilter && !isNaN(maxDateFilter)) {
+      if (aData._date > maxDateFilter) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+);
 	</script>
 
 
