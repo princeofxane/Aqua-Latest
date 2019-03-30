@@ -115,6 +115,14 @@ class Metrics(models.Model):
     createdAt = models.DateTimeField(default=timezone.now)
     currDate = models.DateTimeField(null=True)
 
+class Feedbacks(models.Model):
+    id = models.IntegerField(auto_created=True, primary_key=True)
+    feedback = models.TextField(default=None)
+    leadID = models.ForeignKey(Leads, on_delete=models.SET_NULL, null=True)
+    empID = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
+    createdAt = models.DateTimeField(default=timezone.now)
+
+
 class Complaints(models.Model):
     bookingID = models.CharField(max_length=10, default=None, primary_key=True)
     technicianID = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)

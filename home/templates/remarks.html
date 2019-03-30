@@ -9,12 +9,12 @@
     <div class="container" style="margin-top:10%;">
         <div class="row">
             <div class="col-md-12 col-md-offset-3" style="font-size:28px;">
-                <!-- <div class="float-left">Customer Lead Id is <span>1003</span></div> -->
                 <div class="float-right">Phone Number is <span id="phoneNumber"></span></div>
             </div>
         </div> 
         
-        <br<br>
+        <br><br>
+
         <div class="row" style="margin-top:5%">
             <div class=" col-md-6 col-md-offset-3">
                 <form class="">
@@ -29,7 +29,7 @@
                     <div class="form-group" >
                         <label for="address">Address</label>
                         <!-- <input type="text" class="form-control" placeholder="Address"> -->
-                        <textarea id="address" class="form-control" rows="4" placeholder="Address">Due to the widespread use of tables across we’ve designed our tables to be opt-in. Just add</textarea>
+                        <textarea id="address" class="form-control" rows="4" placeholder="Address"></textarea>
                     </div>
                     <div class="form-group" >
                         <label for="alternateNumber">Alternate Number</label>
@@ -55,91 +55,79 @@
                             </span>
                         </div>
                     </div>
-                    <div class="form-group" >
+
+
+                    <div class="form-group">
 
                         <label class=" checkbox-inline">
                             <input id="isCommitted" type="checkbox" value="">Set Commit
                         </label>
-                        <br>
-                        <br>
 
-                        <!-- <label class="offset-md-1 checkbox-inline">
-                            <input type="checkbox" value="">Feedback
-                       </label> -->
-                       
-                        <!-- <label class="offset-md-6 checkbox-inline"> -->
-                            <!-- <input id="isCallback" type="checkbox" value="">Call back -->
-                            <select id="callAction" class="form-control" id="exampleFormControlSelect1"style="width:50%;">
-                                <option name="df" selected="selected">--Select Action--</option>
-                                <option name="wn" style="font-weight: bold;">wrong number</option>
-                                <option name="so" style="font-weight: bold;">switched off</option>
-                                <option name="nr" style="font-weight: bold;">not reachable</option>
-                                <option name="cni" style="font-weight: bold;">customer not interested</option>
-                                <option name="cb" style="font-weight: bold;">callback</option>
-                            </select>
-                        <!-- </label> -->
+                        <br><br>
+
+                        <select id="callAction" class="form-control" id="exampleFormControlSelect1"style="width:50%;">
+                            <option name="df" selected="selected">--Select Action--</option>
+                            <option name="wn" style="font-weight: bold;">wrong number</option>
+                            <option name="so" style="font-weight: bold;">switched off</option>
+                            <option name="nr" style="font-weight: bold;">not reachable</option>
+                            <option name="cni" style="font-weight: bold;">customer not interested</option>
+                            <option name="cb" style="font-weight: bold;">callback</option>
+                        </select>
                 
                     </div>
-                         <div class="form-group" >
-                        <!-- <label for="modal name">Feedback Details</label> -->
-                        
-                        <!-- <select class="form-control">
-                            <option>Call back</option>
-                            <option>Set commit</option>
-                            <option>Feedback</option>
-                        </select> -->
-    </div>
-     <textarea id="comment" class="form-control" rows="4" placeholder="Your Feedback"></textarea>
-     <!-- <button id="testButton">testButton</button> -->
-                    <div class="clearfix"></div>
-                   
-                   
+
+                    <textarea id="comment" class="form-control" rows="4" placeholder="Your Feedback"></textarea>
+                    <!-- <div class="clearfix"></div> -->
                 </form>
             </div>
         </div>
+
+
+
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-md-offset-1">
-         <h2>Previous Feedback</h2>
-                        <table id="dataTable" class = "table table-hover dataTable">
-                                <thead>
-                                    <tr>
-                                        <th style="border-bottom:2pt solid black;">#</th>
-                                        <th style="border-bottom:2pt solid black;">Feedback</th>
-                                        <th style="border-bottom:2pt solid black;">Date Time</th>
-                                        
-                                        
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td>1
-                                    </td>
-                                    <td>due to the wide spred use od table acress we have design a table to be opt-in just add
-                                    </td>
-                                    <td>21-2-2017 11:22:30
-                                    </td></tr>
-                                    <tr><td>2
-                                    </td>
-                                    <td>due to the wide spred use od table acress we have design a table to be opt-in just add
-                                    </td>
-                                    <td>21-2-2017 11:22:30
-                                    </td></tr>
-                                </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container">
-                        <div class="row text-center">
-                            <div class="col-md-6 text-right">
-                                <button id="updateButton" type="submit" class=" btn btn-primary">Update</button>
-                            </div>
-                            <div class="col-md-1 text-left">
-                                <button id="callButton" type="submit" class=" btn btn-primary">Call now</button>
-                            </div>
-                        </div>
-                    </div>
-                   <br><br>
+                    <h2>Previous Feedback</h2>
+                    <table id="dataTable" class = "table table-hover dataTable">
+                        <thead>
+                            <tr>
+                                <th style="border-bottom:2pt solid black;">#</th>
+                                <th style="border-bottom:2pt solid black;">Feedback</th>
+                                <th style="border-bottom:2pt solid black;">EmpID</th>
+                                <th style="border-bottom:2pt solid black;">CreatedOn</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- <tr>
+                                <td>1</td>
+                                <td>due to the wide spred use od table acress we have design a table to be opt-in just add</td>
+                                <td>21-2-2017 11:22:30</td>
+                            </tr>
+                                
+                            <tr>
+                                <td>2 </td>
+                                <td>due to the wide spred use od table acress we have design a table to be opt-in just add </td>
+                                <td>21-2-2017 11:22:30 </td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-6 text-right">
+                    <button id="updateButton" type="submit" class=" btn btn-primary">Update</button>
+                </div>
+                <div class="col-md-1 text-left">
+                    <button id="callButton" type="submit" class=" btn btn-primary">Call now</button>
+                </div>
+            </div>
+        </div>
+        <br><br>
 
         <!-- <div class="row">
             <h3>Previous Feedback</h3>
@@ -179,6 +167,12 @@
 
     var leadID = localStorage.getItem("leadID");
     var phoneNumber = '';
+	var table = $('#dataTable').DataTable({
+        "columnDefs": [{
+            "defaultContent": "-",
+            "targets": "_all"
+        }]
+    });
 
     $(document).ready(function() {
         $.post( baseUrl + "getSingleLead/",
@@ -199,7 +193,7 @@
                     var email = dataObj.description['email'];    
                     var product = dataObj.description['product'];
                     var appointmentDate = dataObj.description['appointmentDate'];
-                    var feedback = dataObj.description['comments'];
+                    var feedbacks = dataObj.description['feedbacks'];
                     var callAction = dataObj.description['callAction']
 
                     $("#phoneNumber").html(phone)
@@ -213,6 +207,40 @@
                     //store phone number to the global variable to make available in another funciton
                     console.log(phone)
                     phoneNumber = phone
+
+
+                    //handle comments here
+                    if (feedbacks.length > 0) {
+                        for (var i = 0; i < feedbacks.length; i++) {
+                            var eachFeedback = feedbacks[i];
+
+                            // console.log(eachFeedback)
+                            
+                            // var feedback = eachFeedback['feedback'];
+                            
+                            // var emp_id = eachFeedback['empID']; 
+
+                            // console.log(feedback)
+                            // console.log(emp_id)
+
+                            // var createdAt = eachFeedback['createdAt'];
+
+                            // console.log(createdAt)
+
+                            table.row.add(
+                                $(
+                                    // '<tbody>' +
+                                    '<tr>' +
+                                        '<td>' + i + '</td>' +
+                                        '<td>' + eachFeedback['feedback'] + '</td>' +
+                                        '<td>' + eachFeedback['emp_id'] + '</td>' +
+                                        '<td>' + eachFeedback['createdAt'] + '</td>' +
+                                    '</tr>'  
+                                    // '</tbody>'
+                                )
+                            ).draw(false);
+                        }
+                    }
 
                     var _d = Date.parse(appointmentDate);
                     var d = new Date(_d);
