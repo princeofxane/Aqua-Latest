@@ -81,7 +81,7 @@
 				<form id="login-form" method="POST">
 					<input type="text" name="username" id="login-username" placeholder="Employee ID"style=""/><br><br>
 					<input type="password" name="password" id="login-password" placeholder="Employee Password"style=""/><br><br>
-                    &nbsp;<button type="button" id="loginButton"><a style="text-decoration:none;color:white;">LOG IN</a></button>
+                    &nbsp;<button type="button" id="loginButton"  name="loginButton"><a style="text-decoration:none;color:white;">LOG IN</a></button>
 				</form>
                 <br>
                 <a onclick=alertUser() id="forgotPassword">forgot password?</a>
@@ -93,6 +93,14 @@
     </footer> -->
 
 <script>
+    $(function(){
+  $("#login-password").keyup(function (e) {
+    if (e.which == 13) {
+
+      $('#loginButton').trigger('click');
+    }
+  });
+});
     $("#loginButton").click(function(){
         var emp_id = $('#login-username').val();
         var emp_password = $('#login-password').val();
