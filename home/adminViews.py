@@ -596,6 +596,22 @@ def getAssignedLeads(request):
                     eachRow['address'] = lead.address
                     eachRow['createdDate'] = str(lead.createdDate)
                     eachRow['pincode'] = lead.pincode
+
+                    #handle feedback
+                    try:
+                        feedbacksObj = Feedbacks.objects.filter(leadID=lead)
+                    except Exception as e:
+                        eachRow['feedback'] = ''
+                    else:
+                        if len(feedbacksObj) != 0:
+                            feedBackArray = []
+                            for feedbackObj in feedbacksObj:
+                                feedBackArray.append(feedbackObj.feedback)
+                            eachRow['feedback'] = feedBackArray
+                        else:
+                            eachRow['feedback'] = ''
+
+                    eachRow['appointmentDate'] = lead.appointmentDate
                     eachRow['isInterested'] = lead.isInterested
                     leads_list.append(eachRow)
                 return success(leads_list)
@@ -802,6 +818,7 @@ def editLead(request):
         isInterested = request.POST.get("isCommit", None)
         pincode = request.POST.get("pincode",None)
         appointmentDate = request.POST.get("appointmentDate", None)
+        print(appointmentDate)
 
         try:
             empObj = Employee.objects.get(empID = emp_id)

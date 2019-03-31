@@ -486,14 +486,14 @@ $(document).ready(function() {
 <script>
 		$("#commitButton").click(function() {
 			autosaveTimer();
-			window.location.href = "http://34.73.62.26/homePageCommittedLeads/"
+			window.location.href = "http://localhost:8000/homePageCommittedLeads/"
 		});
 	</script>
 
 
 <script>
 	var emp_id = '';
-	var baseUrl = 'http://34.73.62.26/';
+	var baseUrl = 'http://localhost:8000/';
 
 	$(document).ready(function() {
 	var table=$('#dataTable').DataTable();
@@ -566,7 +566,7 @@ $.ajax({
 	});
 
 	$("#logoutButton").click(function() {
-			window.location.href = "http://34.73.62.26/logoutPage/"
+			window.location.href = "http://localhost:8000/logoutPage/"
 	});
 
 </script>

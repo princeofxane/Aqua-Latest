@@ -114,13 +114,22 @@ label.star:before {
                 <div class="form-group" >
                     <label for="Fname">Full Name</label>
                     <input id="leadName" type="text" class="form-control" placeholder="First Name">
+
                     </div>
                     <div class="form-group" >
                         <label for="address">Address</label>
 
 
                         <input id="address" class="form-control" type="text" placeholder="Address">
-                        <div id="map" style="position: absolute;left: 108%;top: 5%;"></div>
+                        <!-- <textarea id="address" class="form-control" rows="4" placeholder="Address">Due to the widespread use of tables across we’ve designed our tables to be opt-in. Just add</textarea> -->
+                        <br>
+                        <br>
+                        <br>
+                        <div id="map"></div>
+
+                        <!-- <input type="text" class="form-control" placeholder="Address"> -->
+
+                        <!-- <textarea id="address" class="form-control" rows="4" placeholder="Address">Due to the widespread use of tables across we’ve designed our tables to be opt-in. Just add</textarea> -->
 
                     </div>
                     <div class="form-group" >
@@ -148,6 +157,7 @@ label.star:before {
                         <input id="text" type="text" class="form-control" value="45678" placeholder="pincode">
                     </div>
                    
+
                     <div class="form-group" >
                         <label for="modal name">Modal name</label>
                         <input id="product" type="text" class="form-control" value="Input modal name" placeholder="modal name">
@@ -170,25 +180,23 @@ label.star:before {
                             </form>
                             </div>
                     </div>
-
-
                     <div class="form-group">
 
                         <label class=" checkbox-inline">
                             <input id="isCommitted" type="checkbox" value="">Set Commit
                         </label>
 
-                        <br>
-                        <br>       
-                            <select id="callAction" class="form-control" style="width:50%;" onchange="getval(this);">
-                                <option name="df" selected="selected">--Select Action--</option>
-                                <option name="wn" style="font-weight: bold;">wrong number</option>
-                                <option name="so" style="font-weight: bold;">switched off</option>
-                                <option name="nr" style="font-weight: bold;">not reachable</option>
-                                <option name="cni" style="font-weight: bold;">customer not interested</option>
-                                <option name="cb" style="font-weight: bold;">callback</option>
-                            </select>
-                        <!-- </label> -->
+                        <br><br>
+
+                        <select id="callAction" class="form-control" id="exampleFormControlSelect1"style="width:50%;">
+                            <option name="df" selected="selected">--Select Action--</option>
+                            <option name="wn" style="font-weight: bold;">wrong number</option>
+                            <option name="so" style="font-weight: bold;">switched off</option>
+                            <option name="nr" style="font-weight: bold;">not reachable</option>
+                            <option name="cni" style="font-weight: bold;">customer not interested</option>
+                            <option name="cb" style="font-weight: bold;">callback</option>
+                        </select>
+                
                     </div>
 
                     <textarea id="comment" class="form-control" rows="4" placeholder="Your Feedback"></textarea>
@@ -202,14 +210,13 @@ label.star:before {
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-md-offset-1">
-
                     <h2>Previous Feedback</h2>
                     <table id="dataTable" class = "table table-hover dataTable">
                         <thead>
                             <tr>
                                 <th style="border-bottom:2pt solid black;">#</th>
-                                <th style="border-bottom:2pt solid black;">EmpID</th>
                                 <th style="border-bottom:2pt solid black;">Feedback</th>
+                                <th style="border-bottom:2pt solid black;">EmpID</th>
                                 <th style="border-bottom:2pt solid black;">CreatedOn</th>
 
                             </tr>
@@ -319,6 +326,24 @@ label.star:before {
                     $("#email").val(email)
                     $("#product").val(product)
                     $("#callAction option[name=" + callAction +"]").prop('selected', true);
+                    // if (feedback != null) {
+                    //     table.row.add($(
+                    //         '<tr> '+
+                    //         '<td>'+feedback+'</td>' +
+                    //         '</tr>'
+                    //     )).draw(false);
+                    // }
+                    // var feedBacks = feedbacks.split("*");
+                    // for (var i = 0; i < feedBacks.length; i++) {
+                    //     eachRow = `
+                    //     <div class="row">
+                    //         ${feedBacks[i]}
+                    //     <div>
+                    //     `
+                    //     $("#feedBack").append(eachRow)
+                    // }
+                    // alert(feedBacks.length)
+
 
                     //store phone number to the global variable to make available in another funciton
                     console.log(phone)
@@ -330,16 +355,9 @@ label.star:before {
                         for (var i = 0; i < feedbacks.length; i++) {
                             var eachFeedback = feedbacks[i];
 
-                            // console.log(eachFeedback)
-                            
-                            // var feedback = eachFeedback['feedback'];
-                            
-                            // var emp_id = eachFeedback['empID']; 
-
-                            // console.log(feedback)
-                            // console.log(emp_id)
-
-                            // var createdAt = eachFeedback['createdAt'];
+                            var feedback = eachFeedback['feedback'];
+                            var emp_id = eachFeedback['empID']; 
+                            var createdAt = eachFeedback['createdAt'];
 
                             // console.log(createdAt)
 
@@ -347,10 +365,10 @@ label.star:before {
                                 $(
                                     // '<tbody>' +
                                     '<tr>' +
-                                        '<td>' + i + '</td>' +
-                                        '<td>' + eachFeedback['feedback'] + '</td>' +
-                                        '<td>' + eachFeedback['emp_id'] + '</td>' +
-                                        '<td>' + eachFeedback['createdAt'] + '</td>' +
+                                        `<td>${i + 1}</td>` +
+                                        '<td>' + feedback + '</td>' +
+                                        '<td>' + emp_id + '</td>' +
+                                        '<td>' + createdAt + '</td>' +
                                     '</tr>'  
                                     // '</tbody>'
                                 )
@@ -422,8 +440,8 @@ label.star:before {
             if (dataObj.result == "fail") {
                 alert(dataObj.description)
             } else {
-                location.reload()
                 alert(dataObj.description)
+                window.location.href = baseUrl + "tc_homePage/"
             }
         })
 

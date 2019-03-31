@@ -85,7 +85,6 @@ urlpatterns = [
     path("leadDataFileParser/", leadDataFileParser),
     #----------------------------------------------#
     path("", loginPage),
-
     path("obAdmin_tc_homePage/", obAdmin_tc_homePage),
     path("obAdmin_commitHistoryPage/", obAdmin_commitHistoryPage),
     path("obAdmin_callHistoryPage/", obAdmin_callHistoryPage),
