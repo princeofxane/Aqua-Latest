@@ -4,13 +4,52 @@
      $( function() {
     $( "#datePicker" ).datepicker();
   } );
+function getval(sel)
+{
+    var conceptName = sel.value;
+    $("textarea#comment").text(conceptName);
+}
 </script>
 <style type="text/css">
+    div.stars {
+  width: 270px;
+  display: inline-block;
+}
+
+input.star { display: none; }
+
+label.star {
+  float: right;
+  padding: 10px;
+  font-size: 36px;
+  color: #444;
+  transition: all .2s;
+}
+
+input.star:checked ~ label.star:before {
+  content: '\2605';
+  color: #FD4;
+  transition: all .25s;
+}
+
+input.star-5:checked ~ label.star:before {
+  color: #FE7;
+  text-shadow: 0 0 20px #952;
+}
+
+input.star-1:checked ~ label.star:before { color: #F62; }
+
+label.star:hover { transform: rotate(-15deg) scale(1.3); }
+
+label.star:before {
+  content: '\2605';
+}
     #datePicker{
  z-index:9999 !important;
 }
 #map {
-        height: 425px;
+        height: 150px;
+        width: 300px;
       }
       #description {
         font-family: Roboto;
@@ -71,23 +110,24 @@
                         <label for="address">Address</label>
 
                         <input id="address" class="form-control" type="text" placeholder="Address">
-                        <!-- <textarea id="address" class="form-control" rows="4" placeholder="Address">Due to the widespread use of tables across we’ve designed our tables to be opt-in. Just add</textarea> -->
-                        <br>
-                        <br>
-                        <br>
-                        <div id="map"></div>
-
-                        <!-- <input type="text" class="form-control" placeholder="Address"> -->
-                        <!-- <textarea id="address" class="form-control" rows="4" placeholder="Address">Due to the widespread use of tables across we’ve designed our tables to be opt-in. Just add</textarea> -->
+                        <div id="map" style="position: absolute;left: 108%;top: 5%;"></div>
                     </div>
                     <div class="form-group" >
                         <label for="alternateNumber">Alternate Number</label>
                         <input id="alternatePhone" type="text" class="form-control" value="9795768765" placeholder="Alternate Number">
                     </div>
                      <div class="form-group" >
-                        <label for="AppointmentDate">Apointment Date</label>
-                        <input id="datePicker" type="text" class="form-control" placeholder="Set Apointment Date" style="z-index: 0px">
+                        <label for="AppointmentDate">Apointment Date and time</label>
+                        <br><br>
+                        <input id="datePicker" type="text" class="form-control" placeholder="Set Apointment Date" style="width: 50%;float: left;">
+                        <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" style="width: 50%; float: left;">
+                            <input id="clockPicker" type="text" class="form-control">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                        </div>
                     </div>
+                    <br><br>
                     <div class="form-group" >
                         <label for="emailAddress">Email Address</label>
                         <input id="email" type="text" class="form-control" value="add@gmail.com" placeholder="Email Address">
@@ -97,19 +137,27 @@
                         <input id="text" type="text" class="form-control" value="45678" placeholder="pincode">
                     </div>
                    
-
                     <div class="form-group" >
                         <label for="modal name">Modal name</label>
                         <input id="product" type="text" class="form-control" value="Input modal name" placeholder="modal name">
                     </div>
-                    
-                    <div class="form-group" >
-                        <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true">
-                            <input id="clockPicker" type="text" class="form-control">
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-time"></span>
-                            </span>
-                        </div>
+                    <div class="form-group">
+                         <label for="modal name" style="margin-top: 4%;">Lead Priority:</label>
+                        <div class="stars">
+
+                            <form action="">
+                            <input class="star star-5" id="star-5" type="radio" name="star"/>
+                            <label class="star star-5" for="star-5"></label>
+                            <input class="star star-4" id="star-4" type="radio" name="star"/>
+                            <label class="star star-4" for="star-4"></label>
+                            <input class="star star-3" id="star-3" type="radio" name="star"/>
+                            <label class="star star-3" for="star-3"></label>
+                            <input class="star star-2" id="star-2" type="radio" name="star"/>
+                            <label class="star star-2" for="star-2"></label>
+                            <input class="star star-1" id="star-1" type="radio" name="star"/>
+                            <label class="star star-1" for="star-1"></label>
+                            </form>
+                            </div>
                     </div>
                     <div class="form-group">
 
@@ -117,15 +165,8 @@
                             <input id="isCommitted" type="checkbox" value="">Set Commit
                         </label>
                         <br>
-                        <br>
-
-                        <!-- <label class="offset-md-1 checkbox-inline">
-                            <input type="checkbox" value="">Feedback
-                       </label> -->
-                       
-                        <!-- <label class="offset-md-6 checkbox-inline"> -->
-                            <!-- <input id="isCallback" type="checkbox" value="">Call back -->
-                            <select id="callAction" class="form-control" id="exampleFormControlSelect1"style="width:50%;">
+                        <br>       
+                            <select id="callAction" class="form-control" style="width:50%;" onchange="getval(this);">
                                 <option name="df" selected="selected">--Select Action--</option>
                                 <option name="wn" style="font-weight: bold;">wrong number</option>
                                 <option name="so" style="font-weight: bold;">switched off</option>
@@ -156,36 +197,7 @@
             <div class="row">
                 <div class="col-md-12 col-md-offset-1">
          <h4 style="margin-left: 18%;">Previous Feedback</h4>
-                        <!-- <table id="dataTable" class = "table table-hover dataTable">
-                                <thead>
-                                    <tr>
-                                        <th style="border-bottom:2pt solid black;">#</th>
-                                        <th style="border-bottom:2pt solid black;">empid:</th>
-                                        <th style="border-bottom:2pt solid black;">Feedback</th>
-                                        <th style="border-bottom:2pt solid black;"></th> -->
-                                        <!-- <th style="border-bottom:2pt solid black;">Date Time</th> -->
-                                    <!-- </tr>
-                                </thead>
-                                <tbody> -->
-                                    <!-- <tr><td>1
-                                    </td>
-                                    <td>1002
-                                    </td>
-                                    <td>due to the wide spred use od table acress we have design a table to be opt-in just add
-                                    </td>
-                                    <td>21-2-2017 11:22:30
-                                    </td></tr>
-                                    <tr><td>2
-                                    </td>
-
-                                    <td>1002
-                                    </td>
-                                    <td>due to the wide spred use od table acress we have design a table to be opt-in just add
-                                    </td>
-                                    <td>21-2-2017 11:22:30
-                                    </td></tr> -->
-                                <!-- </tbody>
-                                </table> -->
+                       
                             </div>
                         </div>
                     </div>
@@ -274,10 +286,12 @@
             }
         )
     })
+   
 
     $("#updateButton").click(function() {
         //This is dummy id for testing
         var leadID = localStorage.getItem("leadID");
+        alert(leadID);
         var emp_id = localStorage.getItem("empID");
 
         var fullName = $("#leadName").val();
@@ -431,7 +445,7 @@ jQuery('.clockpicker').clockpicker();
         // Create the search box and link it to the UI element.
         var input = document.getElementById('address');
         var searchBox = new google.maps.places.SearchBox(input);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+       // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
         // Bias the SearchBox results towards current map's viewport.
         map.addListener('bounds_changed', function() {
