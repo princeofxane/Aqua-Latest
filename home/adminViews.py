@@ -1,7 +1,7 @@
 from django.views.decorators.csrf import csrf_exempt
 # from django.core import serializers
 from .views import success, fail
-from .models import Customers, Employee, Leads, EmpStatus, Notifications, CallData
+from .models import Customers, Employee, Leads, EmpStatus, Notifications, CallData, Feedbacks
 from django.shortcuts import HttpResponse, render
 from .tests import cleanDatabase, fill_database_with_dummy_values
 from django.utils import timezone
@@ -802,47 +802,53 @@ def editLead(request):
         isInterested = request.POST.get("isCommit", None)
         pincode = request.POST.get("pincode",None)
         appointmentDate = request.POST.get("appointmentDate", None)
+
+        try:
+            empObj = Employee.objects.get(empID = emp_id)
+        except Exception as e:
+            print("Employee doesn't exist")
         
         try:
-            lead = Leads.objects.get(leadID = leadID)
+            leadObj = Leads.objects.get(leadID=leadID)
         except Exception as e:
             print(e)
             return fail("Lead is not present in the db")
 
         if fname is not '':
-            lead.fname = fname
+            leadObj.fname = fname
         if lname is not '':
-            lead.lname = lname
+            leadObj.lname = lname
         if address is not '':
-            lead.address = address
+            leadObj.address = address
         if email is not '':
-            lead.email = email
+            leadObj.email = email
         if product is not '':
-            lead.product = product
+            leadObj.product = product
         if alternatePhone is not '':
-            lead.alternatePhone = alternatePhone
+            leadObj.alternatePhone = alternatePhone
         if purchaseDate is not '':
-            lead.purchaseDate = purchaseDate
+            leadObj.purchaseDate = purchaseDate
         if product is not '':
-            lead.product = product
+            leadObj.product = product
         if pincode is not '':
-            lead.pincode = pincode
+            leadObj.pincode = pincode
         if appointmentDate is not '':
-            lead.appointmentDate = appointmentDate
+            leadObj.appointmentDate = appointmentDate
         if comment is not '':
-            oldComment = str(lead.comments)
-            newComment = oldComment + "\n\n\n" + "----------------------------" + "\n" + comment + "\n" + "----------------------------" + "\n" + str(timeNow) + ' ' + emp_id + '*'
-            lead.comments = newComment
-        lead.callAction = callAction
+            feedbackObj = Feedbacks(empID=empObj, leadID=leadObj, feedback=comment)
+            feedbackObj.save()
+
+            # oldComment = str(lead.comments)
+            # newComment = oldComment + "\n\n\n" + "----------------------------" + "\n" + comment + "\n" + "----------------------------" + "\n" + str(timeNow) + ' ' + emp_id
+            # newComment = oldComment + "*" + comment + "\n" + "----------------------------" + "\n" + str(timeNow) + ' ' + emp_id
+            # lead.comments = newComment
+        leadObj.callAction = callAction
 
         if isInterested == 'true':
-            lead.isInterested = True
+            leadObj.isInterested = True
         if isInterested == 'false':
-            lead.isInterested = False
-            # oldComment = lead.comments
-            # newComment = oldComment + "\n\n\n" + "----------------------------" + "\n" + \
-            #     comments + "\n" + "----------------------------" + "\n" + timeNow + ' ' + emp_id
-        lead.save()
+            leadObj.isInterested = False
+        leadObj.save()
         return success("Lead info updated")
     return fail("Error in request")
 
@@ -870,10 +876,23 @@ def getSingleLead(request):
         lead['appointmentDate'] = leadObj.appointmentDate
         lead['purchaseDate'] = leadObj.purchaseDate
         lead['pincode'] = leadObj.pincode
-        lead['comments'] = leadObj.comments
 
+        feedbackObj = Feedbacks.objects.filter(leadID=leadObj)
+        if len(feedbackObj) != 0:
+            dataArray = []
+            
+            for eachFeedback in feedbackObj:
+                data = {}
+                data["leadID"] = str(eachFeedback.leadID)
+                # here empID is the employee object and it has 
+                # a field called empID
+                data["empID"] = str(eachFeedback.empID.empID)
+                data["feedback"] = eachFeedback.feedback
+                data["createdAt"] = str(eachFeedback.createdAt)
+                dataArray.append(data)
+            lead['feedbacks'] = dataArray
         return success(lead)
-    return HttpResponse("Error In Request")
+    return fail("Error In Request")
 
 
 @csrf_exempt

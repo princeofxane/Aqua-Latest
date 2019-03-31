@@ -129,33 +129,41 @@ $("#commitsButton").click(function() {
 var emp_id;
 var lead_id;
 
-function fetchTableData(emp_id)
-{ 
-	var table = $('#dataTable').DataTable({"sDom": "Rfrtlip"});
-	$.ajax({
-		type: "post",
-		url: baseUrl+"getAssignedLeads/",
-		data:{
-			emp_id: emp_id
-		},
-		success: function (data) 
-		{
-			data=JSON.parse(data);
-			data=data.description;
-			var i = 0;
-			$.each(data, function(key,value)
-			{
-				i++;
-				table.row.add($(
-					'<tr style="border-bottom:2pt solid black;">' +
-					'<td>'+i+'</td>' +
-					'<td>'+value.leadID+'</td>' +
-					'<td>'+value.source+'</td>' +
-					'<td>'+value.fname+ ' ' +value.lname+'</td>' +
-					'<td>'+value.phone+'</td>' +
-					'<td>'+value.address+'</td>' +
-					'<td>'+ +'</td>' +'<td>'+ +'</td>' +
-					'<td><a id="${value.leadID}" onClick=setLocalStorage(this.id) type="button" href="../remarks" class="btn btn-primary">EDIT</a></td>'+
+function fetchTableData(emp_id) { 
+			var table = $('#dataTable').DataTable({
+				"sDom": "Rfrtlip"
+			});
+			$.ajax({
+			type: "post",
+			// url: baseUrl+"getContactedLeads/",
+			url: baseUrl+"getAssignedLeads/",
+			data: {
+				emp_id: emp_id
+			},
+			success: function (data) {
+					data=JSON.parse(data);
+					// console.log(data);
+					data=data.description;
+					var i = 0;
+					console.log(data)
+				$.each(data, function(key,value) {
+					i++;
+					table.row.add($(
+						'<tr style="border-bottom:2pt solid black;">' +
+						'<td>'+i+'</td>' +
+						'<td>'+value.leadID+'</td>' +
+						'<td>'+value.source+'</td>' +
+						'<td>'+value.fname+ ' ' +value.lname+'</td>' +
+						// '<td>'+value.email+'</td>' +
+						'<td>'+value.phone+'</td>' +
+						'<td>'+value.address+'</td>' +
+						// '<td>'+value.createdDate+'</td>' +
+						'<td>'+ +'</td>' +
+						
+						
+						// '<td><input type="button" class="btn btn-primary" value="Edit"></td>'+
+						// '<td><input type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary" value="EDIT"></td>'+
+						`<td><a id="${value.leadID}" onClick=setLocalStorage(this.id) type="button" href="../remarks" class="btn btn-primary">EDIT</a></td>`+
 						'</tr>')).draw(false);
 			})
 		}

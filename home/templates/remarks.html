@@ -109,8 +109,10 @@ label.star:before {
                     <div class="form-group" >
                         <label for="address">Address</label>
 
+
                         <input id="address" class="form-control" type="text" placeholder="Address">
                         <div id="map" style="position: absolute;left: 108%;top: 5%;"></div>
+
                     </div>
                     <div class="form-group" >
                         <label for="alternateNumber">Alternate Number</label>
@@ -159,11 +161,14 @@ label.star:before {
                             </form>
                             </div>
                     </div>
+
+
                     <div class="form-group">
 
                         <label class=" checkbox-inline">
                             <input id="isCommitted" type="checkbox" value="">Set Commit
                         </label>
+
                         <br>
                         <br>       
                             <select id="callAction" class="form-control" style="width:50%;" onchange="getval(this);">
@@ -176,44 +181,90 @@ label.star:before {
                             </select>
                         <!-- </label> -->
                     </div>
-                         <div class="form-group" >
-                        <!-- <label for="modal name">Feedback Details</label> -->
-                        
-                        <!-- <select class="form-control">
-                            <option>Call back</option>
-                            <option>Set commit</option>
-                            <option>Feedback</option>
-                        </select> -->
-    </div>
-     <textarea id="comment" class="form-control" rows="4" placeholder="Your Feedback"></textarea>
-     <!-- <button id="testButton">testButton</button> -->
-                    <div class="clearfix"></div>
-                   
-                   
+
+                    <textarea id="comment" class="form-control" rows="4" placeholder="Your Feedback"></textarea>
+                    <!-- <div class="clearfix"></div> -->
                 </form>
             </div>
         </div>
+
+
+
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-md-offset-1">
-         <h4 style="margin-left: 18%;">Previous Feedback</h4>
-                       
-                            </div>
-                        </div>
-                    </div>
-                    <div id="feedBack" style="margin-left: 30%; font-size: 18px;">
-                    </div>
-                    <div class="container">
-                        <div class="row text-center">
-                            <div class="col-md-6 text-right">
-                                <button id="updateButton" type="submit" class=" btn btn-primary">Update</button>
-                            </div>
-                            <div class="col-md-1 text-left">
-                                <button id="callButton" type="submit" class=" btn btn-primary">Call now</button>
-                            </div>
-                        </div>
-                    </div>
-                   <br><br>
+
+                    <h2>Previous Feedback</h2>
+                    <table id="dataTable" class = "table table-hover dataTable">
+                        <thead>
+                            <tr>
+                                <th style="border-bottom:2pt solid black;">#</th>
+                                <th style="border-bottom:2pt solid black;">Feedback</th>
+                                <th style="border-bottom:2pt solid black;">EmpID</th>
+                                <th style="border-bottom:2pt solid black;">CreatedOn</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- <tr>
+                                <td>1</td>
+                                <td>due to the wide spred use od table acress we have design a table to be opt-in just add</td>
+                                <td>21-2-2017 11:22:30</td>
+                            </tr>
+                                
+                            <tr>
+                                <td>2 </td>
+                                <td>due to the wide spred use od table acress we have design a table to be opt-in just add </td>
+                                <td>21-2-2017 11:22:30 </td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-6 text-right">
+                    <button id="updateButton" type="submit" class=" btn btn-primary">Update</button>
+                </div>
+                <div class="col-md-1 text-left">
+                    <button id="callButton" type="submit" class=" btn btn-primary">Call now</button>
+                </div>
+            </div>
+        </div>
+        <br><br>
+
+        <!-- <div class="row">
+            <h3>Previous Feedback</h3>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Feedback</th>
+                    <th scope="col">Date Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Due to the widespread use of tables across we’ve designed our tables to be opt-in. Just add </td>
+                        <td>21/02/2017 11:20:34</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Using the most basic table markup, here’s how .table-based tables look in Bootstrap. the parent.</td>
+                        <td>21/02/2017 11:20:34</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Create responsive tables by wrapping any .table with-width breakpoint of up to (but, respectively.</td>
+                        <td>21/02/2017 11:20:34</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> -->
     </div>
 {% endblock body_content %}
 
@@ -223,7 +274,12 @@ label.star:before {
 
     var leadID = localStorage.getItem("leadID");
     var phoneNumber = '';
-    var table = $("#dataTable").DataTable()
+	var table = $('#dataTable').DataTable({
+        "columnDefs": [{
+            "defaultContent": "-",
+            "targets": "_all"
+        }]
+    });
 
     $(document).ready(function() {
         jQuery.post( baseUrl + "getSingleLead/",
@@ -244,7 +300,7 @@ label.star:before {
                     var email = dataObj.description['email'];    
                     var product = dataObj.description['product'];
                     var appointmentDate = dataObj.description['appointmentDate'];
-                    var feedback = dataObj.description['comments'];
+                    var feedbacks = dataObj.description['feedbacks'];
                     var callAction = dataObj.description['callAction']
 
                     $("#phoneNumber").html(phone)
@@ -254,27 +310,44 @@ label.star:before {
                     $("#email").val(email)
                     $("#product").val(product)
                     $("#callAction option[name=" + callAction +"]").prop('selected', true);
-                    // if (feedback != null) {
-                    //     table.row.add($(
-                    //         '<tr> '+
-                    //         '<td>'+feedback+'</td>' +
-                    //         '</tr>'
-                    //     )).draw(false);
-                    // }
-                    var feedBacks = feedback.split("*");
-                    for (var i = 0; i < feedBacks.length; i++) {
-                        eachRow = `
-                        <div class="row">
-                            ${feedBacks[i]}
-                        <div>
-                        `
-                        $("#feedBack").append(eachRow)
-                    }
-                    alert(feedBacks.length)
-
 
                     //store phone number to the global variable to make available in another funciton
+                    console.log(phone)
                     phoneNumber = phone
+
+
+                    //handle comments here
+                    if (feedbacks.length > 0) {
+                        for (var i = 0; i < feedbacks.length; i++) {
+                            var eachFeedback = feedbacks[i];
+
+                            // console.log(eachFeedback)
+                            
+                            // var feedback = eachFeedback['feedback'];
+                            
+                            // var emp_id = eachFeedback['empID']; 
+
+                            // console.log(feedback)
+                            // console.log(emp_id)
+
+                            // var createdAt = eachFeedback['createdAt'];
+
+                            // console.log(createdAt)
+
+                            table.row.add(
+                                $(
+                                    // '<tbody>' +
+                                    '<tr>' +
+                                        '<td>' + i + '</td>' +
+                                        '<td>' + eachFeedback['feedback'] + '</td>' +
+                                        '<td>' + eachFeedback['emp_id'] + '</td>' +
+                                        '<td>' + eachFeedback['createdAt'] + '</td>' +
+                                    '</tr>'  
+                                    // '</tbody>'
+                                )
+                            ).draw(false);
+                        }
+                    }
 
                     var _d = Date.parse(appointmentDate);
                     var d = new Date(_d);
