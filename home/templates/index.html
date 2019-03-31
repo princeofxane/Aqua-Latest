@@ -14,7 +14,7 @@
 			<th width="25%">Address</th>
 			<th width="10%">FeedBack</th>
 			<th width="10%">Appointment</th>
-			<th width="10%">Status</th>		
+			<th width="10%">Action</th>		
 		</tr>
 	</thead>
 	<tbody></tbody>
@@ -154,15 +154,10 @@ function fetchTableData(emp_id) {
 						'<td>'+value.leadID+'</td>' +
 						'<td>'+value.source+'</td>' +
 						'<td>'+value.fname+ ' ' +value.lname+'</td>' +
-						// '<td>'+value.email+'</td>' +
 						'<td>'+value.phone+'</td>' +
 						'<td>'+value.address+'</td>' +
-						// '<td>'+value.createdDate+'</td>' +
 						'<td>'+ +'</td>' +
-						
-						
-						// '<td><input type="button" class="btn btn-primary" value="Edit"></td>'+
-						// '<td><input type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary" value="EDIT"></td>'+
+						'<td>'+ +'</td>' +
 						`<td><a id="${value.leadID}" onClick=setLocalStorage(this.id) type="button" href="../remarks" class="btn btn-primary">EDIT</a></td>`+
 						'</tr>')).draw(false);
 			})
