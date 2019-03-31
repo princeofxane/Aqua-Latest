@@ -345,8 +345,8 @@ box-shadow: none;
   width: 350px;
 }
 .pt60{
-	padding-top: 4% !important;
-  padding-bottom: 4% !important;
+margin-top: 10%;
+margin-left: 12%; 
 }
 .pt0{
 	padding-top: 0px;
@@ -751,8 +751,8 @@ user-select:none;
 
 #page-wrapper
 {
-  margin-top: 10%;
-  margin-left: 10%;
+  margin-top: 12%;
+  margin-left: 12%;
 }
 
 .add_to_basket{

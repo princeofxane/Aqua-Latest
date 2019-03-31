@@ -108,7 +108,6 @@ label.star:before {
             <div class="float-right">Phone Number is <span id="phoneNumber"></span></div>
             </div>
     </div> 
-    <br><br>
     <div class="row" style="margin-top:5%">
         <div class=" col-md-6 col-md-offset-3">
             <form class="">
@@ -386,7 +385,6 @@ label.star:before {
         var product = $("#product").val();
         var comment = $("#comment").val(); 
         var callAction = $("#callAction option:selected").attr("name")
-
         var _date = $("#datePicker").val();
         var _time = $("#clockPicker").val();
         var appointmentDate = _date + " " + _time + "." + "000000"
@@ -395,7 +393,13 @@ label.star:before {
         if ($("#isCommitted").prop("checked") == true) {
             isCommitted = true
         } 
-
+        if(callAction == "cb")
+        {
+            alert(fname);
+            alert(appointmentDate);
+            $('#msg_count').html(parseInt($('#msg_count').html(), 10)+1)
+            $('#notificationsBody').append('<div class="content">Cutomer Name: '+fname+'<br>  call back time: '+appointmentDate+'<br><input type="button" class="btn" value="call now" style="float-right"></div>');
+        }
 
         $.post( baseUrl + "editLead/",
         {

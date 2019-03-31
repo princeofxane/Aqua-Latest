@@ -1,15 +1,32 @@
 {% load staticfiles %}
 <style type="text/css">
+    #noti_Container
+{
+position:relative;
+}
     #msg_count {
-                padding: 3px 7px 3px 7px;
-                background: #cc0000;
-                color: #ffffff;
-                font-weight: bold;
-                border-radius: 9px;
-                font-size: 11px;
-                margin-top: 2px;
+               padding: 3px 7px 3px 7px;
+background: #cc0000;
+color: #ffffff;
+font-weight: bold;
+margin-left: 40%;
+border-radius: 9px;
+-moz-border-radius: 9px; 
+-webkit-border-radius: 9px;
+position: absolute;
+margin-top: 2px;
+font-size: 11px;
                 }
     
+    .content
+    {
+        font-weight: bold;
+padding: 8px;
+font-size: 13px;
+background-color: #ffffff;
+width: 360px;
+border-bottom: 1px solid #dddddd;
+    }
     #noti_Container {
         position:relative;
     }     
@@ -31,26 +48,29 @@
         
     /* THE NOTIFICAIONS WINDOW. THIS REMAINS HIDDEN WHEN THE PAGE LOADS. */
     #notifications {
-        display:none;
-        width:237px;
-        position:absolute;
-        top:71px;
-        left:0;
-        background:#FFF;
-        border:solid 1px rgba(100, 100, 100, .20);
-        -webkit-box-shadow:0 3px 8px rgba(0, 0, 0, .20);
-        z-index: 0;
+        background-color: #fff;
+border: 1px solid rgba(100, 100, 100, .4);
+-webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
+overflow: visible;
+position: absolute;
+top: 71px;
+margin-left: -170px;
+width: 237px;
+z-index: -1;
+display: none; // Enable this after jquery implementation 
     }
     /* AN ARROW LIKE STRUCTURE JUST OVER THE NOTIFICATIONS WINDOW */
     #notifications:before {         
         content: '';
-        display:block;
-        width:0;
-        height:0;
-        color:transparent;
-       /* border:10px solid #CCC;
-       */ margin-top:-20px;
-        margin-left:10px;
+display: block;
+position: absolute;
+width: 0;
+height: 0;
+color: transparent;
+border: 10px solid black;
+border-color: transparent transparent white;
+margin-top: -20px;
+margin-left: 188px;
     }
         
         
@@ -120,17 +140,27 @@
         <ul class="nav navbar-top-links navbar-left" style="z-index: -1;">
             <li class="dropdown" id="noti_Container" style="padding: 10px;">
 
-                <span id="msg_count" class="Badge">3</span>
+                <span id="msg_count" class="Badge">0</span>
                 <div id="noti_Button" style="background-color: transparent;">
                 <span id=""></span> <i class="glyphicon glyphicon-earphone" style="color: #01aaeb; font-size: 32px;margin-top: 1vh;"> </i> </div>
                  <!--THE NOTIFICAIONS DROPDOWN BOX.-->
-                <div id="notifications">
-                    <h3>CALLBACKS</h3>
+                <div id="notifications" style="font-weight: bold;
+padding: 8px;
+font-size: 13px;
+background-color: #ffffff;
+position: fixed;
+z-index: 1000;
+width: 384px;
+border-bottom: 1px solid #dddddd;">
+                    <h3 style="background:#F6F7F8;
+        padding:8px;
+        font-size:12px;
+        font-weight:bold;
+        color: #3b5998;
+        border-bottom:solid 1px rgba(100, 100, 100, .30);
+        text-align:center;">CALLBACKS</h3>
                     <div style="height:300px;">
                         <div id="notificationsBody" class="notifications">
-<div class="content">Developerdesks shared about something</div>
-<div class="content"> Developerdesks liked page developerdesks</div>
-<div class="content"> Developerdesks comment something</div>
 </div>
                     </div>
                     <div class="seeAll"><a href="#">See All</a></div>
