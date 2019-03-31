@@ -1,5 +1,15 @@
 {% extends "base.html" %}
 {% block body_content %}
+<style type="text/css">
+    #dataTable_length
+    {
+        display: none;
+    }
+    #dataTable_filter
+    {
+        display: none;
+    }
+</style>
 <script type="text/javascript">
      $( function() {
     $( "#datePicker" ).datepicker();
@@ -199,8 +209,8 @@ label.star:before {
                         <thead>
                             <tr>
                                 <th style="border-bottom:2pt solid black;">#</th>
-                                <th style="border-bottom:2pt solid black;">Feedback</th>
                                 <th style="border-bottom:2pt solid black;">EmpID</th>
+                                <th style="border-bottom:2pt solid black;">Feedback</th>
                                 <th style="border-bottom:2pt solid black;">CreatedOn</th>
 
                             </tr>
@@ -364,7 +374,6 @@ label.star:before {
     $("#updateButton").click(function() {
         //This is dummy id for testing
         var leadID = localStorage.getItem("leadID");
-        alert(leadID);
         var emp_id = localStorage.getItem("empID");
 
         var fullName = $("#leadName").val();
