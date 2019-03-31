@@ -24,6 +24,12 @@ class Employee(models.Model):
 #'ad'->admin
 
 
+class Callbacks(models.Model):
+    empID = models.CharField(max_length=12, default=None)
+    phone = models.CharField(max_length=12, default=None)
+    fname = models.CharField(max_length=12, default=None)
+    appointmentDate = models.CharField(max_length=12, default=None)
+
 class EmpStatus(models.Model):
     id = models.AutoField(primary_key=True)
     employeeID = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)

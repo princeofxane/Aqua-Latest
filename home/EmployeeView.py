@@ -44,6 +44,19 @@ def createNewEmployee(request):
     return success(newEmpID)
     return fail("Error in request")
 
+@csrf_exempt
+def addcallbacks(request):
+    if (request.method == "POST"):
+        fname = request.POST.get("fname", None)
+        empID = request.POST.get("empID", None)
+        phone = request.POST.get("phone", None)
+        appointmentDate= request.POST.get("appointmentDate", None)
+        callbacks = Callbacks(empID = empID, fname=fname, phone=phone, appointmentDate=appointmentDate)
+        callbacks.save()
+    return success(newEmpID)
+    return fail("Error in request")
+
+
 def generateRandomEmployeeID():
     randomID = 'EMP' + '{0:06}'.format(random.randint(1, 100000))
     return randomID

@@ -122,10 +122,8 @@ label.star:before {
 
                         <input id="address" class="form-control" type="text" placeholder="Address">
                         <!-- <textarea id="address" class="form-control" rows="4" placeholder="Address">Due to the widespread use of tables across we’ve designed our tables to be opt-in. Just add</textarea> -->
-                        <br>
-                        <br>
-                        <br>
-                        <div id="map"></div>
+                        
+                        <div id="map" style="position: absolute;left: 100%;top: 8%;"></div>
 
                         <!-- <input type="text" class="form-control" placeholder="Address"> -->
 
@@ -188,7 +186,7 @@ label.star:before {
 
                         <br><br>
 
-                        <select id="callAction" class="form-control" id="exampleFormControlSelect1"style="width:50%;">
+                        <select id="callAction" class="form-control" id="exampleFormControlSelect1"style="width:50%;" onchange="getval(this);">
                             <option name="df" selected="selected">--Select Action--</option>
                             <option name="wn" style="font-weight: bold;">wrong number</option>
                             <option name="so" style="font-weight: bold;">switched off</option>
@@ -303,6 +301,7 @@ label.star:before {
                 leadID: leadID
             },
             function(data, status) {
+                var feedbacks= "";
                 dataObj = JSON.parse(data);
                 if (dataObj.result == "fail") {
                     alert(dataObj.description)
@@ -316,7 +315,7 @@ label.star:before {
                     var email = dataObj.description['email'];    
                     var product = dataObj.description['product'];
                     var appointmentDate = dataObj.description['appointmentDate'];
-                    var feedbacks = dataObj.description['feedbacks'];
+                     feedbacks = dataObj.description['feedbacks'];
                     var callAction = dataObj.description['callAction']
 
                     $("#phoneNumber").html(phone)
@@ -346,12 +345,12 @@ label.star:before {
 
 
                     //store phone number to the global variable to make available in another funciton
-                    console.log(phone)
-                    phoneNumber = phone
+                    console.log(phone);
+                    phoneNumber = phone;
 
 
                     //handle comments here
-                    if (feedbacks.length > 0) {
+                    if (feedbacks != "") {
                         for (var i = 0; i < feedbacks.length; i++) {
                             var eachFeedback = feedbacks[i];
 
@@ -413,8 +412,21 @@ label.star:before {
         } 
         if(callAction == "cb")
         {
-            alert(fname);
-            alert(appointmentDate);
+        /*    $.post( baseUrl + "addcallbacks/",
+        {
+            emp_id: emp_id,
+            fname: fname,
+            phone: phoneNumber,
+            appointmentDate:appointmentDate
+        },
+        function(data, status){
+            var dataObj = JSON.parse(data);
+            if (dataObj.result === "fail") {
+                alert(dataObj.description)
+            } else {
+               
+            }
+        })*/
             $('#msg_count').html(parseInt($('#msg_count').html(), 10)+1)
             $('#notificationsBody').append('<div class="content">Cutomer Name: '+fname+'<br>  call back time: '+appointmentDate+'<br><input type="button" class="btn" value="call now" style="float-right"></div>');
         }
@@ -441,7 +453,7 @@ label.star:before {
                 alert(dataObj.description)
             } else {
                 alert(dataObj.description)
-                window.location.href = baseUrl + "tc_homePage/"
+               // window.location.href = baseUrl + "tc_homePage/"
             }
         })
 
