@@ -8,6 +8,7 @@ import datetime
 from django.utils import timezone
 import random
 from django.db import connection
+from pprint import pprint
 
 
 @csrf_exempt
@@ -145,8 +146,8 @@ def getSingleEmployee(request):
 @csrf_exempt
 def registerProgress(request):
     if request.method == "POST":
-        timeNow = datetime.datetime.now()
-        testTimeNow = timezone.now()
+        # timeNow = datetime.datetime.now()
+        timeNow = timezone.now()
 
         emp_id = request.POST.get("emp_id", None)
         action = request.POST.get("action", None)
@@ -168,7 +169,7 @@ def registerProgress(request):
             except Exception as e:
                 # progress hasn't been tracking for this employee so create
                 # a new one
-                metricsObj = Metrics(empID=empObj, callCount=1, currDate=timeNow)                
+                metricsObj = Metrics(empID=empObj, callCount=1, currDate=timeNow)
                 metricsObj.save()
                 return success("Progress for new employee has been recorded")
             
@@ -210,42 +211,41 @@ def registerProgress(request):
 @csrf_exempt
 def generateReport(request):
     if request.method == "POST":
-        timeNow = timezone.now()
-        # timeNow = datetime.datetime.now()
-        # date = timeNow.date()
-        date = datetime.datetime.now().date()
-
-
+        # timeNow = timezone.now()
+        timeNow = datetime.datetime.now()
 
         emp_id = request.POST.get("emp_id", None)
-        is_for_all_employees = request.POST.get("is_for_all_employees", None)
+        is_single_employee = request.POST.get("is_single_employee", None)
         is_day_wise = request.POST.get("is_day_wise", None)
         is_custom_date = request.POST.get("is_custom_date", None)
         from_date = request.POST.get("from_date", None)
         to_date = request.POST.get("to_date", None)
 
         if is_day_wise == 'true':
-            if is_for_all_employees == 'false': 
+            if is_single_employee == 'true':
                 try: 
                     empObj = Employee.objects.get(empID=emp_id)
                 except Exception as e:
                     return fail("Employee doesn't exist")
                 try:
-                    # metricsObj = Metrics.objects.filter(createdAt__year=timeNow.year, createdAt__month=timeNow.month, createdAt__day=timeNow.day)
-                    metricsObj = Metrics.objects.filter(createdAt__after=date)
+                    metricsObj = Metrics.objects.filter(empID=empObj, createdAt__year=timeNow.year, createdAt__month=timeNow.month, createdAt__day=timeNow.day)
                 except Exception as e:
-                    return fail("No records available for today")
-                
-                dataSet = {
-                    "calls": metricsObj.callCount,
-                    "commitCount": metricsObj.commitCount
-                }
-                return success(dataSet)
+                    return fail("Something went wrong")
+                else:
+                    if len(metricsObj) == 0:
+                        return fail("No records avialable")
+                    else:
+                        for eachObj in metricsObj:
+                            dataSet = {
+                                "calls": eachObj.callCount,
+                                "commitCount": eachObj.commitCount
+                            }
+                            return success(dataSet)
 
-            else: 
+            if is_single_employee == 'false':
 
                 try:
-                    metricsObj = Metrics.objects.get(empID=empObj, createdAt__year=timeNow.year, createdAt__month=timeNow.month, createdAt__day=timeNow.day)
+                    metricsObj = Metrics.objects.filter(createdAt__year=timeNow.year, createdAt__month=timeNow.month, createdAt__day=timeNow.day)
                 except Exception as e:
                     return fail("No records available for today")
 
@@ -253,12 +253,12 @@ def generateReport(request):
                     return fail("No progress found in db")
 
                 dataList = []
-                for metricObj in metricsObj:
+                for eachObj in metricsObj:
                     dataSet = {}
 
-                    dataSet['emp_id'] = metricsObj.empID,
-                    dataSet['calls'] = metricsObj.callCount,
-                    dataSet['commitCount'] = metricsObj.commitCount,
+                    dataSet['emp_id'] = eachObj.empID.empID,
+                    dataSet['calls'] = eachObj.callCount,
+                    dataSet['commitCount'] = eachObj.commitCount,
 
                     dataList.append(dataSet)
                 return success(dataList)
@@ -281,7 +281,7 @@ def updateEmployee(request):
         email = request.POST.get("mail", None)
         pincode = request.POST.get("pincode", None)
         address = request.POST.get("address", None)
-        image=request.FILES.get("profilePic",None)
+        image = request.FILES.get("profilePic",None)
 
         if emp_id == None or emp_id == '':
             return fail("Employee id is not provided")
