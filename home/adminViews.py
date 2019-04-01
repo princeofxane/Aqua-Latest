@@ -1,7 +1,7 @@
 from django.views.decorators.csrf import csrf_exempt
 # from django.core import serializers
 from .views import success, fail
-from .models import Customers, Employee, Leads, EmpStatus, Notifications, CallData, Feedbacks
+from .models import Customers, Employee, Leads, EmpStatus, Notifications, CallData, Feedbacks, TechniciansLocation
 from django.shortcuts import HttpResponse, render
 from .tests import cleanDatabase, fill_database_with_dummy_values
 from django.utils import timezone
@@ -9,11 +9,14 @@ from django.utils.dateparse import parse_date
 from django.core.files.storage import FileSystemStorage
 from home import tests
 import random
+import requests as req
 # from django_otp.oath import hotp
 import pytz
 import json
 import datetime
 import pandas as pd
+from math import cos, asin, sqrt
+# import gmaps
 
 IMAGE_FILE_TYPES = ['png', 'jpg', 'jpeg']
 
@@ -818,7 +821,6 @@ def editLead(request):
         isInterested = request.POST.get("isCommit", None)
         pincode = request.POST.get("pincode",None)
         appointmentDate = request.POST.get("appointmentDate", None)
-        print(appointmentDate)
 
         try:
             empObj = Employee.objects.get(empID = emp_id)
@@ -893,7 +895,26 @@ def getSingleLead(request):
         lead['appointmentDate'] = leadObj.appointmentDate
         lead['purchaseDate'] = leadObj.purchaseDate
         lead['pincode'] = leadObj.pincode
+        #----------------------------------------
 
+        # addr = leadObj.address.replace(" ", "+")
+        # api_key = 'AIzaSyCKrObWSq1_SI_Abkr71Rdo3pKx29KJGJM'
+        # uri = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + addr + '&key=' + api_key
+        # response = req.get(uri)
+        # resp_json_payload = response.json()
+        # customerLocation = (resp_json_payload['results'][0]['geometry']['location'])
+
+        # example = {'lat': 13.0289365, 'lng': 77.63892249999999}
+
+        #Example agent position list
+        # technicianCordinates = [{'test': 'prince', 'lat': 39.7612992, 'lng': -86.1519681}, 
+        #         {'test': 'sony', 'lat': 39.762241, 'lng': -86.158436 }, 
+        #         {'test': 'amma', 'lat': 39.7622292, 'lng': -86.1578917}]
+
+        # print(closest(technicianCordinates, customerLocation))
+        
+
+        #----------------------------------------
         feedbackObj = Feedbacks.objects.filter(leadID=leadObj)
         if len(feedbackObj) != 0:
             dataArray = []
@@ -910,6 +931,147 @@ def getSingleLead(request):
             lead['feedbacks'] = dataArray
         return success(lead)
     return fail("Error In Request")
+
+
+@csrf_exempt
+def getClosestTechnician(request):
+    if request.method == "POST":
+        positionData_list = []
+
+        lead_id = request.POST.get("lead_id", None)
+        if lead_id == '' or lead_id == None:
+            return fail("lead ID hasn't provided")
+        try:
+            leadObj = Leads.objects.get(leadID=lead_id)
+        except Exception as e:
+            return fail("Lead doesn't exist")
+
+        if leadObj.address != '':
+            addr = leadObj.address.replace(" ", "+")
+            api_key = 'AIzaSyCKrObWSq1_SI_Abkr71Rdo3pKx29KJGJM'
+            uri = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + addr + '&key=' + api_key
+            response = req.get(uri)
+            resp_json_payload = response.json()
+            leadLocation = (resp_json_payload['results'][0]['geometry']['location'])
+
+            try:
+                loctnsObj = TechniciansLocation.objects.filter(isActive=True)
+            except Exception as e:
+                return fail("Something went wrong")
+
+            if len(loctnsObj) == 0:
+                return fail("No active technicians found")
+            else:
+                for loctnObj in loctnsObj:
+                    eachRow = {}
+
+                    eachRow['empID'] = loctnObj.empID
+                    eachRow['latitude'] = loctnObj.latitude
+                    eachRow['longitude'] = loctnObj.longitude
+
+                    positionData_list.append(eachRow)
+
+
+            closestAgent = closest(positionData_list, leadLocation)
+            #This will return a dictionary contains empID so as latitude and longitude
+            return success(closestAgent)
+    return fail("Error in request")
+
+    
+
+
+def distance(lat1, lng1, lat2, lng2):
+    p = 0.017453292519943295
+    a = 0.5 - cos((lat2-lat1)*p)/2 + cos(lat1*p)*cos(lat2*p) * (1-cos((lng2-lng1)*p)) / 2
+    return 12742 * asin(sqrt(a))
+
+def closest(data, v):
+    return min(data, key=lambda p: distance(v['lat'], v['lng'], p['lat'], p['lng']))
+
+
+
+# v = {'lat': 39.7622290, 'lng': -86.1519750}
+# print(closest(tempDataList, v))
+
+
+@csrf_exempt
+def updateTechniciansLocation(request):
+    if request.method == "POST":
+        emp_id = request.POST.get("emp_id", None)
+        latitude = request.POST.get("latitude", None)
+        longitude = request.POST.get("longitude", None)
+
+        try:
+            empObj = Employee.objects.get(empID=emp_id)
+        except Exception as e:
+            return fail("Employee doesn't exist")
+        
+        try:
+            loctnObj = TechniciansLocation.objects.get(empID=emp_id)
+        except Exception as e:
+            # if his location didn't exist before it will be an exception
+            loctnObj = TechniciansLocation(empID=empObj, latitude=latitude, longitude=longitude)
+            loctnObj.save()
+        
+        loctnObj.latitude = latitude
+        loctnObj.longitude = longitude
+        loctnObj.save()
+        return success("Cordinates are saved")
+    return fail("Error in request")
+
+
+@csrf_exempt
+def getTechniciansLocation(request):
+    if request.method == "POST":
+        emp_id = request.POST.get("emp_id", None)
+        isWhole = request.POST.get("isWhole", None)
+
+        if isWhole == '' or isWhole == 'false':
+            if emp_id == '':
+                return fail("You haven't provided employee id")
+            try:
+                empObj = Employee.objects.get(empID=emp_id)
+            except Exception as e:
+                return fail("Employee doesn't exist")
+
+            try:
+                loctnObj = TechniciansLocation.objects.get(empID=empObj)
+            except Exception as e:
+                return fail("No location data saved for this employee")
+
+            cordinateData = {
+                'empID': loctnObj.empID,
+                'latitude': loctnObj.latitude,
+                'longitude': loctnObj.longitude
+            }
+            return success(cordinateData)
+        if isWhole == 'true':
+
+            try:
+                loctnsObj = TechniciansLocation.objects.filter(isActive=True)
+            except Exception as e:
+                return fail("Something went wrong")
+
+            if len(loctnsObj) == 0:
+                return fail("No active technicians found")
+            else:
+                positionData_list = []
+                for loctnObj in loctnsObj:
+                    eachRow = {}
+
+                    eachRow['empID'] = loctnObj.empID
+                    eachRow['latitude'] = loctnObj.latitude
+                    eachRow['longitude'] = loctnObj.longitude
+
+                    positionData_list.append(eachRow)
+                return success(positionData_list)
+    return fail("Error in request")
+
+
+
+
+
+
 
 
 @csrf_exempt
