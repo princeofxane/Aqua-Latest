@@ -27,14 +27,14 @@
 	<table id="dataTable" class = "table table-hover dataTable">
 		<thead>
 			<tr>
-				<th>No</th>
-				<th>Req ID</th>
-				<th>Name</th>
-				<th>Phone Number</th>
-				<th>Address</th>
-				<th>Feedback</th>
-				<th>Appointment</th>
-				<th>Status</th>
+				<th width="5%">No</th>
+				<th width="5%">Req ID</th>
+				<th width="10%">Name</th>
+				<th width="10%">Phone Number</th>
+				<th width="30%">Address</th>
+				<th width="10%">Feedback</th>
+				<th width="10%">Appointment</th>
+				<th>Actions</th>
 			</tr>
 		</thead>
 		<tbody></tbody>
@@ -103,6 +103,7 @@
 				$('#menubar').hide();
 					$(".iconbox").show();
 		});
+
 		});
 
 		$(document).ready(function(){
@@ -172,6 +173,15 @@
 		});
 
 
+function inc()
+ {
+var pre = document.getElementById('callsm').value;
+alert(pre);
+pre = pre+10;;
+  $('#callsm').css('width', pre+'%').attr('aria-valuenow', pre); 
+  document.getElementById("callsm").innerHTML = pre;
+    }
+  
 </script>
 <script>
 var emp_id;
@@ -204,7 +214,7 @@ function fetchTableData(emp_id) {
 						'<td>'+value.address+'</td>' +
 						'<td>'+value.comments+'</td>' +
 						'<td>'+value.appointmentDate+'</td>' +
-						'<td><a id="${value.leadID}" onClick=setLocalStorage(this.id) type="button" href="../remarks" class="btn btn-primary">EDIT</a><a  data-toggle="modal" data-target="#basicExampleModal" type="button" class="btn btn-primary">CALL NOW</a></td>'+
+						'<td><a id="${value.leadID}" onClick=setLocalStorage(this.id) type="button" href="../remarks" class="btn btn-primary">EDIT</a><a  onClick="inc();" type="button" class="btn btn-primary">CALL NOW</a></td>'+
 						'</tr>')).draw(false);
 				})
 			}
@@ -598,7 +608,7 @@ maxDateFilter = "";
 $.fn.dataTableExt.afnFiltering.push(
   function(oSettings, aData, iDataIndex) {
     if (typeof aData._date == 'undefined') {
-      aData._date = new Date(aData[0]).getTime();
+      aData._date = new Date(aData[6]).getTime();
     }
 
     if (minDateFilter && !isNaN(minDateFilter)) {

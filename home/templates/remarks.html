@@ -19,6 +19,27 @@ function getval(sel)
     var conceptName = sel.value;
     $("textarea#comment").text(conceptName);
 }
+function setval(val) 
+              {
+                if((val.value == "Set Commit")||(val.value == "Call Back"))
+                {
+                    var _date = $("#datePicker").val();
+                    if(_date == "")
+                    {
+                         alert("input appointmentDate and time");
+                         return;
+                     }
+                     else
+                     {
+                        var conceptName = val.value;
+                        $("textarea#comment").text(conceptName);
+                              $('#callAction').prop('disabled', true);
+          
+                     }
+
+
+                }
+              }
 </script>
 <style type="text/css">
     div.stars {
@@ -58,7 +79,7 @@ label.star:before {
  z-index:9999 !important;
 }
 #map {
-        height: 150px;
+        height: 340px;
         width: 300px;
       }
       #description {
@@ -121,7 +142,7 @@ label.star:before {
                         <input id="address" class="form-control" type="text" placeholder="Address">
                         <!-- <textarea id="address" class="form-control" rows="4" placeholder="Address">Due to the widespread use of tables across we’ve designed our tables to be opt-in. Just add</textarea> -->
                         
-                        <div id="map" style="position: absolute;left: 100%;top: 8%;"></div>
+                        <div id="map" style="position: absolute;left: 100%;top: 2%;"></div>
 
                         <!-- <input type="text" class="form-control" placeholder="Address"> -->
 
@@ -150,7 +171,7 @@ label.star:before {
                     </div>
                     <div class="form-group" >
                         <label for="pin Code">Pin code</label>
-                        <input id="text" type="text" class="form-control" value="45678" placeholder="pincode">
+                        <input id="pincode" type="text" name="pincode" class="form-control" value="45678" placeholder="pincode">
                     </div>
                    
 
@@ -177,13 +198,14 @@ label.star:before {
                             </div>
                     </div>
                     <div class="form-group">
-
-                        <label class=" checkbox-inline">
-                            <input id="isCommitted" type="checkbox" value="">Set Commit
-                        </label>
-
+                         <label for="modal name">SET COMMIT/ CALL BACK:</label>
+                         <select id="commitaction" class="form-control"  onchange="setval(this);" style="width:50%;">
+                            <option name="df" selected="selected">--Select Action--</option>
+                            <option name="co" style="font-weight: bold;">Set Commit</option>
+                            <option name="cb" style="font-weight: bold;">Call Back</option>
+                        </select>
                         <br><br>
-
+                         <label for="modal name">SET FEEDBACK:</label>
                         <select id="callAction" class="form-control" id="exampleFormControlSelect1"style="width:50%;" onchange="getval(this);">
                             <option name="df" selected="selected">--Select Action--</option>
                             <option name="wn" style="font-weight: bold;">wrong number</option>
@@ -191,6 +213,8 @@ label.star:before {
                             <option name="nr" style="font-weight: bold;">not reachable</option>
                             <option name="cni" style="font-weight: bold;">customer not interested</option>
                             <option name="cb" style="font-weight: bold;">callback</option>
+                            <option name="co" style="font-weight: bold;">commit</option>
+                            
                         </select>
                 
                     </div>
@@ -403,13 +427,28 @@ label.star:before {
         var _date = $("#datePicker").val();
         var _time = $("#clockPicker").val();
         var appointmentDate = _date + " " + _time + "." + "000000"
-        var pincode = "1234";
-        var isCommitted = false;
-        if ($("#isCommitted").prop("checked") == true) {
-            isCommitted = true
-        } 
+        var pincode = $("#pincode").val(); ;
+        var isCommitted = $("#commitaction option:selected").attr("name")
+        if (isCommitted == "co") {
+            isCommitted = true;
+              if(_date == "")
+                {
+                    alert("input date and time");
+                    return;
+                }
+                } 
+        else
+        {
+            isCommitted = false;
+             callAction = $("#commitaction option:selected").attr("name")
+        
+        }
+         
+    
         if(callAction == "cb")
         {
+             
+      
         /*    $.post( baseUrl + "addcallbacks/",
         {
             emp_id: emp_id,
@@ -425,10 +464,17 @@ label.star:before {
                
             }
         })*/
+        if(_date == "")
+        {
+
+                    alert("input date and time");
+            return;
+        }
+        else
+        {
             $('#msg_count').html(parseInt($('#msg_count').html(), 10)+1)
             $('#notificationsBody').append('<div class="content">Cutomer Name: '+fname+'<br>  call back time: '+appointmentDate+'<br><input type="button" class="btn" value="call now" style="float-right"></div>');
-        }
-
+        }}
         $.post( baseUrl + "editLead/",
         {
             emp_id: emp_id,

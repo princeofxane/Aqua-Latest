@@ -5,6 +5,40 @@ body
 	font-family: Poppins;
 }
 
+.progressBar {
+  background-color: lightgrey;
+  width: 200px;
+  height: 20px;
+  
+}
+
+
+.progress {
+    width: 10%;
+    height: 100%;
+    background-color: blue;
+    animation: color 5s linear 0s alternate;
+}
+
+@keyframes color{
+    10% {
+    background-color: #0f0;
+    width: 20%;/*At 10%, change the width to 20%*/
+    }
+    40% {
+    background-color: #ff0;
+    width: 40%;
+    }
+    70% {
+    background-color: #f00;
+    width: 60%;
+    }
+    100% {
+    background-color: #fff;
+    width: 100%;
+    }
+}
+
 .pt60
 {
 	padding-top: 0% !important;
