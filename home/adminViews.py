@@ -674,8 +674,8 @@ def getInterestedLeads(request):
                 eachRow['email'] = lead.email
                 eachRow['phone'] = lead.phone
                 eachRow['address'] = lead.address
-                eachRow['createdDate'] = str(lead.createdDate)
-                eachRow['pincode'] = lead.pincode
+                eachRow['appointmentDate'] = str(lead.appointmentDate)
+                eachRow['comments'] = lead.comments
                 leads_list.append(eachRow)
             return success(leads_list)
     return fail("Error In Request")
@@ -697,6 +697,7 @@ def getCallbackLeads(request):
         leads_list = []
         for lead in leadObj:
             eachRow = {}
+            print("im coming")
     #     for i in range(len(leads))
     #         lead={}
     #         lead['id']=leads[i].customer.id
@@ -706,8 +707,8 @@ def getCallbackLeads(request):
             eachRow['email'] = lead.email
             eachRow['phone'] = lead.phone
             eachRow['address'] = lead.address
-            eachRow['createdDate'] = str(lead.createdDate)
-            eachRow['pincode'] = lead.pincode
+            eachRow['appointmentDate'] = str(lead.appointmentDate)
+            eachRow['comments'] = lead.comments
             leads_list.append(eachRow)
         return success(leads_list)
     return fail("Error In Request")
