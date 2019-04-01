@@ -23,6 +23,12 @@ class Employee(models.Model):
 #'ts'->tech support
 #'ad'->admin
 
+class TechniciansLocation(models.Model):
+    id = models.AutoField(primary_key=True)
+    empID = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
+    latitude = models.FloatField(null=True, blank=True, default=None)
+    longitude = models.FloatField(null=True, blank=True, default=None)
+    isActive = models.BooleanField(default=False)
 
 class Callbacks(models.Model):
     empID = models.CharField(max_length=12, default=None)
