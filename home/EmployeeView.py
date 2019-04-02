@@ -9,6 +9,7 @@ from django.utils import timezone
 import random
 from django.db import connection
 from pprint import pprint
+import pytz
 
 
 @csrf_exempt
@@ -262,6 +263,70 @@ def generateReport(request):
 
                     dataList.append(dataSet)
                 return success(dataList)
+
+        if is_custom_date == 'true':
+            if is_single_employee == 'true':
+                _from_date = '2019-03-30'
+                _to_date = '2019-04-04'
+
+                from_date = datetime.datetime.strptime(_from_date, '%Y-%m-%d')
+                to_date = datetime.datetime.strptime(_to_date, '%Y-%m-%d')
+                # formatted_from_date = pytz.utc.localize(from_date)
+                # print(formatted_from_date.date)
+                # to_date = datetime.datetime.strptime(_to_date, '%Y-%m-%d')
+                # formatted_to_date = pytz.utc.localize(to_date)
+                # print(formatted_to_date)
+
+                try: 
+                    empObj = Employee.objects.get(empID=emp_id)
+                except Exception as e:
+                    return fail("Employee doesn't exist")
+                try:
+                    # metricsObj = Metrics.objects.filter(empID=empObj, createdAt__lte=from_date.date(), createdAt__gt=to_date.date())
+                    metricsObj = Metrics.objects.filter(empID=empObj, createdAt__range=(from_date.date(), to_date.date()))
+                except Exception as e:
+                    return fail("Something went wrong")
+                else:
+                    if len(metricsObj) == 0:
+                        return fail("No records avialable")
+                    else:
+                        callCount = 0
+                        commitCount = 0
+                        for eachObj in metricsObj:
+                            callCount = callCount + eachObj.callCount
+                            commitCount = commitCount + eachObj.commitCount
+                        dataSet = {
+                            "calls": eachObj.callCount,
+                            "commitCount": eachObj.commitCount
+                        }
+                        return success(dataSet)
+
+            if is_single_employee == 'false':
+                _from_date = '2019-03-30'
+                _to_date = '2019-04-04'
+
+                from_date = datetime.datetime.strptime(_from_date, '%Y-%m-%d')
+                to_date = datetime.datetime.strptime(_to_date, '%Y-%m-%d')
+
+                try:
+                    metricsObj = Metrics.objects.filter(createdAt__range=(from_date.date(), to_date.date()))
+                except Exception as e:
+                    return fail("Something went wrong")
+                else:
+                    if len(metricsObj) == 0:
+                        return fail("No records avialable")
+                    else:
+                        callCount = 0
+                        commitCount = 0
+                        for eachObj in metricsObj:
+                            callCount = callCount + eachObj.callCount
+                            commitCount = commitCount + eachObj.commitCount
+                        dataSet = {
+                            "calls": callCount,
+                            "commitCount": commitCount
+                        }
+                        return success(dataSet)
+
             #Write custom date report generation here
     return fail("Error in request")
 
