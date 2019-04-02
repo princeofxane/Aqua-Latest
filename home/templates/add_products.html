@@ -1,0 +1,120 @@
+{% extends "base_ib.html" %}
+{% block body_content %}
+<!-- 
+<script type="text/javascript">
+ function addprod() {
+  alert("im coming here");
+        var mid = $("#mid").val();
+        var mname = $("#mname").val();
+        var year = $("#year").val();
+        var desc = $("#desc").val();
+        var feat = $("#feat").val();
+        var pimage = $("#pimage").val();
+        var mrp = $("#mrp").val();
+        var cat = $("#cat option:selected").attr("name")
+      
+      
+        $.post( baseUrl + "addNewProduct/",
+        {
+          mid:mid,
+          mname:mname,
+          year:year,
+          desc:desc,
+          feat:feat,
+          pimage:pimage,
+          mrp:mrp,
+          cat:cat    
+        },
+        function(data, status){
+            var dataObj = JSON.parse(data);
+            if (dataObj.result === "success") {
+                alert(dataObj.description)
+            } else {
+                alert(dataObj.description)
+            }
+        })
+    }
+</script> -->
+<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 12%;margin-left: 10%;">
+  <div class="container" style="width: 80%;">
+    <h3>ADD NEW PRODUCT</h3>
+    <br>
+    <br>
+
+    <form id="data" action="../addNewProduct/" enctype="multipart/form-data" method="POST">
+      <div class="form-group">
+        <label for="mid" >Model id</label>
+          <input type="text" class="form-control" id="mid" placeholder="model id" name="id">
+        </div>
+      
+                            <div class="form-group">
+
+                <label for="mname" >Product name</label>
+     <input type="text" class="form-control" id="name" placeholder="model name" name="name">
+                  </div>
+                
+                <div class="form-group">
+                  <label for="year" >Year</label>
+
+                    <input type="date" class="form-control" id="year" placeholder="Year" name="year">
+                  </div>
+              
+                <div class="form-group">
+                  <label for="desc" >Description</label>
+
+                 
+                    <input type="text" class="form-control" id="desc" placeholder="Description" style="height: 100px" name="description">
+                  
+                </div>
+                <div class="form-group">
+                  <label for="feat" >Features</label>
+
+                
+                    <input type="text" class="form-control" id="feat" placeholder="Features" style="height: 100px" name="feature">
+                
+                </div>
+
+                   <div class="form-group">
+                  <label for="pimage" >Product Image</label>
+
+                 
+                    <input type="file" class="form-control" name="pimage" id="pimage">
+                  
+                </div>
+
+                   <div class="form-group">
+                  <label for="mrp" >MRP</label>
+
+                 
+                    <input type="text" class="form-control" id="mrp" placeholder="MRP" name="cost">
+                  
+                </div>
+   <div class="form-group">
+                  <label for="cat" >Catogery</label>
+
+                    <select class="form-control" name="cat" id="cat">
+                      <option>Select your product</option>
+                      <option value="mn" name="mn">Product</option>
+                      <option value="fl" name="fl">Spare</option>
+                      <option value="eq" name="eq">Electrical Spare</option>
+                    </select>
+                 
+                </div>
+
+
+               
+                <div class="form-group">
+                 <center>
+                <input type="submit"   class="btn btn-primary" id="add" value="Add Product">
+                </center>
+              </div>
+              <!-- /.box-footer -->
+            </form>
+          </div>
+       
+{% endblock body_content %}
+{$ block custom_js %}
+
+
+<!-- 
+onclick="addprod();" -->

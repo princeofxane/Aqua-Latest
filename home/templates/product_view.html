@@ -1,0 +1,197 @@
+ {% extends "base_ib.html" %}
+{% block body_content %}
+ <!-- Main content -->
+ <script type="text/javascript">
+   $( document ).ready(function() {
+    var table=$('#example3').DataTable();
+    table.clear().draw();
+     var path=baseUrl + "displayAllDevice/";
+
+    $.ajax({
+      type: "GET",
+      url: path,
+      data: {},
+      success: function (data) {
+          var data=JSON.parse(data);
+          data=data.description;
+          console.log(data);
+        $.each(data, function(key,value) {
+      table.row.add($(
+    '<tr>' +
+    '<td id="p'+value.id+'">'+value.product_id+'</td>' +
+    '<td id="pname'+value.id+'">'+value.name+'</td>' +
+    '<td id="year'+value.id+'">'+value.year+'</td>' +
+    '<td id="desc'+value.id+'">'+value.description+'</td>' +
+        '<td id="feat'+value.id+'">'+value.feature+'</td>' +
+        '<td id="cat'+value.id+'">'+value.category+'</td>' +
+                '<td id="cost'+value.id+'">'+value.cost+'</td>' +
+
+
+    '<td><input type="submit" id="'+value.id+'" onclick="prodedit(this.id)" style="margin-bottom:3px;" value="edit" class="btn btn-success"></td>'+
+    '<td><input type="submit" id="'+value.id+'" onclick="pdel(this.id)" value="delete" class="btn btn-warning"></td>' +
+
+
+
+    '</tr>'
+)).draw(false);
+    
+          }); 
+        
+        },
+        error:function(data){
+          console.log(data);
+        }
+        });
+  
+
+   });
+
+ </script>
+ <div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 12%;margin-left: 10%;">
+  <div class="container" style="width: 80%;">
+        <table id="example3" class="table table-bordered table-hover table-responsive">
+                <thead>
+                <tr>
+                  <th>product id</th>
+                  <th>product Name</th>
+                  <th>Year</th>
+                  <th>Description</th>
+                  <th>Features</th>
+                  <th>Catogery</th>
+                  <th>Cost</th>
+                  <th>Action1</th>
+
+                  <th>Acttion2</th>
+
+                </tr>
+                </thead>
+                <tbody>
+               
+                </tbody>
+                <tfoot>
+                <tr>
+                <th>product id</th>
+                  <th>product Name</th>
+                  <th>Year</th>
+                  <th>Description</th>
+                  <th>Features</th>
+                  <th>Catogery</th>
+                  <th>Cost</th>
+                  <th>Action1</th>
+
+                  <th>Acttion2</th>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+
+
+ <div id="myModalprod" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+      </div>
+      <div class="modal-body">
+       <div class="box box-info">
+            <div class="box-header with-border text-center">
+              <h3 class="box-title ">Edit Product</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form class="form-horizontal">
+              <div class="box-body">
+                 <div class="form-group">
+                  <label for="mid" class="col-sm-4 control-label">Modle id</label>
+
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="mid" placeholder="model id">
+                  </div>
+                </div>
+                                 <div class="form-group">
+
+                <label for="mname" class="col-sm-4 control-label">Product name</label>
+
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="mname" placeholder="model name">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="year" class="col-sm-4 control-label">Year</label>
+
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="year" placeholder="Year">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="desc" class="col-sm-4 control-label">Description</label>
+
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="desc" placeholder="Description" style="height: 100px">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="feat" class="col-sm-4 control-label">Features</label>
+
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="feat" placeholder="Features" style="height: 100px">
+                  </div>
+                </div>
+
+                   <div class="form-group">
+                  <label for="mrp" class="col-sm-4 control-label">MRP</label>
+
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="mrp" placeholder="MRP">
+                  </div>
+                </div>
+
+
+                
+
+                
+                <input type="hidden" id="fid" value="">
+
+                   <div class="form-group">
+                  <label for="cat" class="col-sm-4 control-label">Catogery</label>
+
+                  <div class="col-sm-8">
+                    <select class="form-control" id="cat">
+                      <option>Select your product</option>
+                      <option value="mn">Machine</option>
+                      <option value="fl">Filter</option>
+                      <option value="eq">Equipment</option>
+                    </select>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                  
+                  </div>
+                </div>
+              </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+               
+                <input type="submit" class="btn btn-info pull-right" id="editprod1" value="Edit product">
+              </div>
+              <!-- /.box-footer -->
+            </form>
+          </div>
+                    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock body_content %}
+{$ block custom_js %}
+

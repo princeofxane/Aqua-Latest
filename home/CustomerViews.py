@@ -1,7 +1,7 @@
 from django.views.decorators.csrf import csrf_exempt
 # from django.core import serializers
 from .views import success,fail
-from .models import Customers, Employee, Leads, EmpStatus, Product
+from .models import Customer, Employee, Leads, EmpStatus, Product
 import random
 
 

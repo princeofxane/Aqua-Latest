@@ -1,7 +1,7 @@
 from django.views.decorators.csrf import csrf_exempt
 # from django.core import serializers
 from .views import success, fail
-from .models import Customers, Employee, Leads, EmpStatus, Notifications, CallData, Feedbacks, TechniciansLocation
+from .models import Customer, Employee, Leads, EmpStatus, Notifications, CallData, Feedbacks
 from django.shortcuts import HttpResponse, render
 from .tests import cleanDatabase, fill_database_with_dummy_values
 from django.utils import timezone
@@ -20,6 +20,70 @@ from math import cos, asin, sqrt
 
 IMAGE_FILE_TYPES = ['png', 'jpg', 'jpeg']
 
+
+@csrf_exempt
+def ib_homePage(request):
+    return render(request,"ib_index.html")
+
+
+
+@csrf_exempt
+def teamlead(request):
+    return render(request,"teamlead.html")
+
+
+@csrf_exempt
+def techadd(request):
+    return render(request,"add_technician.html")
+
+@csrf_exempt
+def prodview(request):
+    return render(request,"product_view.html")
+
+
+
+@csrf_exempt
+def currWork(request):
+    return render(request,"booking.html")
+
+
+@csrf_exempt
+def inventory(request):
+    return render(request,"inventory.html")
+
+@csrf_exempt
+def viewingbooking(request):
+    return render(request, 'view_booking.html')
+
+@csrf_exempt
+def previousbook(request):
+    return render(request, 'previous_booking.html')
+
+@csrf_exempt
+def currentbookview(request):
+    return render(request, 'current_booking.html')
+
+@csrf_exempt
+def tickview(request):
+    return render(request, 'ticket_view.html')
+
+
+@csrf_exempt
+def techview(request):
+    return render(request, 'technician_view.html')
+
+
+@csrf_exempt
+def addtick(request):
+    return render(request, 'add_ticket.html')
+
+# @csrf_exempt
+# def addtick(request):
+#     return render(request, 'create_ticket.html')
+
+@csrf_exempt
+def addprod(request):
+    return render(request, 'add_products.html')
 
 #----------------------- Page Renders ---------------------------#
 @csrf_exempt
@@ -52,6 +116,13 @@ def tc_homePage(request):
     return render(request, 'index.html')
 
 @csrf_exempt
+def ob_qc_homePage(request):
+    currentSession = getSession(request, True)
+    if currentSession == '':
+        loginPage(request)
+    return render(request, 'ob_qc.html')
+
+@csrf_exempt
 def tc_dashboard(request):
     currentSession = getSession(request, True)
     if currentSession == '':
@@ -78,9 +149,10 @@ def obAdmin_reportsPage(request):
     print("im coming here")
     return render(request, 'obAdmin_reportsPage.html')
 
-
-
-
+@csrf_exempt
+def inboundHome(request):
+    print()
+    return render(request,"inbound.html")
 
 
 @csrf_exempt
@@ -580,6 +652,7 @@ def getAssignedLeads(request):
                 return fail("Employee Id Not Foud")
             try:
                 leads = Leads.objects.filter(assignee=empObj, isInterested=False, isContacted=False)
+                print(leads)
             except Exception as e:
                 print(e)
 
@@ -599,6 +672,62 @@ def getAssignedLeads(request):
                     eachRow['address'] = lead.address
                     eachRow['createdDate'] = str(lead.createdDate)
                     eachRow['pincode'] = lead.pincode
+
+                    #handle feedback
+                    try:
+                        feedbacksObj = Feedbacks.objects.filter(leadID=lead)
+                    except Exception as e:
+                        eachRow['feedback'] = ''
+                    else:
+                        if len(feedbacksObj) != 0:
+                            feedBackArray = []
+                            for feedbackObj in feedbacksObj:
+                                feedBackArray.append(feedbackObj.feedback)
+                            eachRow['feedback'] = feedBackArray
+                        else:
+                            eachRow['feedback'] = ''
+
+                    eachRow['appointmentDate'] = lead.appointmentDate
+                    eachRow['isInterested'] = lead.isInterested
+                    leads_list.append(eachRow)
+                return success(leads_list)
+        return fail("Provide id")
+    return fail("Error In Request")
+
+
+
+# This should get you all leads that you have given to deal with
+@csrf_exempt
+def getComittedLeads(request):
+    if request.method == "POST":
+        emp_id = request.POST.get("emp_id", None)
+        if emp_id != None:
+            try:
+                empObj = Employee.objects.get(empID=emp_id)
+            except Exception as e:
+                print("******************")
+                return fail("Employee Id Not Foud")
+            try:
+                leads = Leads.objects.filter(isInterested=True)
+
+            except Exception as e:
+                print(e)
+            if len(leads) == 0:
+                return fail("No leads in db")
+            else:
+                leads_list = []
+                for lead in leads:
+                    eachRow = {}
+            #     for i in range(len(leads))
+            #         lead={}
+                    eachRow['leadID'] = lead.leadID
+                    eachRow['fname'] = lead.fname
+                    eachRow['lname'] = lead.lname
+                    eachRow['email'] = lead.email
+                    eachRow['phone'] = lead.phone
+                    eachRow['address'] = lead.address
+                    eachRow['appointmentDate'] = str(lead.appointmentDate)
+                    eachRow['comments'] = lead.comments
 
                     #handle feedback
                     try:
@@ -658,15 +787,17 @@ def getInterestedLeads(request):
             return fail("Employee doesn't exist")
 
         try:
-            leadsObj = Leads.objects.filter(isInterested=True, assignee=empObj)
+            leadsObj = Leads.objects.filter(isInterested=True,assignee=empObj)
         except Exception as e:
             return fail("Something went wrong")
 
         if len(leadsObj) == 0:
+            print("************************")
             return fail("No committed leads")
         else:
             leads_list = []
             for lead in leadsObj:
+                print(lead.assignee)
                 eachRow = {}
         #     for i in range(len(leads))
         #         lead={}
@@ -821,6 +952,7 @@ def editLead(request):
         callAction = request.POST.get("callAction", None)
         isInterested = request.POST.get("isCommit", None)
         pincode = request.POST.get("pincode",None)
+        assignee = request.POST.get("assignee",None)
         appointmentDate = request.POST.get("appointmentDate", None)
 
         try:

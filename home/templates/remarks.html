@@ -413,7 +413,7 @@ label.star:before {
         //This is dummy id for testing
         var leadID = localStorage.getItem("leadID");
         var emp_id = localStorage.getItem("empID");
-
+        var assignee = emp_id;
         var fullName = $("#leadName").val();
         var nameArray = fullName.split(" ");
         var fname = nameArray[0];
@@ -489,6 +489,7 @@ label.star:before {
             callAction: callAction,
             isInterested: isCommitted,
             pincode:pincode,
+            assignee:assignee,
             appointmentDate: appointmentDate
         },
         function(data, status) {

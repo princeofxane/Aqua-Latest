@@ -1,0 +1,154 @@
+ {% extends "base_ib.html" %}
+{% block body_content %}
+<script type="text/javascript">
+   function tassign(id){
+    $('#eid').val(id);
+    $('#myModallead').modal('show');
+
+  }
+
+ $( document ).ready(function() {
+
+  var path=baseUrl +"displayCurrentBookings/";
+  var table =   $('#examplet').DataTable();
+                      table.clear().draw();
+
+              $.ajax({
+      type: "GET",
+      url: path,
+      data: {},
+      success: function (data) {
+          var data=JSON.parse(data);
+          data=data.description;
+          console.log(data);
+
+        $.each(data, function(key,value) {
+      table.row.add($(
+    '<tr>' +
+    '<td>'+value.customerName+'</td>' +
+    '<td>'+value.problem+'</td>' +
+    '<td>'+value.customerPincode+'</td>' +
+    '<td>'+value.Customerplace+'</td>' +
+    '<td>'+value.assigned+'</td>' +
+
+    '<td><input type="submit" id="'+value.id+'" onclick="tassign(this.id)" value="Assign now" class="btn btn-warning"></td>' +
+
+
+    '</tr>'
+)).draw(false);
+    
+          }); 
+        
+        },
+        error:function(data){
+          console.log(data);
+        }
+        });
+});
+
+</script>
+<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 10%;margin-left: 12%;">
+  <div class="container" style="width: 80%;">
+
+          
+              <h3 class="box-title">Assigning jobs</h3>
+            
+              <table id="examplet" class="table table-bordered table-hover" style="overflow-x: scroll;padding: 10px">
+                <thead>
+                <tr>
+                  <th>Customer name</th>
+                  <th>Problem</th>
+                  <th>Pincode</th>
+                  <th>Place</th>
+                  <th>Assigned</th>
+                  <th>Action</th>
+                  
+
+                </tr>
+                </thead>
+                <tbody>
+               
+                </tbody>
+                <tfoot>
+                <tr>
+                  <th>Customer name</th>
+                  <th>Problem</th>
+                  <th>Pincode</th>
+                  <th>Place</th>
+                  <th>Assigned</th>
+                  <th>Action</th>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+  </div>
+
+   <div id="myModallead" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+      </div>
+      <div class="modal-body">
+       <div class="box box-info">
+            <div class="box-header with-border text-center">
+              <h3 class="box-title ">Assign job</h3>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+              </div>
+              <div class="col-sm-6">
+<div class="form-group">
+                  <label for="fname" class="col-sm-4 control-label">Date</label>
+
+                  <div class="col-sm-8">
+                      <input type="date" id="tdate" class="form-control">
+                  </div>
+                </div>              </div>
+            </div>
+
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form class="form-horizontal" >
+              <div class="box-body">
+                 <div class="form-group">
+                  <label for="fname" class="col-sm-4 control-label">Enter technician name</label>
+
+                  <div class="col-sm-8">
+                    <select class="form-control" id="tid">
+                      <option>select your technicain</option>
+                  </select>
+                  </div>
+                </div>
+                            
+                
+              
+
+
+                    <input type="hidden" class="form-control" id="eid" value="">
+                  
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                   
+                  </div>
+                </div>
+              </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+                <input type="submit" class="btn btn-info pull-right" id="addnot" value="Assign job">
+              </div>
+              <!-- /.box-footer -->
+            </form>
+          </div>
+                    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+    {% endblock body_content %}
+    {$ block custom_js %}

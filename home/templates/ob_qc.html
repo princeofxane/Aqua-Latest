@@ -1,0 +1,293 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block body_content %}
+<style type="text/css">#dataTable_filter{display: none;}</style>
+<div id="page-wrapper" class="pt60" >
+	<table id="dataTable" class = "table table-hover dataTable">
+	<thead>
+		<tr style="border-bottom:2pt solid black;">
+			<th width="5%">No</th>
+			<th width="5%">Req ID</th>
+			<th width="10%">Source</th>
+			<th width="10%">Name</th>
+			<th width="10%">Phone Number</th>
+			<th width="25%">Address</th>
+			<th width="10%">FeedBack</th>
+			<th width="10%">Appointment</th>
+			<th width="10%">Action</th>		
+		</tr>
+	</thead>
+	<tbody></tbody>
+	</table>
+</div>
+<br>
+
+<!-- This is to show pause -->
+<div id="modalForPause" class="modal fade" role="dialog" style="border: 3px solid #7CB9E8">
+	<div class="modal-dialog">
+		<div class="modal-content" style="background-color: rgb(135, 202, 193)">
+			<div class="modal-header">
+				<div style="margin-bottom: 150px">
+                    <img src='{% static "images/download.png" %}' class="user"/>
+                </div>
+            </div>
+            <div class="modal-body">
+                <h4 class="modal-title text-center">Paused</h4>
+                <div class="text-center">    
+                    <p id="ptime" style="font-weight: bold;"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="text-center">
+                    <input type="submit" id="resume" value="Resume" class="btn btn-primary" style="color: #7CB9E8">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body_content %}
+{% block custom_js %}
+<!-- All script starts here -->
+<script>
+$(document).ready(function(){
+	$(".iconbox").hide();
+	$("#menubar").click(function(){
+		$('#menubar').hide();
+		$(".iconbox").show();
+	});
+
+	$(".close").click(function(){
+		$('#menubar').show();
+		$(".iconbox").hide();
+	});
+
+	$("#menubar").click(function(){
+		$("#btn").hide();
+		$(".close").click(function(){
+			$('#btn').show();
+		});
+	});
+
+	$("#menubar").click(function(){
+		$("#btn").hide();
+		$(".close").click(function(){
+			$('#btn').show();
+		});
+	});
+
+	$("#menubar").click(function(){
+		$("#btn1").hide();
+		$(".close").click(function(){
+			$('#btn1').show();
+		});
+	});
+
+	$.post( baseUrl + "getSession/",
+	{},
+	function(data, status)
+	{
+		dataObj=JSON.parse(data);
+		if(dataObj.result=="fail")
+		{
+			window.location.href = baseUrl
+		}
+		else
+		{
+			emp_id = dataObj.description;
+			getUserData(emp_id);
+			fetchTableData(emp_id);
+		}
+	}
+	);
+
+});
+
+$(".call-card").hide();
+$("#callnow").click(function(){
+	$(".call-card").show();
+});
+
+$("#goToDashboard").click(function(){
+	window.location.href = baseUrl + "tc_homePage/"
+});
+
+
+$("#callsButton").click(function() {
+	//This page is temporary
+	window.location.href = baseUrl + "callHistoryPage/"
+});
+
+
+$("#commitsButton").click(function() {
+	//This page is temporary
+	window.location.href = baseUrl + "commitHistoryPage/"
+});
+
+
+var emp_id;
+var lead_id;
+
+function fetchTableData(emp_id)
+{ 
+	var table = $('#dataTable').DataTable({"sDom": "Rfrtlip"});
+	$.ajax({
+		type: "post",
+		url: baseUrl+"getComittedLeads/",
+		data:{
+			emp_id: emp_id
+		},
+		success: function (data) 
+		{
+			data=JSON.parse(data);
+			data=data.description;
+			var i = 0;
+			$.each(data, function(key,value)
+			{
+				console.log(value);
+				var lastComment = ''
+				for (var x = 0; x < value.feedback.length; x++) {
+						lastComment = value.feedback[x]
+					}
+				table.row.add($(
+					'<tr style="border-bottom:2pt solid black;">' +
+					'<td>'+i+'</td>' +
+					'<td>'+value.leadID+'</td>' +
+					'<td>'+value.source+'</td>' +
+					'<td>'+value.fname+ ' ' +value.lname+'</td>' +
+					'<td>'+value.phone+'</td>' +
+					'<td>'+value.address+'</td>' +
+					'<td>'+ lastComment +'</td>' +
+					'<td>'+value.appointmentDate+'</td>' +
+					`<td><a id="${value.leadID}" onClick=setLocalStorage(this.id) type="button" href="../approve" class="btn btn-primary">ACCEPT</a><a  type="button" href="../reject" class="btn btn-primary">REJECT</a></td>`+
+						'</tr>')).draw(false);
+			});
+		}
+	});
+	}
+
+	function setLocalStorage(leadID) 
+	{
+		localStorage.setItem("leadID", leadID)
+		localStorage.setItem("empID", emp_id)
+	}
+
+
+	function getProfilePicture(emp_id) 
+	{
+	$.post( baseUrl + "getProfilePicture/",
+	{
+		id: emp_id,
+	},
+	function(data, status) {
+		dataObj=JSON.parse(data);
+		if(dataObj.result=="fail") {
+			alert("Something's Wrong With Profile Picture")
+		}else{
+			// console.log(dataObj.description);
+			document.getElementById("imageid").src=".." + dataObj.description ;
+		}
+	});
+	}
+	
+
+
+	function getUserData(emp_id) 
+	{
+		$.post( baseUrl + "getUserData/",
+		{
+			id: emp_id,
+		},
+		function(data, status) {
+			dataObj=JSON.parse(data);
+			if(dataObj.result=="fail") {
+				alert("request failed")
+			}else{
+				console.log(dataObj)
+				var fname = dataObj.description['fname']
+				var lname = dataObj.description['lname']
+				loginTime = dataObj.description['loginTime']
+				var d = new Date(loginTime);
+
+				var date = d.getMonth() + 1
+
+				$("#loginTime").text('Logged in at: ' + d.getHours() + ' : ' + d.getMinutes())
+				$("#loginDate").text('Date: ' + d.getDate() + '-' + date + '-' + d.getFullYear())
+
+				fullName = makeItUpper(fname, lname)
+				$("#welcomeTag").text("Hello " + fullName);
+				//To a change welcome
+			}
+			// getCallTable(emp_id)
+		});
+	}
+
+
+		$(document).ready(function() {
+			setInterval(function() {
+
+				var d = new Date(loginTime);
+				var login = d.getMinutes()*60 + d.getHours()*60*60 + d.getSeconds()
+				var c = new Date();
+				var curDate = c.getMinutes()*60 + c.getHours()*60*60 + c.getSeconds()
+
+				a = Number(curDate -login);
+				var h = Math.floor(a / 3600);
+				var m = Math.floor(a % 3600 / 60);
+				var s = Math.floor(a % 3600 % 60);
+
+				// var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+				// var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+				// var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+
+				var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+				var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+				var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+				$("#runningTime").text(h + ":" + m + "." + s)
+			// $("#runningTime").text(d.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12:true }))
+			}, 1000)
+		});
+
+		$("#pauseButton").click(function(e) {
+			e.preventDefault();
+			$('#modalForPause').modal('show');
+			startCounter();
+			$.post( baseUrl + "setPause/",
+			{
+				id: emp_id,
+				isPause: true
+			},
+			function(data, status) {
+				dataObj = JSON.parse(data);
+				if(dataObj.result == 'fail') {
+					alert(dataObj.description)
+				}else {
+					console.log(dataObj.description)
+				}
+
+			})
+		});
+
+		$('#resume').click(function(e){
+			e.preventDefault();
+			// location.reload();
+			resetCounter();
+			$("#modalForPause").modal("hide");
+			$.post(baseUrl + "setPause/",
+			{
+				id:emp_id,
+				isPause: false
+			},
+			function(data, status) {
+				dataObj = JSON.parse(data);
+				if(dataObj.result == 'fail') {
+					alert(dataObj.description)
+				}else {
+					pauseDuration = dataObj.description
+				}
+			})
+		});
+	</script>
+
+
+{% endblock custom_js %}
+

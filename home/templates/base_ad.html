@@ -1,8 +1,6 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
-
-
 {% block header %}
 	<head>
 		<meta charset="utf-8">
@@ -12,82 +10,46 @@
 		<meta name="author" content="">
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-		<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<link rel="stylesheet" href="../static/css/my_style.css">
-		
+		 <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js" integrity="sha256-xI/qyl9vpwWFOXz7+x/9WkG5j/SVnSw21viy8fWwbeE=" crossorigin="anonymous"></script>
+		 <script type="text/javascript" src='{% static "js/bootstrap.min.js" %}'></script>
+		 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+		 <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"> 
+		<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+		<!-- Clock related functions -->
 		<title>IONEXANSENSE</title>
-		
-		
-		{% block custom_css %}
-		
-			<!-- Bootstrap Core CSS -->
-			<link rel="stylesheet" href='../static/css/bootstrap.min.css'>
-			<!-- Custom CSS -->
-			<link rel="stylesheet" href="../static/css/bootstrap-multiselect.css">
-			<link rel="stylesheet" href="../static/css/style.css">
-			<link rel="stylesheet" href="../static/css/animate.css">
-			<link rel="stylesheet" type="text/css" href="../static/css/my_style.css">
 
-			<!-- Custom Fonts -->
-			<link href="../static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-			<link href='//fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-		{% endblock custom_css %}
-
+	
 		{% block javascript %}
-			<!-- <script src="../static/js/jquery-3.2.1.min.js"></script> -->
-  			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-				<script type="text/javascript" charset="utf8" src="../static/js/jquery.dataTables.js"></script>
-		<script type="text/javascript" src="../static/js/aquaguardTimer.js"></script>
-			<script src="../static/js/bootstrap.min.js"></script>
-			<script src="../static/js/jquery.easy-autocomplete.min.js"></script>
-			<script src="../static/js/jquery.dataTables.min.js"></script>
-			<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-			<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-			
 
-			<script type="text/javascript">
-				var module_name = "{{ module_name }}";
-				$('#track_module_name').val(module_name);
-				jQuery.fn.clickToggle = function(a,b) {
-					function cb(){ [b,a][this._tog^=1].call(this); }
-					return this.on("click", cb);
-				};
-
-				$(document).ready(function() {
-					$('#togglebutton').clickToggle(function() {   
-						$('#page-wrapper').css("margin", "10px 0 0 255px");
-						$('.main-menu').css("width", "240px").css("border-color", "rgba(130, 130, 130, 0.35)").css("-webkit-transition", "width .3s ease");
-					}, function() {
-						$('#page-wrapper').css("margin", "10px 0 0 100px");
-						$('.main-menu').css("width", "60").css("border-color", "rgba(130, 130, 130, 0.35)").css("-webkit-transition", "width .3s ease");            
-						$('.main-menu').attr("style", "");
-					});
-				})
-			</script>
-
-
-		{% endblock javascript %}
-
-
-	</head>
-{% endblock header %}
-
-
-
-{% block body %}
-	<body>
-		<input type="hidden" id="track_module_name" name="track_module_name">
 		
+		<script type="text/javascript" src='{% static "js/aquaguardTimer.js" %}'></script>
+		<script src='{% static "js/jquery.easy-autocomplete.min.js" %}'></script>
+		<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+		<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+		{% endblock javascript %}
+		{% block custom_css %}
+		<link rel="stylesheet" href='{% static "css/dist/bootstrap-clockpicker.min.css" %}'>
+		<!-- Bootstrap Core CSS -->
+		<link rel="stylesheet" href='{% static "css/bootstrap.min.css" %}'>
+		<!-- Custom CSS -->
+		<link rel="stylesheet" href='{% static "css/bootstrap-multiselect.css" %}'>
+		<link rel="stylesheet" href='{% static "css/style.css" %}'>
+		<link rel="stylesheet" href='{% static "css/animate.css" %}'>
+			<!-- Custom Fonts -->
+		<link href='{% static "css/font-awesome.min.css" %}' rel="stylesheet" type="text/css">
+		<link href='//fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+		{% endblock custom_css %}
+	</head>
+	{% endblock header %}
+	{% block body %}
+	<body>
 		{% block top_nav %}
 			{% include "top_nav_ad.html" %}
 		{% endblock top_nav %}
-		
 		{% block left_nav %}
 			{% include "left_nav_ad.html" %}
 		{% endblock left_nav %}
-		<!-- </div> -->
 		
 		{% block body_content %}
 		{% endblock body_content %}
@@ -98,10 +60,8 @@
 		{% block footer %}
 		{% include "footer.html" %}
 		{% endblock footer %}
-    <!-- </body>  -->
-   
-		{% block custom_js %}
-		{% endblock custom_js %}
+			{% block custom_js %}
+			{% endblock custom_js %}
 	</body>
 {% endblock body %}
 </html>

@@ -1,0 +1,167 @@
+{% extends "base_ib.html" %}
+{% block body_content %}
+<script type="text/javascript">
+ function addtick() {
+  path= baseUrl + "registerTicket/";
+
+        var fname=$('#fname').val();;
+        var lname=$('#lname').val();
+        var mail=$('#mail').val();;
+        var alter=$('#alter').val();
+        var phone=$('#phone').val();
+        var address=$('#address').val();
+        var dev=$('#dev').val();
+        var pin=$('#pin').val();
+        var prob=$('#prob').val();
+        var land=$('#land').val();
+        var city=$('#city2').val();
+        var cityLat=$('#cityLat').val();
+        var cityLng=$('#cityLng').val();
+        $.ajax({
+          type: "post",
+          url: path,
+      data:{fname:fname,device:dev,lname:lname,email:mail,phone:phone,alter:alter,problem:prob,pincode:pin,address:address,land:land,city:city,cityLat:cityLat,cityLng:cityLng},
+      success: function (data) {
+        console.log(data);
+        var data=JSON.parse(data);
+        if(data.result != "success"){
+          alert("sorry no technician found so please do find some other way");
+        }
+        else{
+
+          data=data.description;
+          $('#name1').val(data['name']);
+          $('#mail2').val(data['mail']);
+          $('#phone2').val(data['phone']);
+          $('#pin2').val(data['pin']);
+          $('#myModal2').modal('show');   
+          $('#form1')[0].reset();    
+        }
+      }
+    });
+        
+    }
+</script>
+<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 12%;margin-left: 10%;">
+  <div class="container" style="width: 80%;">
+    <h3>ADD NEW TICKET</h3>
+    <br>
+    <br>
+
+    <form class="" id="form1">
+              <div class="form-group">
+                  <label for="phone" >Phone</label>
+
+                    <input type="text" class="form-control" id="phone" placeholder="phone" maxlength="10" pattern="\d{10}">
+                  </div>
+              
+
+
+                 <div class="form-group">
+                  <label for="mail" >Mail</label>
+
+                  
+                    <input type="email" class="form-control" id="mail" placeholder="mail@gmail.com">
+                  
+                </div>
+                   <div class="form-group">
+                  <label for="alter" >Alternative mobile</label>
+
+                
+                    <input type="number" class="form-control" id="alter" placeholder="phone" maxlength="10" pattern="\d{10}">
+                  
+                </div>
+                 <div class="form-group">
+                  <label for="fname" >First Name</label>
+
+                  
+                    <input type="text" class="form-control" id="fname" placeholder="first name">
+                 
+                </div>
+
+
+                 <div class="form-group">
+                  <label for="lname" >Last Name</label>
+
+                  
+                    <input type="text" class="form-control" id="lname" placeholder="last name">
+                  
+                </div>
+                                 <div class="form-group">
+
+                <label for="lname" >Address</label>
+
+                  
+                    <input type="text" class="form-control" id="address" placeholder="Address" style="height: 100px;" onkeyup="initialize()">
+                  
+                </div>
+                <div class="form-group">
+                  <label for="dev" >Device name</label>
+
+                
+                    <input type="text" autocomplete="on" class="form-control" id="dev" placeholder="Device name" list="products">
+
+                  </div>
+                
+                <div class="form-group">
+                  <label for="pin" >Pincode</label>
+
+                  
+                    <input type="number" class="form-control" id="pin" placeholder="Pincode">
+                  </div>
+              
+
+                <div class="form-group">
+                  <label for="land" >landmark</label>
+
+              
+                    <input type="text" class="form-control" id="land" placeholder="Land mark" >
+                 
+                </div>
+
+                 <div class="form-group">
+                  <label for="city2" >City</label>
+
+                  
+                    <input type="text" class="form-control" id="city2" disabled="true">
+                  
+                </div>
+
+                 <div class="form-group">
+                  <label for="cityLat" >Latitude</label>
+
+                  
+                    <input type="text" class="form-control" id="cityLat" disabled="true">
+                  </div>
+               
+
+                 <div class="form-group">
+                  <label for="cityLng" >Longitude</label>
+
+                
+                    <input type="text" class="form-control" id="cityLng" disabled="true">
+                  </div>
+                
+
+                <div class="form-group">
+                  <label for="prob" >Problem</label>
+
+                
+                    <input type="text" class="form-control" id="prob" placeholder="Problem" style="height: 100px;">
+                  </div>
+              
+                 
+                <div class="form-group">
+                 
+                <input type="submit" class="btn btn-info pull-right" id="add" value="Raise Ticket">
+              </div>
+              <!-- /.box-footer -->
+            </form>
+          </div>
+</div>       
+{% endblock body_content %}
+{$ block custom_js %}
+
+
+<!-- 
+onclick="addprod();" -->

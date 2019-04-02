@@ -1,0 +1,271 @@
+{% extends "base_ib.html" %}
+{% block body_content %}
+<script type="text/javascript">
+   $( document ).ready(function() {
+
+  alert("tye");
+  var path=baseUrl + "displayTodaysBooking1/";
+
+  var table =   $('#examplework').DataTable();
+                      table.clear().draw();
+              $.ajax({
+      type: "post",
+      url: path,
+      data: {},
+      success: function (data) {
+          var data=JSON.parse(data);
+          data=data.description;
+          console.log(data);
+
+        $.each(data, function(key,value) {
+      table.row.add($(
+
+    '<tr>' +
+
+    '<td id="'+value.id+'">'+value.problem+'</td>' +
+
+    '<td id="f'+value.id+'">'+value.client_name+'</td>' +
+    
+
+    '<td id="p'+value.id+'">'+value.pincode+'</td>' +
+    '<td id="ph'+value.id+'"><select class="form-control" id="s'+value.id+'"></select></td>' +
+
+
+    '<td><input type="submit" id="'+value.id+'" onclick="finalbook(this.id)" style="margin-bottom:3px;" value="Assign" class="btn btn-success"></td>'+
+
+
+
+    '</tr>'
+)).draw(false);
+        
+          });
+
+
+
+        $.each(data,function(key,value){
+          console.log("this is the each loop");
+
+
+            var select = $('#s'+value.id);
+            console.log("this is the eroor"+value.id);
+
+    select.empty();
+
+    select.append("<option value=''>---Select your technician---</option>");
+
+
+    for (var i = 0; i < tid.length; i++){
+      console.log("for looop");
+          var length = $('#s'+value.id).children('option').length;
+
+            console.log(tid[i]+ "--" + tname[i]);
+            $("#s"+value.id).append("<option value='" +tid[i]+ "'>" +tname[i]+ "</option>");
+
+          }
+
+
+         /* for(i=0;i<tid.length;i++){
+              $("<option/>").val(tid[i]).text(tname[i]).appendTo("#s"+value.id);
+
+
+
+          } */
+
+        });
+      
+      boolval++;
+        
+        },
+        error:function(data){
+          console.log(data);
+        }
+        });
+
+
+
+
+
+
+
+
+  var path=baseUrl + "displayAllAssignedTickets/";
+
+  var table =   $('#exampleworkdone').DataTable();
+                      table.clear().draw();
+              $.ajax({
+      type: "get",
+      url: path,
+      data: {},
+      success: function (data) {
+          var data=JSON.parse(data);
+          data=data.description;
+          console.log(data);
+
+        $.each(data, function(key,value) {
+      table.row.add($(
+
+    '<tr>' +
+
+    '<td >'+value.technician+'</td>' +
+
+    '<td >'+value.customer+'</td>' +
+    
+
+    '<td >'+value.problem+'</td>' +
+        '<td >'+value.pincode+'</td>' +
+
+
+
+
+    '</tr>'
+)).draw(false);
+        
+          }); 
+        
+        },
+        error:function(data){
+          console.log(data);
+        }
+        });
+}
+
+</script>
+ <div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 12%;margin-left: 10%;">
+  <div class="container" style="width: 80%;">
+
+              <h3>All UnAssigned jobs</h3>
+              <table id="examplework" class="table table-bordered table-hover" style="overflow-x: scroll;">
+                <thead>
+                <tr>
+                  <th>Problem</th>
+                  <th>Customer</th>
+                  <th>Pincode</th>
+                  <th>select technicain</th>
+                  <th>Action1</th>
+
+                </tr>
+                </thead>
+                <tbody>
+               
+                </tbody>
+                <tfoot>
+                <tr>
+                 <th>Problem</th>
+                  <th>Customer</th>
+                  <th>Pincode</th>
+                  <th>select technicain</th>
+                  <th>Action1</th>               
+                </tr>
+                </tfoot>
+              </table>
+</div>
+              <br>
+<div class="container" style="width: 80%;">
+             
+              <h3>All Assigned jobs</h3>
+            
+               <table id="exampleworkdone" class="table table-bordered table-hover" style="overflow-x: scroll;margin-top: 200px">
+                <thead>
+                <tr>
+                  <th>Technician</th>
+                  <th>Customer</th>
+                                    <th>Problem</th>
+
+                  <th>Pincode</th>
+                  
+
+                </tr>
+                </thead>
+                <tbody>
+               
+                </tbody>
+                <tfoot>
+                <tr>
+                <th>Technician</th>
+                  <th>Customer</th>
+                                    <th>Problem</th>
+
+                  <th>Pincode</th>              
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          
+
+    <div id="myModalemp" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+      </div>
+      <div class="modal-body">
+       <div class="box box-info">
+            <div class="box-header with-border text-center">
+              <h3 class="box-title ">Edit Employee</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form class="form-horizontal" >
+              <div class="box-body">
+                 <div class="form-group">
+                  <label for="fname" class="col-sm-4 control-label">First name</label>
+
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="fname" placeholder="first name">
+                  </div>
+                </div>
+                                 <div class="form-group">
+
+                <label for="lname" class="col-sm-4 control-label">Last name</label>
+
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="lname" placeholder="last name">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-4 control-label">Email</label>
+
+                  <div class="col-sm-8">
+                    <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputPassword3" class="col-sm-4 control-label">Phone</label>
+
+                  <div class="col-sm-8">
+                    <input type="number" class="form-control" id="phone" placeholder="Phone number">
+                  </div>
+                </div>
+
+
+                    <input type="hidden" class="form-control" id="eid" value="">
+                  
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                   
+                  </div>
+                </div>
+              </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+                <input type="submit" class="btn btn-info pull-right" id="editempbtn" value="Edit employee">
+              </div>
+              <!-- /.box-footer -->
+            </form>
+          </div>
+                    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock body_content %}
+{$ block custom_js %}
+

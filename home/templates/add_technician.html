@@ -1,0 +1,99 @@
+{% extends "base_ib.html" %}
+{% block body_content %}
+
+
+<script type="text/javascript">
+ function addtech() {
+        var fname=$('#fname').val();;
+        var lname=$('#lname').val();;
+        var phone=$('#phone').val();
+        var address=$('#pass').val();;
+        var pincode=$('#pin').val();
+        var email=$('#mail').val();
+        var role = "ts";
+      
+      
+        $.post( baseUrl + "createNewEmployee/",
+        {
+          fname:fname,
+          lname:lname,
+          phone:phone,
+          address:address,
+          pincode:pincode,
+          email:email,
+          role:role    
+        },
+        function(data, status){
+            var dataObj = JSON.parse(data);
+            if (dataObj.result === "success") {
+                alert(dataObj.description)
+            } else {
+                alert(dataObj.description)
+            }
+        })
+    }
+</script> 
+<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 12%;margin-left: 10%;">
+  <div class="container" style="width: 80%;">
+    <h3>ADD NEW TECHNICIAN</h3>
+    <br>
+    <br>
+
+            <form class="form-horizontal" id="frmLookup">
+                   <div class="form-group">
+                  <label for="inputPassword3">Phone</label>
+                    <input type="number" class="form-control" id="phone" placeholder="Phone number" maxlength="10" pattern="\d{10}">
+                  </div>
+                
+                 <div class="form-group">
+                  <label for="pass">address</label>
+
+                 
+                    <input type="test" class="form-control" id="pass" placeholder="Password">
+                  </div>
+                
+                                 <div class="form-group">
+
+                <label for="pin" >Pincode</label>
+
+                 
+                    <input type="text" class="form-control" id="pin" placeholder="Pincode">
+                  </div>
+                
+
+                  <div class="form-group">
+                  <label for="name" >Email</label>
+
+                 
+                    <input type="email" class="form-control" id="mail" placeholder="Email">
+                  
+                </div>
+                <div class="form-group">
+                  <label for="name" >First name</label>
+
+                  
+                    <input type="text" class="form-control" id="fname" placeholder="User name">
+                  </div>
+                   <div class="form-group">
+                  <label for="name" >Last name</label>
+
+                  
+                    <input type="text" class="form-control" id="lname" placeholder="User name">
+                  </div>
+              
+             
+                
+                <div class="form-group">
+                  <center>
+                <input type="button"  onclick="addtech();" class="btn btn-primary" id="add" value="Add Technician"></center>
+              </div>
+              <!-- /.box-footer -->
+            </form>
+          </div>
+        </div>
+{% endblock body_content %}
+{$ block custom_js %}
+
+
+<!-- 
+ -->

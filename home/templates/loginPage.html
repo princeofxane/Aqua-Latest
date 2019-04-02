@@ -120,7 +120,12 @@
                     homePage = "ad_homePage/";
                 } else if (dataObj.description ==="tc") {
                     homePage = "tc_homePage/";
+                } else if (dataObj.description ==="tc_qc") {
+                    homePage = "ob_qc_homePage/";
+                } else if (dataObj.description ==="ib") {
+                    homePage = "ib_homePage/";
                 }
+
                 $.post( baseUrl + "storeSession/",
                 {
                     id: emp_id,

@@ -23,14 +23,14 @@
 <table id="dataTable" class = "table table-hover dataTable">
 	<thead>
 		<tr>
-			<th>No</th>
-			<th>Req ID</th>
-			<th>Name</th>
-			<th>Phone Number</th>
-			<th>Address</th>
-			<th>Appointment</th>
-			<th>Feedback</th>
-			<th>Status</th>
+			<th width="10%">No</th>
+			<th width="10%">Req ID</th>
+			<th width="10%">Name</th>
+			<th width="10%">Phone Number</th>
+			<th width="20%">Address</th>
+			<th width="10%">Appointment</th>
+			<th width="15%">Feedback</th>
+
 		</tr>
 	</thead>
 	<tbody></tbody>
@@ -158,11 +158,12 @@ function fetchTableData(emp_id) {
 			$.ajax({
 			type: "post",
 			url: baseUrl+"getInterestedLeads/",
+			dataType: "json",
 			data: {
 				emp_id: emp_id
 			},
 			success: function (data) {
-					data=JSON.parse(data);
+					data=JSON.parse(JSON.stringify(data));
 					// console.log(data);
 					data=data.description;
 					var i = 0;
@@ -176,7 +177,6 @@ function fetchTableData(emp_id) {
 						'<td>'+value.phone+'</td>' +
 						'<td>'+value.address+'</td>' +
 						'<td>'+value.appointmentDate+'</td>' +
-						'<td>'+value.phone+'</td>' +
 						'<td>'+value.phone+'</td>' +
 						'</tr>')).draw(false);
 				})

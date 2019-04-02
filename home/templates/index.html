@@ -154,6 +154,11 @@ function fetchTableData(emp_id)
 				} else {
 					lastComment = "null"
 				}
+				if(lastComment != "Call Back")
+				{
+					if(lastComment != "Set Commit")
+					{
+				
 				table.row.add($(
 					'<tr style="border-bottom:2pt solid black;">' +
 					'<td>'+i+'</td>' +
@@ -166,6 +171,7 @@ function fetchTableData(emp_id)
 					'<td>'+value.appointmentDate+'</td>' +
 					`<td><a id="${value.leadID}" onClick=setLocalStorage(this.id) type="button" href="../remarks" class="btn btn-primary">EDIT</a></td>`+
 						'</tr>')).draw(false);
+			}}
 			})
 		}
 		})

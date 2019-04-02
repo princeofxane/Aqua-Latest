@@ -1,0 +1,317 @@
+{% extends "base_ib.html" %}
+{% block body_content %}
+
+<div class="container">
+     <div class="modal fade" id="newCustomer">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Add New Lead</h3>
+                </div>
+
+                <!-- body (form) -->
+                <div class="modal-body">
+                    <!-- <form> -->
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="fname" name="fname" placeholder="Customer Fisrt Name">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="lname" name="lName" placeholder="Customer Last Name">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Customer Email">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" class="form-control" id="mobile" name="mobile" placeholder="Customer Phone Number">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" class="form-control" id="alternativeMobile" name="alternativeMobile" placeholder="Customer Alternate Phone Number">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="address" name="address" placeholder="Customer Address">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" class="form-control" id="pincode" name="pincode" placeholder="Customer Pincode">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="land" name="land" placeholder="Landmark">
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" id="newLead" data-dismiss="modal" class="btn btn-primary btn-block">
+                        </div>
+                    <!-- </form> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container-fluid">
+  <div class="progress md-progress" >
+      <div class="progress-bar" role="progressbar" style="width: 50%; height: 30px; " aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
+  </div>
+  <div class="progress md-progress" >
+      <div class="progress-bar progress-bar-success"  role="progressbar" style="width: 25%; height: 30px; " aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+  </div>
+  <button style="margin-right: 100px;" type="button" class="btn btn-info" data-toggle="modal" data-target="#newCustomer">Add New Lead</button>
+  <div class="container">
+    <table  class="table table-striped display" id="excelDataTable" border="1">
+    
+      <!-- <thead>
+        <tr>
+          <td>id</td>
+          <td>fname</td>
+          <td>lname</td>
+          <td>email</td>
+          <td>mobile</td>
+          <td>alternativeMobile</td>
+          <td>address</td>
+          <td>land</td>
+          <td>pincode</td>
+          <td>status</td>
+          <td>comments</td>
+        </tr>
+      </thead> -->
+
+    </table>
+  </div>
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+
+    var empFinal = '';
+    var custFinal = '';
+    var baseUrl = window.location.href;
+
+    function addAllColumnHeaders(myList) {
+        var columnSet = [];
+        var headerTr$ = $('<tr/>');
+    
+        for (var i = 0 ; i < dataObj.description.length ; i++) {
+            var rowHash = dataObj.description[i];
+            for (var key in rowHash) {
+                if ($.inArray(key, columnSet) == -1){
+                    columnSet.push(key);
+                    headerTr$.append($('<th />').html(key));
+                }
+            }
+        }
+        $("#excelDataTable").append(headerTr$);
+    
+        return columnSet;
+    }  
+
+    function upgateLeadStatus(val){
+     custFinal = val;
+     $.post( baseUrl+"displaySingleLead/",
+        {
+          id: custFinal,
+        },
+        function(data, status){
+          dataObj=JSON.parse(data);
+          if(dataObj.result == "fail")
+              alert(dataObj.description);
+          else if( dataObj.result == "success"){
+            console.log(data);
+              document.getElementById("nameCall").innerHTML =  dataObj.description.fname + ' ' +dataObj.description.lname;
+              document.getElementById("addressCall").innerHTML =  dataObj.description.address +' '+dataObj.description.land +' '+dataObj.description.pincode;;
+              document.getElementById("phoneCall").innerHTML =  dataObj.description.mobile;
+              document.getElementById("altPhoneCall").innerHTML =  dataObj.description.alternativeMobile;
+              document.getElementById("status").value =  dataObj.description.status;
+              document.getElementById("comments").value =  dataObj.description.comments;
+          }
+          else
+              alert(data);
+          console.log(data);
+        });
+
+    }
+      
+    function getCallCount(id){
+     $.post( baseUrl+"getProgress/",
+        {
+          id: id,
+        },
+        function(data, status){
+          
+        });
+
+    }
+
+    function setCallCount(id){
+     $.post( baseUrl+"getProgress/",
+        {
+          id: id,
+        },
+        function(data, status){
+          
+        });
+
+    }
+        
+
+    function updateLeadList(){
+      document.getElementById('excelDataTable').innerHTML=' ';
+
+
+      if(empFinal == '')
+          alert("You need to Login");
+      else{
+          $.post( baseUrl+"displayAllLeads/",
+          {
+            id: emp_id,
+           },
+        function(data, status){
+          dataObj = JSON.parse(data);
+          // console.log(dataObj.result);
+          if(dataObj.result == 'fail')
+            alert("Sorry No Data Assigned Yet");
+          else{
+            var columns = addAllColumnHeaders(dataObj.description);
+            for (var i = 0 ; i < dataObj.description.length ; i++) {
+                var row$ = $('<tr/>');
+                for (var colIndex = 0 ; colIndex < columns.length ; colIndex++) {
+                    var cellValue = dataObj.description[i][columns[colIndex]];
+                    if (cellValue == null) { 
+                      cellValue = ""; 
+                    }
+                    if(cellValue == 'nas')
+                      cellValue = "Not answered"
+                    else if(cellValue == 'nyc')
+                      cellValue = 'not yet called';
+                    else if(cellValue == 'crs')
+                      cellValue = 'call resheduled';
+                    else if(cellValue == 'nin')
+                      cellValue = 'not intrested' ;
+                    else if(cellValue == 'inr')
+                      cellValue = 'intrested';
+                    else if(cellValue == 'nav')
+                      cellValue = 'not_available';
+                    row$.append($('<td/>').html(cellValue));
+                }
+                row$.append($(
+                  '<button id='+dataObj.description[i][columns[0]]+' class="btn btn-lg btn-success fa fa-phone" data-toggle="modal" data-target="#onCallUpdate" onclick="upgateLeadStatus('+dataObj.description[i][columns[0]]+')" />'
+                  ).html("call"));
+
+                $("#excelDataTable").append(row$);
+              }
+           }
+          
+          });
+        }
+         // $('#excelDataTable').DataTable();
+      }
+    
+    $(document).ready(function() { 
+
+
+      // $('#excelDataTable').DataTable();
+
+      $('#excelDataTable').DataTable( {
+              bSort: false,
+              aoColumns: [  { sWidth: "100%", bSearchable: true, bSortable: false } ],
+          "scrollY":        "500px",
+          "scrollCollapse": true,
+          "info":           true,
+          "paging":         true
+      } );
+
+      $("#login").click(function(){
+        emp_id = $("#emp_id").val();
+        $.post( baseUrl + "empLogin/",
+        {
+          id: emp_id,
+        },
+        function(data, status){
+            dataObj=JSON.parse(data);
+            if(dataObj.result == "fail")
+                alert(dataObj.description);
+            else if( dataObj.result == "success"){
+                document.getElementById("welcomeNote").innerHTML =  dataObj.description;
+                empFinal = emp_id;
+                updateLeadList();
+            }
+            else
+                alert(data);
+            // console.log(data);
+        });
+      });
+
+      $("#newLead").click(function(){
+         if(empFinal == '')
+            alert("You need to Login");
+        else{
+           fname= $("#fname").val();
+           lname= $("#lname").val();
+           mobile= $("#mobile").val();
+           email= $("#email").val();
+           address= $("#address").val();
+           pincode= $("#pincode").val();
+           land= $("#land").val();
+           alternativeMobile= $("#alternativeMobile").val();
+          $.post( baseUrl + "addNewLead/", 
+          {
+                fname: fname,
+                lname: lname,
+                mobile: mobile,
+                email: email,
+                address: address,
+                pincode: pincode,
+                land: land,
+                alternativeMobile: alternativeMobile,
+           },
+          function(data, status){
+            dataObj = JSON.parse(data);
+            alert(dataObj.description);
+            console.log(dataObj.description);
+            console.log(data);
+          });
+        }
+      });
+
+      $("#updateFeedback").click(function(){
+         if(custFinal == '')
+            alert("somthing went wrong");
+        else{
+           status= $("#status").val();
+           comments= $("#comments").val();
+          $.post( baseUrl + "updateStatus/", {
+                id : custFinal,
+                status: status,
+                comments: comments,
+           },
+          function(data, status){
+            dataObj = JSON.parse(data);
+            // alert(dataObj.description);
+            console.log(dataObj.description);
+              updateLeadList();
+              if(status == 'crs' || status == 'nin' || status == 'inr'){
+                count++;
+                setCallCount();
+              }
+              getCallCount();
+            console.log(data);
+          });
+        }
+      });
+
+
+
+    });
+
+    </script>

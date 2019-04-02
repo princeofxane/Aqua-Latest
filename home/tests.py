@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 # from .models import Employee,Customer,Product,CustomerEmployee, CallsPerDay, Leads
-from .models import Employee, Customers, Product, Leads
+from .models import Employee, Customer, Product, Leads
 # Create your tests here.
 
 def fill_database_with_dummy_values():

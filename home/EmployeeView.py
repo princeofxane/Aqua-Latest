@@ -44,6 +44,51 @@ def createNewEmployee(request):
     return success(newEmpID)
     return fail("Error in request")
 
+def displayAllEmployee(request):
+    employees=Employee.objects.filter(isActive=True)
+    print(employees)
+    print("DATA IS OUTPUTTED OVER HERE")
+    employee_list=[]
+    print(len(employees))
+    if(len(employees)==0):
+        return fail("No employee in db")
+    else:
+        for i in range(len(employees)):
+            emp={}
+           
+            emp['email']=employees[i].email
+            emp['phone']=employees[i].phone
+            emp['category']=employees[i].type
+            emp['name']=employees[i].name
+            emp['id']=employees[i].id
+            emp['pincode']=employees[i].pincode
+            employee_list.append(emp)
+
+        return success(employee_list)
+
+def displayAllEmployee_tech(request):
+    print("*******yessssss")
+    employees=Employee.objects.filter(isActive=True)
+    print(employees)
+    print("DATA IS OUTPUTTED OVER HERE")
+    employee_list=[]
+    print(len(employees))
+    if(len(employees)==0):
+        return fail("No employee in db")
+    else:
+        for i in range(len(employees)):
+            emp={}
+           
+            emp['email']=employees[i].email
+            emp['phone']=employees[i].phone
+            emp['category']=employees[i].role
+            emp['name']=employees[i].fname
+            emp['id']=employees[i].id
+            emp['pincode']=employees[i].pincode
+            employee_list.append(emp)
+
+        return success(employee_list)
+
 @csrf_exempt
 def addcallbacks(request):
     if (request.method == "POST"):
