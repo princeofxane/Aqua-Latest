@@ -2,7 +2,7 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from .views import success,fail
-from .models import Employee, EmpTarget, Leads, Metrics
+from .models import Employee, EmpTarget, Leads, Metrics, EmpStatus
 from django.shortcuts import HttpResponse
 import datetime
 from django.utils import timezone
@@ -206,6 +206,27 @@ def registerProgress(request):
                 metricsObj.currDate = timeNow
                 metricsObj.save()
                 return success("Commit count for the new day has been increased")
+        if action == 'callback':
+            try:
+                metricsObj = Metrics.objects.get(empID=empObj)
+            except Exception as e:
+                # progress hasn't been tracking for this employee so create
+                # a new one
+                metricsObj = Metrics(empID=empObj, callbackCount=1, currDate=timeNow)                
+                metricsObj.save()
+                return success("Progress for new employee has been recorded")
+            
+            if metricsObj.currDate.date() == timeNow.date():
+                metricsObj.empID = empObj
+                metricsObj.callbackCount = metricsObj.callbackCount + 1
+                metricsObj.save()
+                return success("Callback count for the same day has been increased")
+            else:
+                metricsObj.empID = empObj
+                metricsObj.callbackCount = 1
+                metricsObj.currDate = timeNow
+                metricsObj.save()
+                return success("Callback count for the new day has been increased")
     return fail("Error in request")
 
 
@@ -236,12 +257,14 @@ def generateReport(request):
                     if len(metricsObj) == 0:
                         return fail("No records avialable")
                     else:
+                        # although we are looping it assumed to be only one object in an array.
                         for eachObj in metricsObj:
                             dataSet = {
                                 "calls": eachObj.callCount,
-                                "commitCount": eachObj.commitCount
+                                "commitCount": eachObj.commitCount,
+                                "callbackCount": eachObj.callbackCount
                             }
-                            return success(dataSet)
+                        return success(dataSet)
 
             if is_single_employee == 'false':
 
@@ -255,11 +278,26 @@ def generateReport(request):
 
                 dataList = []
                 for eachObj in metricsObj:
+                    # try:
+                    #     empObj = Employee.objects.get(empID=eachObj.empID.empID)
+                    # except Exception as e:
+                    #     return fail("Employee doesn't exist")
+
+                    # try:
+                    #     empStatObj = EmpStatus.objects.get(employeeID=empObj, date=str(timeNow.date()))
+                    # except Exception as e:
+                    #     print(e)
+                    #     return fail("Something went wrong")
+
                     dataSet = {}
 
                     dataSet['emp_id'] = eachObj.empID.empID,
-                    dataSet['calls'] = eachObj.callCount,
+                    dataSet['callCount'] = eachObj.callCount,
                     dataSet['commitCount'] = eachObj.commitCount,
+                    dataSet['callbackCount'] = eachObj.callbackCount
+                    # dataSet['loginTime'] = empStatObj.loginTime,
+                    # dataSet['callbackCount'] = empStatObj.logoutTime
+                    
 
                     dataList.append(dataSet)
                 return success(dataList)
@@ -289,15 +327,19 @@ def generateReport(request):
                 else:
                     if len(metricsObj) == 0:
                         return fail("No records avialable")
-                    else:
+                    else:                        
                         callCount = 0
                         commitCount = 0
+                        callbackCount = 0
                         for eachObj in metricsObj:
                             callCount = callCount + eachObj.callCount
                             commitCount = commitCount + eachObj.commitCount
+                            callbackCount = callbackCount + eachObj.callbackCount
+
                         dataSet = {
-                            "calls": eachObj.callCount,
-                            "commitCount": eachObj.commitCount
+                            "calls": callCount,
+                            "commitCount": commitCount,
+                            "callbackCount": callbackCount
                         }
                         return success(dataSet)
 
@@ -318,16 +360,18 @@ def generateReport(request):
                     else:
                         callCount = 0
                         commitCount = 0
+                        callbackCount = 0
                         for eachObj in metricsObj:
                             callCount = callCount + eachObj.callCount
                             commitCount = commitCount + eachObj.commitCount
+                            callbackCount = callbackCount + eachObj.callbackCount
                         dataSet = {
                             "calls": callCount,
-                            "commitCount": commitCount
+                            "commitCount": commitCount,
+                            "callbackCount": callbackCount
                         }
                         return success(dataSet)
 
-            #Write custom date report generation here
     return fail("Error in request")
 
 

@@ -1,0 +1,255 @@
+{% extends "base_ad.html" %}
+{% load staticfiles %}
+{% block body_content %}
+
+<style type="text/css">#dataTable_filter{display: none;}</style>
+
+	<div id="page-wrapper" class="pt60" >	
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 text-center">
+					<form class="form-inline">
+						<div class="form-group">
+							<!-- <select class="form-control">
+								<option>Complete</option>
+								<option>Commits</option>
+								<option>Feedback</option>
+							</select> -->
+							<label for="exampleInputEmail2">From</label>
+							<input class="date_range_filter date" type="text" id="datepicker_from" />
+							<label for="exampleInputEmail2">To Date:</label>
+							<input class="date_range_filter date" type="text" id="datepicker_to" />
+						</div>
+						<button type="submit" class="btn btn-INFO">SEARCH</button>
+					</form>
+				</div>
+			</div>
+		</div>
+
+
+		<table id="dataTable" class = "table table-hover dataTable">
+			<thead>
+				<tr>
+					<th>No</th>
+					<th>Date</th>
+					<th>EmpID</th>
+					<th>Calls</th>
+					<th>Commits</th>
+					<th>Call Backs</th>
+					<th>Login Time</th>
+					<th>Logout Time</th>
+					<th>Pause Time</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+					
+	<!-- This is to show pause -->
+	<div id="modalForPause" class="modal fade" role="dialog" style="border: 3px solid #7CB9E8">
+		<div class="modal-dialog">
+			<div class="modal-content" style="background-color: rgb(135, 202, 193)">
+				<div class="modal-header">
+					<div style="margin-bottom: 150px">
+						<img src="/static/images/download.png" class="user"/>
+					</div>
+				</div>
+				<div class="modal-body">
+					<h4 class="modal-title text-center">Paused</h4>
+					<div class="text-center">    
+						<p id="ptime" style="font-weight: bold;"></p>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="text-center">
+						<input type="submit" id="resume" value="Resume" class="btn btn-primary" style="color: #7CB9E8">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<br>
+</body>
+{% endblock body_content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% block custom_js %}
+
+<script>
+var emp_id;
+var lead_id;
+
+var oTable = $('#datatable').DataTable();
+function fetchTableData(emp_id) { 
+		var table = $('#dataTable').DataTable({
+			"sDom": "Rfrtlip"
+		});
+		$.ajax({
+		type: "post",
+		url: baseUrl + "generateReport/",
+		data: {
+			is_day_wise: true,
+			is_single_employee: false
+		},
+		success: function (data) {
+				var d = new Date();
+				data=JSON.parse(data);
+				// console.log(data);
+				data=data.description;
+				var i = 0;
+			$.each(data, function(key,value) {
+				i++
+				table.row.add($(
+					'<tr>' +
+					'<td>'+i+'</td>' +
+					'<td>'+d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate()+'</td>' +
+					'<td>'+value.emp_id+'</td>' +
+					'<td>'+value.callCount+'</td>' +
+					'<td>'+value.commitCount+'</td>' +
+					'<td>'+value.callbackCount+'</td>' +
+					'<td>'+value.loginTime+'</td>' +
+					'<td>'+value.logoutTime+'</td>' +
+					'<td>'+ +'</td>' +
+					// '<td>'+value.comments+'</td>' +
+					// '<td>'+value.pincode+'</td>' +
+					'<td></td>'+
+					'</tr>')).draw(false);
+			})
+		}
+	})
+	}
+
+	$(document).ready(function() {
+		$.post( baseUrl + "getSession/",
+		{},
+		function(data, status) {
+			dataObj=JSON.parse(data);
+			if(dataObj.result=="fail") {
+				window.location.href = baseUrl
+			}else{
+				emp_id = dataObj.description;
+
+				fetchTableData(emp_id);
+			}
+		});
+
+	})
+
+		// startTimer();
+
+		$("#pauseButton").click(function(e) {
+			e.preventDefault();
+			$('#modalForPause').modal('show');
+			startCounter();
+			$.post( baseUrl + "setPause/",
+			{
+				id: emp_id,
+				isPause: true
+			},
+			function(data, status) {
+				dataObj = JSON.parse(data);
+				if(dataObj.result == 'fail') {
+					alert(dataObj.description)
+				}else {
+					console.log(dataObj.description)
+				}
+
+			})
+		})
+
+		$('#resume').click(function(e){
+			e.preventDefault();
+			// location.reload();
+			resetCounter();
+			$("#modalForPause").modal("hide");
+			$.post(baseUrl + "setPause/",
+			{
+				id:emp_id,
+				isPause: false
+			},
+			function(data, status) {
+				dataObj = JSON.parse(data);
+				if(dataObj.result == 'fail') {
+					alert(dataObj.description)
+				}else {
+					pauseDuration = dataObj.description
+				}
+			})
+		})
+
+
+// filter for date code begins here
+$("#datepicker_from").datepicker({
+    "onSelect": function(date) {
+      minDateFilter = new Date(date).getTime();
+      oTable.fnDraw();
+    }
+  }).keyup(function() {
+    minDateFilter = new Date(this.value).getTime();
+    oTable.fnDraw();
+  });
+
+  $("#datepicker_to").datepicker({
+    "onSelect": function(date) {
+      maxDateFilter = new Date(date).getTime();
+      oTable.fnDraw();
+    }
+  }).keyup(function() {
+    maxDateFilter = new Date(this.value).getTime();
+    oTable.fnDraw();
+  });
+
+
+// Date range filter
+minDateFilter = "";
+maxDateFilter = "";
+
+$.fn.dataTableExt.afnFiltering.push(
+  function(oSettings, aData, iDataIndex) {
+    if (typeof aData._date == 'undefined') {
+      aData._date = new Date(aData[0]).getTime();
+    }
+
+    if (minDateFilter && !isNaN(minDateFilter)) {
+      if (aData._date < minDateFilter) {
+        return false;
+      }
+    }
+
+    if (maxDateFilter && !isNaN(maxDateFilter)) {
+      if (aData._date > maxDateFilter) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+);
+	</script>
+
+
+{% endblock custom_js %}
+
+
+
+<!-- </body> -->
+</html>
