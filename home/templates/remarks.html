@@ -475,6 +475,7 @@ label.star:before {
             $('#msg_count').html(parseInt($('#msg_count').html(), 10)+1)
             $('#notificationsBody').append('<div class="content">Cutomer Name: '+fname+'<br>  call back time: '+appointmentDate+'<br><input type="button" class="btn" value="call now" style="float-right"></div>');
         }}
+        alert(isCommitted);
         $.post( baseUrl + "editLead/",
         {
             emp_id: emp_id,

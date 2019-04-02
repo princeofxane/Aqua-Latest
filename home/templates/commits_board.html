@@ -151,6 +151,7 @@
 var emp_id;
 var lead_id;
 
+
 function fetchTableData(emp_id) { 
 			var table = $('#dataTable').DataTable({
 				"sDom": "Rfrtlip"
@@ -608,7 +609,7 @@ maxDateFilter = "";
 $.fn.dataTableExt.afnFiltering.push(
   function(oSettings, aData, iDataIndex) {
     if (typeof aData._date == 'undefined') {
-      aData._date = new Date(aData[6]).getTime();
+      aData._date = new Date(aData[5]).getTime();
     }
 
     if (minDateFilter && !isNaN(minDateFilter)) {

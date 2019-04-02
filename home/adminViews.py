@@ -785,7 +785,6 @@ def getInterestedLeads(request):
             empObj = Employee.objects.get(empID=emp_id)
         except Exception as e:
             return fail("Employee doesn't exist")
-
         try:
             leadsObj = Leads.objects.filter(isInterested=True,assignee=empObj)
         except Exception as e:
@@ -797,7 +796,7 @@ def getInterestedLeads(request):
         else:
             leads_list = []
             for lead in leadsObj:
-                print(lead.assignee)
+                print(lead.fname)
                 eachRow = {}
         #     for i in range(len(leads))
         #         lead={}
@@ -950,18 +949,20 @@ def editLead(request):
         pincode = request.POST.get("pincode", None)
         comment = request.POST.get("comments", None)
         callAction = request.POST.get("callAction", None)
-        isInterested = request.POST.get("isCommit", None)
+        isInterested = request.POST.get("isInterested", None)
         pincode = request.POST.get("pincode",None)
         assignee = request.POST.get("assignee",None)
         appointmentDate = request.POST.get("appointmentDate", None)
 
         try:
             empObj = Employee.objects.get(empID = emp_id)
+            print("&&&&&&&&&&")
         except Exception as e:
             print("Employee doesn't exist")
         
         try:
             leadObj = Leads.objects.get(leadID=leadID)
+            print("&&&&&&&&&&")
         except Exception as e:
             print(e)
             return fail("Lead is not present in the db")
@@ -989,16 +990,14 @@ def editLead(request):
         if comment is not '':
             feedbackObj = Feedbacks(empID=empObj, leadID=leadObj, feedback=comment)
             feedbackObj.save()
-
-            # oldComment = str(lead.comments)
-            # newComment = oldComment + "\n\n\n" + "----------------------------" + "\n" + comment + "\n" + "----------------------------" + "\n" + str(timeNow) + ' ' + emp_id
-            # newComment = oldComment + "*" + comment + "\n" + "----------------------------" + "\n" + str(timeNow) + ' ' + emp_id
-            # lead.comments = newComment
         leadObj.callAction = callAction
-
+        print("&&&&&&&&&&")
+        print(isInterested)
         if isInterested == 'true':
+            print("&&&&&&&&&& im in true")
             leadObj.isInterested = True
         if isInterested == 'false':
+            print("&&&&&&&&&& im in false")
             leadObj.isInterested = False
         leadObj.save()
         return success("Lead info updated")
