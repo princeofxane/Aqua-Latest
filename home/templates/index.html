@@ -223,11 +223,11 @@ function fetchTableData(emp_id)
 
 	$("#callProgressBar").css("width", callPercentage + "%")
 	$("#commitProgressBar").css("width", commitPercentage + "%")
-	}
+	
 
 			$("#currCallCount").text(callCount)
 			$("#currCommitCount").text(commitCount)
-
+}
 	function getProfilePicture(emp_id) 
 	{
 	$.post( baseUrl + "getProfilePicture/",

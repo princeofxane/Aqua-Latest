@@ -9,14 +9,25 @@
 			<form class="form-inline">
 				<div class="form-group">
 					<input type="text" class="form-control" id="exampleInputName2" placeholder="Enter ID" style="width: 12%;">
-					<label for="exampleInputEmail2">From Date:</label>
-					<input class="date_range_filter date" type="text" id="datepicker_from" />
-					<label for="exampleInputEmail2">To Date:</label>
-                   <input class="date_range_filter date" type="text" id="datepicker_to" /> <label for="exampleInputEmail2">From Time:</label>
-					<input type="time" class="form-control">
-					<label for="exampleInputEmail2">To Time:</label>
-                    <input type="time" class="form-control">
-                     <button type="submit" class="btn btn-INFO">SEARCH</button>
+					<label for="exampleInputEmail2">From:</label>
+					<input class="date_range_filter date form-control" type="text" id="datepicker_from"  />
+					<label for="exampleInputEmail2">To:</label>
+                   <input class="date_range_filter date form-control" type="text" id="datepicker_to" /> 
+
+                   <div class="input-group clockpicker" data-placement="right" data-align="top" data-autoclose="true" style="width: 12%;">
+                            
+                            <input id="clockPicker" type="text" class="form-control" placeholder="from time">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                        </div>
+					 <div class="input-group clockpicker" data-placement="right" data-align="top" data-autoclose="true" style="width: 12%;">
+                            <input id="clockPicker" type="text" class="form-control" placeholder="to time">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                        </div>
+                    <button type="submit" class="btn btn-INFO">SEARCH</button>
                 </div>
                
             </form>
@@ -92,6 +103,9 @@
 
 	{% block custom_js %}
 	<!-- All script starts here -->
+	<script src="https://weareoutman.github.io/clockpicker/dist/bootstrap-clockpicker.min.js"></script>
+<script src="https://weareoutman.github.io/clockpicker/assets/js/highlight.min.js"></script>
+
 	<script src="//cdn.datatables.net/plug-ins/1.10.11/sorting/date-eu.js" type="text/javascript"></script>
 
 	<script>
@@ -584,21 +598,21 @@ var oTable = $('#datatable').DataTable();
 $("#datepicker_from").datepicker({
     "onSelect": function(date) {
       minDateFilter = new Date(date).getTime();
-      oTable.fnDraw();
+      oTable.draw();
     }
   }).keyup(function() {
     minDateFilter = new Date(this.value).getTime();
-    oTable.fnDraw();
+    oTable.draw();
   });
 
   $("#datepicker_to").datepicker({
     "onSelect": function(date) {
       maxDateFilter = new Date(date).getTime();
-      oTable.fnDraw();
+      oTable.draw();
     }
   }).keyup(function() {
     maxDateFilter = new Date(this.value).getTime();
-    oTable.fnDraw();
+    oTable.draw();
   });
 
 
@@ -609,7 +623,7 @@ maxDateFilter = "";
 $.fn.dataTableExt.afnFiltering.push(
   function(oSettings, aData, iDataIndex) {
     if (typeof aData._date == 'undefined') {
-      aData._date = new Date(aData[6]).getTime();
+      aData._date = new Date(aData[5]).getTime();
     }
 
     if (minDateFilter && !isNaN(minDateFilter)) {
@@ -627,6 +641,58 @@ $.fn.dataTableExt.afnFiltering.push(
     return true;
   }
 );
+
+
+$( document ).ready(function() {
+// ClockStuff
+
+$('.clockpicker').clockpicker()
+    .find('input').change(function(){
+        console.log(this.value);
+    });
+var input = $('#single-input').clockpicker({
+    placement: 'bottom',
+    align: 'left',
+    autoclose: true,
+    'default': 'now'
+});
+
+$('.clockpicker-with-callbacks').clockpicker({
+        donetext: 'Done',
+        init: function() { 
+            console.log("colorpicker initiated");
+        },
+        beforeShow: function() {
+            console.log("before show");
+        },
+        afterShow: function() {
+            console.log("after show");
+        },
+        beforeHide: function() {
+            console.log("before hide");
+        },
+        afterHide: function() {
+            console.log("after hide");
+        },
+        beforeHourSelect: function() {
+            console.log("before hour selected");
+        },
+        afterHourSelect: function() {
+            console.log("after hour selected");
+        },
+        beforeDone: function() {
+            console.log("before done");
+        },
+        afterDone: function() {
+            console.log("after done");
+        }
+    })
+    .find('input').change(function(){
+        console.log(this.value);
+    });
+
+});
+
 	</script>
 
 

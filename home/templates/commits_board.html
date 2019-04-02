@@ -10,9 +10,9 @@
 				<div class="form-group">
 					<input type="text" class="form-control" id="exampleInputName2" placeholder="Enter ID">
 					<label for="exampleInputEmail2">From Date:</label>
-					<input class="date_range_filter date" type="text" id="datepicker_from" />
+					<input class="date_range_filter date form-control" type="text" id="datepicker_from"  />
 					<label for="exampleInputEmail2">To Date:</label>
-                   <input class="date_range_filter date" type="text" id="datepicker_to" /><button type="submit" class="btn btn-INFO">SEARCH</button>
+                   <input class="date_range_filter date form-control" type="text" id="datepicker_to" /><button type="submit" class="btn btn-INFO">SEARCH</button>
                 </div>
                
             </form>
@@ -583,21 +583,21 @@ var oTable = $('#datatable').DataTable();
 $("#datepicker_from").datepicker({
     "onSelect": function(date) {
       minDateFilter = new Date(date).getTime();
-      oTable.fnDraw();
+      oTable.draw();
     }
   }).keyup(function() {
     minDateFilter = new Date(this.value).getTime();
-    oTable.fnDraw();
+    oTable.draw();
   });
 
   $("#datepicker_to").datepicker({
     "onSelect": function(date) {
       maxDateFilter = new Date(date).getTime();
-      oTable.fnDraw();
+      oTable.draw();
     }
   }).keyup(function() {
     maxDateFilter = new Date(this.value).getTime();
-    oTable.fnDraw();
+    oTable.draw();
   });
 
 
@@ -608,7 +608,7 @@ maxDateFilter = "";
 $.fn.dataTableExt.afnFiltering.push(
   function(oSettings, aData, iDataIndex) {
     if (typeof aData._date == 'undefined') {
-      aData._date = new Date(aData[5]).getTime();
+      aData._date = new Date(aData[6]).getTime();
     }
 
     if (minDateFilter && !isNaN(minDateFilter)) {
