@@ -1201,12 +1201,6 @@ def getTechniciansLocation(request):
     return fail("Error in request")
 
 
-
-
-
-
-
-
 @csrf_exempt
 def changeEmpPass(request):
     if request.method == "POST":

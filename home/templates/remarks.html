@@ -522,7 +522,20 @@ label.star:before {
             if (dataObj.result === "fail") {
                 alert(dataObj.description)
             } else {
-                alert(dataObj.description)
+                // alert(dataObj.description)
+                $.post( baseUrl + "registerProgress/",
+                {
+                    emp_id: emp_id,
+                    action: 'call'
+                },
+                function(data, status) {
+                   var dataObj = JSON.parse(data);
+                   if (dataObj.result === "fail") {
+                       alert(dataObj.description)
+                   } else {
+                       alert(dataObj.description)
+                   }
+                })
             }
         })
     })
