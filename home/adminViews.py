@@ -146,8 +146,7 @@ def obAdmin_commitHistoryPage(request):
 
 @csrf_exempt
 def obAdmin_reportsPage(request):
-    print("im coming here")
-    return render(request, 'obAdmin_reportsPage.html')
+    return render(request, 'obAdmin_reportsPage_new.html')
 
 @csrf_exempt
 def inboundHome(request):

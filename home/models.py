@@ -153,6 +153,7 @@ class Metrics(models.Model):
     empID = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
     callCount = models.IntegerField(default=0, null=True)
     commitCount = models.IntegerField(default=0, null=True)
+    callbackCount = models.IntegerField(default=0, null=True)
     createdAt = models.DateTimeField(default=timezone.now)
     currDate = models.DateTimeField(null=True)
 
