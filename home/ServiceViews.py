@@ -17,7 +17,7 @@ import json
 import datetime
 import pandas as pd
 from math import cos, asin, sqrt
-import pyrebase
+# import pyrebase
 from django.shortcuts import render
 from django.contrib import auth
 config = {
@@ -28,9 +28,9 @@ config = {
     'storageBucket': "aquaguard-1b328.appspot.com",
     'messagingSenderId': "734410860053"
   };
-firebase = pyrebase.initialize_app(config)
-authe = firebase.auth()
-database=firebase.database()
+# firebase = pyrebase.initialize_app(config)
+# authe = firebase.auth()
+# database=firebase.database()
 
 # This should get you all committed leads
 @csrf_exempt
