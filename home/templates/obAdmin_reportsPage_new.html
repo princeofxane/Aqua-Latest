@@ -35,13 +35,13 @@ function getval(sel)
 							</select> -->
 							<label for="exampleInputEmail2">From</label>
 							<!-- <input id="from_date" class="date_range_filter date" type="text" id="datepicker_from" /> -->
-							<input id="from_date" type="text" class="form-control" placeholder="Set Apointment Date" style="width: 50%;">
+							<input id="from_date" type="date" class="form-control" placeholder="Set Apointment Date" style="width: 51%; float: left;">
 							<br>
 							<label for="exampleInputEmail2">To Date:</label>
-              <input id="to_date" type="text" class="form-control" placeholder="Set Apointment Date" style="width: 50%;">
+              <input id="to_date" type="date" class="form-control" placeholder="Set Apointment Date" style="width: 50%; float: right;">
 							<!-- <input id="to_date" class="date_range_filter date" type="text" id="datepicker_to" /> -->
 						</div>
-						<button id="customSearch" type="submit" class="btn btn-INFO">SEARCH</button>
+						<button id="customSearch" type="button" class="btn btn-INFO">SEARCH</button>
 					</form>
 				</div>
 			</div>
@@ -128,7 +128,7 @@ function fetchTableData(emp_id) {
 		type: "post",
 		url: baseUrl + "generateReport/",
 		data: {
-			report_type: 'custom',
+			report_type: 'daily',
 			report_for: 'all'
 		},
 		success: function (data) {
@@ -160,8 +160,8 @@ function fetchTableData(emp_id) {
 	}
 
 	$("#customSearch").click(function() {
-		var from = $("from_date").val()
-		var to = $("to_date").val()
+		var fromDate = $("#from_date").val()
+		var toDate = $("#to_date").val()
 
 		var table = $('#dataTable').DataTable({
 			"sDom": "Rfrtlip"
@@ -172,14 +172,16 @@ function fetchTableData(emp_id) {
 		data: {
 			report_type: 'custom',
 			report_for: 'all',
-			from_date: from,
-			to_date: to
+			from_date: fromDate,
+			to_date: toDate,
 		},
 		success: function (data) {
 				var d = new Date();
 				data=JSON.parse(data);
+				table.clear()
 				// console.log(data);
 				data=data.description;
+				console.log(data)
 				var i = 0;
 			$.each(data, function(key,value) {
 				i++

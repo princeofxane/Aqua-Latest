@@ -23,6 +23,13 @@
     <div class="text-center"> 
         <img src="/static/images/thumbsup.png" height="70px" width="70px"> 
     </div>
+    <br>
+    <br>
+    <center>
+        <p id=callbackCount></p>
+        <p id=callCount></p>
+        <p id=commitCount></p>
+    </center>
 </nav>
 </body>
 
@@ -38,11 +45,36 @@
             window.location.href = baseUrl
 		}else{
 			emp_id = dataObj.description;
-            getUserData(emp_id);
             getProfilePicture(emp_id)
             saveLogoutTime(emp_id);
+            getIndividualReport(emp_id)
+            getUserData(emp_id);
 		}
     });
+
+    function getIndividualReport(emp_id) {
+        $.post( baseUrl + "generateReport/",
+        {
+            emp_id: emp_id,
+            report_type: 'daily',
+            report_for: 'single'
+        },
+        function(data, status) {
+            var dataObj = JSON.parse(data);
+
+            if (dataObj.result == 'fail') {
+                alert(dataObj.description)
+            } else {
+                var data = dataObj.description
+                var callCount = data['callCount'];
+                var commitCount = data['commitCount'];
+                var callbackCount = data['callbackCount'];
+                $("#callCount").text('callCount is ' + callCount)
+                $("#commitCount").text('commitCount is ' + commitCount)
+                $("#callbackCount").text('callbackCount is ' + callbackCount)
+            }
+        })
+    }
     
     function getProfilePicture(emp_id) {
 		$.post( baseUrl + "getProfilePicture/",

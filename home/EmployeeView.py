@@ -215,6 +215,7 @@ def registerProgress(request):
 @csrf_exempt
 def generateReport(request):
     if request.method == "POST":
+        print()
         # timeNow = timezone.now()
         timeNow = datetime.datetime.now()
 
@@ -251,18 +252,22 @@ def generateReport(request):
                     else:
                         # although we are looping it assumed to be only one object in an array.
                         dataSet = {
-                            "calls": metricsObj[0].callCount,
+                            "callCount": metricsObj[0].callCount,
                             "commitCount": metricsObj[0].commitCount,
                             "callbackCount": metricsObj[0].callbackCount
                         }
                     return success(dataSet)
 
             if report_type == 'custom':
-                _from_date = '2019-03-30'
-                _to_date = '2019-04-04'
+                # _from_date = '2019-03-30'
+                # _to_date = '2019-04-04'
+                if from_date == '' or from_date == None:
+                    return fail("Please provide from and to dates")
+                if to_date == '' or to_date == None:
+                    return fail("Please provide from and to dates")
 
-                from_date = datetime.datetime.strptime(_from_date, '%Y-%m-%d')
-                to_date = datetime.datetime.strptime(_to_date, '%Y-%m-%d')
+                fromDate = datetime.datetime.strptime(from_date, '%Y-%m-%d')
+                toDate = datetime.datetime.strptime(to_date, '%Y-%m-%d')
                 # formatted_from_date = pytz.utc.localize(from_date)
                 # print(formatted_from_date.date)
                 # to_date = datetime.datetime.strptime(_to_date, '%Y-%m-%d')
@@ -275,7 +280,7 @@ def generateReport(request):
                     return fail("Employee doesn't exist")
                 try:
                     # metricsObj = Metrics.objects.filter(empID=empObj, createdAt__lte=from_date.date(), createdAt__gt=to_date.date())
-                    metricsObj = Metrics.objects.filter(empID=empObj, createdAt__range=(from_date.date(), to_date.date()))
+                    metricsObj = Metrics.objects.filter(empID=empObj, createdAt__range=(fromDate.date(), toDate.date()))
                 except Exception as e:
                     return fail("Something went wrong")
                 else:
@@ -291,7 +296,7 @@ def generateReport(request):
                             callbackCount = callbackCount + eachObj.callbackCount
 
                         dataSet = {
-                            "calls": callCount,
+                            "callCount": callCount,
                             "commitCount": commitCount,
                             "callbackCount": callbackCount
                         }
@@ -340,23 +345,29 @@ def generateReport(request):
                 return success(data_list)
 
             if report_type == 'custom':
-                _from_date = '2019-03-30'
-                _to_date = '2019-04-04'
+                # _from_date = '2019-03-30'
+                # _to_date = '2019-04-04'
+                if from_date == '' or from_date == None:
+                    return fail("Please provide from and to dates")
+                if to_date == '' or to_date == None:
+                    return fail("Please provide from and to dates")
 
-                from_date = datetime.datetime.strptime(_from_date, '%Y-%m-%d')
-                to_date = datetime.datetime.strptime(_to_date, '%Y-%m-%d')
+                fromDate = datetime.datetime.strptime(from_date, '%Y-%m-%d')
+                toDate = datetime.datetime.strptime(to_date, '%Y-%m-%d')
 
                 
                 data_list = []
                 for empObj in empObjs:
 
                     try:
-                        metricsObj = Metrics.objects.filter(empID=empObj, createdAt__range=(from_date.date(), to_date.date()))
+                        metricsObj = Metrics.objects.filter(empID=empObj, createdAt__range=(fromDate.date(), toDate.date()))
                     except Exception as e:
                         return fail("Something went wrong")
 
                     if len(metricsObj) == 0:
                         print("No records avialable for this employee")
+
+                    # print(len(metricsObj))
 
                     callCount = 0
                     commitCount = 0
@@ -365,14 +376,14 @@ def generateReport(request):
                         callCount = callCount + eachObj.callCount
                         commitCount = commitCount + eachObj.commitCount
                         callbackCount = callbackCount + eachObj.callbackCount
-                        dataSet = {
-                            "emp_id": eachObj.empID.empID,
-                            "callCount": callCount,
-                            "commitCount": commitCount,
-                            "callbackCount": callbackCount,
-                            "loginTime": '',
-                            "logoutTime": ''
-                        }
+                    dataSet = {
+                        "emp_id": eachObj.empID.empID,
+                        "callCount": callCount,
+                        "commitCount": commitCount,
+                        "callbackCount": callbackCount,
+                        "loginTime": '',
+                        "logoutTime": ''
+                    }
                     data_list.append(dataSet)
                 return success(data_list)
 
