@@ -1261,15 +1261,15 @@ def makeCall(request):
 
 @csrf_exempt
 def leadDataFileParser(request):
+    timeNow = datetime.datetime.now()
     if (request.method == "POST"):
         myfile = request.FILES['dataFile']
         # fs = FileSystemStorage()
 
         folder="home/static/rawLeadFile"
         imagefile=FileSystemStorage(location=folder)
-        imagesave=imagefile.save(myfile.name, myfile)
-
-        data = pd.read_csv(folder + "/" + myfile.name)
+        imagesave=imagefile.save(myfile.name + str(timeNow), myfile)
+        data = pd.read_csv(folder + "/" + myfile.name + str(timeNow))
         df = pd.DataFrame(data)
         row, col = data.shape
         rows = []
