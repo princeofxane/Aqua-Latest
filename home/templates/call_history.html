@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block body_content %}
+<script type="text/javascript">
+	var table;
+</script>
 <style type="text/css">#dataTable_filter{display: none;}</style>
 <div id="page-wrapper" class="pt60" >
 <div class="container">
@@ -8,7 +11,7 @@
 		<div class="col-md-12">
 			<form class="form-inline">
 				<div class="form-group">
-					<input type="text" class="form-control" id="exampleInputName2" placeholder="Enter ID" style="width: 12%;">
+					<!-- <input type="text" class="form-control" id="exampleInputName2" placeholder="Enter ID" style="width: 12%;"> -->
 					<label for="exampleInputEmail2">From:</label>
 					<input class="date_range_filter date form-control" type="text" id="datepicker_from"  />
 					<label for="exampleInputEmail2">To:</label>
@@ -202,7 +205,7 @@ var emp_id;
 var lead_id;
 
 function fetchTableData(emp_id) { 
-			var table = $('#dataTable').DataTable({
+			table = $('#dataTable').DataTable({
 								"sDom": "Rfrtlip"
 
 			});
@@ -224,7 +227,7 @@ function fetchTableData(emp_id) {
 						'<tr>' +
 						'<td>'+i+'</td>' +
 						'<td>'+value.leadID+'</td>' +
-						'<td>'+value.fname+ ' ' +value.lname+'</td>' +
+						'<td>'+value.fname+ '</td>' +
 						'<td>'+value.phone+'</td>' +
 						'<td>'+value.address+'</td>' +
 						'<td>'+value.comments+'</td>' +
@@ -248,6 +251,7 @@ function fetchTableData(emp_id) {
 				// getProfilePicture(emp_id);
 				getUserData(emp_id);
 				fetchTableData(emp_id);
+				callbacksload(emp_id); 
 				// getEmpTarget(emp_id);
 			}
 		});
@@ -592,27 +596,24 @@ function announceList(){
 			})
 		})
 
-var oTable = $('#datatable').DataTable();
-
-// filter for date code begins here
 $("#datepicker_from").datepicker({
-    "onSelect": function(date) {
+	 "onSelect": function(date) {
       minDateFilter = new Date(date).getTime();
-      oTable.draw();
+      table.draw();
     }
   }).keyup(function() {
     minDateFilter = new Date(this.value).getTime();
-    oTable.draw();
+    table.draw();
   });
 
   $("#datepicker_to").datepicker({
-    "onSelect": function(date) {
+   "onSelect": function(date) {
       maxDateFilter = new Date(date).getTime();
-      oTable.draw();
+      table.draw();
     }
   }).keyup(function() {
     maxDateFilter = new Date(this.value).getTime();
-    oTable.draw();
+    table.draw();
   });
 
 
@@ -623,7 +624,7 @@ maxDateFilter = "";
 $.fn.dataTableExt.afnFiltering.push(
   function(oSettings, aData, iDataIndex) {
     if (typeof aData._date == 'undefined') {
-      aData._date = new Date(aData[5]).getTime();
+      aData._date = new Date(aData[6]).getTime();
     }
 
     if (minDateFilter && !isNaN(minDateFilter)) {

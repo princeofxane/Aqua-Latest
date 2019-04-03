@@ -569,11 +569,8 @@ def getEmpTarget(request):
 @csrf_exempt
 def assignLeads(request):
     if request.method == "POST":
-        # currDate = str(datetime.datetime.now().date())
         emp_id = request.POST.get("emp_id", None)
         leadIDs = request.POST.getlist("leadIDs[]", None)
-        print(leadIDs)
-
         if emp_id == None or emp_id == '':
             return fail("Employee ID required")
 
@@ -581,14 +578,12 @@ def assignLeads(request):
             empObj = Employee.objects.get(empID = emp_id)
         except Exception as e:
             return fail("Employee does not exist")
-        print("*********************")
-        print(leadIDs)
-        print("***************************")
-    # leads = Leads.objects.filter(id__range(startRow, endRow))
-        leads = Leads.objects.filter(leadID=leadIDs).update(assignee = empObj)
-        # for lead in leads:
-        #     lead.assignee = empObj
-        # lead.save()
+        for i in leadIDs:
+            lead=Leads.objects.get(leadID=i)
+            print("@@@@@@@@@@@@")
+            print(lead.assignee)
+            lead.assignee=empObj
+            lead.save()
         return success("Successfully assigned")
     return fail("Error in request")
 

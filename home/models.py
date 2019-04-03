@@ -34,8 +34,7 @@ class Product(models.Model):
     
 class Customer(models.Model):
     id=models.AutoField(primary_key=True)
-    fname=models.CharField(max_length=30 , default=None)
-    lname=models.CharField(max_length=20, default=None)
+    name=models.CharField(max_length=30 , default=None)
     email=models.CharField(max_length=30, default=None)
     mobile=models.CharField(max_length=10, default=None)
     alternativeMobile=models.CharField(max_length=10, default=None)
@@ -68,14 +67,14 @@ class Customer(models.Model):
 #     ticket_assigned_date
 
 class Callbacks(models.Model):
-    empID = models.CharField(max_length=12, default=None)
+    empID = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
     phone = models.CharField(max_length=12, default=None)
     fname = models.CharField(max_length=12, default=None)
     appointmentDate = models.CharField(max_length=12, default=None)
 
 class EmpStatus(models.Model):
     id = models.AutoField(primary_key=True)
-    employeeID = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
+    empID = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
     loginTime = models.CharField(max_length=10, null=True)
     logoutTime = models.CharField(max_length=10, null=True)
     date = models.CharField(max_length=10, null=True)
@@ -121,7 +120,6 @@ class EmpTarget(models.Model):
 class Leads(models.Model):
     leadID = models.CharField(max_length=30, default=None, primary_key=True)
     fname = models.CharField(max_length=100, default=None)
-    lname = models.CharField(max_length=100, default=None)
     address = models.TextField(default=None, null=True)
     email = models.EmailField(default=None, null=True)
     phone = models.CharField(max_length=12, unique=True, default=None, null=True)

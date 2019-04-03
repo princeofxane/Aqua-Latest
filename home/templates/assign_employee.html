@@ -1,20 +1,22 @@
 {% extends "base_ad.html" %}
 {% block body_content %}
-<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 0%;margin-left: 12%;">
+<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 12%;margin-left: 12%;">
 <div class="container">
-	<p>assign_employee.html</p>
-
 	<div class="row">
-		<p>Lead list</p>
+		
 			<div class="card leadListA scrollbar-ripe-malinka">
 				<div class="card-body">
 					<table id="dataTable" class="table table-hover">
 						<thead>
 							<tr>
+				
 								<th>Lead ID</th>
 								<th>Name </th>
 								<th>Number </th>
-								<th>select</th>
+								<th><button style="border: none; background: transparent; font-size: 14px;" id="tableCheckAllButton" >
+                <i class="far fa-square"></i> Select All  
+                </button> </th>
+
 							</tr>
 						</thead>
 						<tbody>
@@ -210,6 +212,7 @@ $('#pass').click(function(){
 		$.each($("input[name='lead']:checked"), function(){            
       leads.push($(this).val());
 		})
+		console.log(leads);
 		$.post( baseUrl + "assignLeads/",
 			{
 				emp_id: empID,
@@ -228,11 +231,59 @@ $('#pass').click(function(){
 		)
 	});
 
+
 	function fetchTableData(){
 		var table = $('#dataTable').DataTable({
-			"sDom": "Rfrtlip"
-		}
-			);
+			 columnDefs: [{
+            orderable: false,
+            className: 'select-checkbox',
+            targets: 3,
+        }],
+        select: {
+            style: 'os', // 'single', 'multi', 'os', 'multi+shift'
+            selector: 'td:first-child',
+        },
+        order: [
+            [1, 'asc'],
+        ]
+    });
+
+	 $('#tableCheckAllButton').click(function() {
+        if (table.rows({
+                selected: true
+            }).count() > 0) {
+            table.rows().deselect();
+            return;
+        }
+
+        table.rows().select();
+    });
+
+    table.on('select deselect', function(e, dt, type, indexes) {
+        if (type === 'row') {
+            // We may use dt instead of table to have the freshest data.
+            if (dt.rows().count() === dt.rows({
+                    selected: true
+                }).count()) {
+                // Deselect all items button.
+                $('#tableCheckAllButton i').attr('class', 'far fa-check-square');
+                return;
+            }
+
+            if (dt.rows({
+                    selected: true
+                }).count() === 0) {
+                // Select all items button.
+                $('#tableCheckAllButton i').attr('class', 'far fa-square');
+                return;
+            }
+
+            // Deselect some items button.
+            $('#tableCheckAllButton i').attr('class', 'far fa-minus-square');
+        }
+    });
+
+
 			$.ajax({
 			method: "POST",
 			// url: baseUrl + "getAllUnAssignedLeads/",
@@ -247,8 +298,9 @@ $('#pass').click(function(){
 				$.each(data.description, function(key,value) {
 					table.row.add($(
 						'<tr>' +
+
 						'<td>'+value.leadID+'</td>' +
-						'<td>'+value.fname+ ' ' + value.lname+'</td>'+
+						'<td>'+value.fname+ '</td>'+
 						'<td>'+value.phone+'</td>' +
 						'<td><input type="checkbox" name="lead" value="'+value.leadID+'"></td>'+
 						'</tr>')).draw(false);

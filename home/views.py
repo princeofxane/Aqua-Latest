@@ -52,8 +52,6 @@ def registration(request):
 
 def success(message):
     output = {}
-    print("inside sucess")
-    print(message)
     output["result"] = "success"
     output["description"] = message
     return HttpResponse(json.dumps(output))

@@ -1,8 +1,8 @@
  //put the id of 
 
- var baseUrl = "http://34.73.62.26/";
+ //var baseUrl = "http://34.73.62.26/";
     
- //var baseUrl = "http://localhost:8000/";
+ var baseUrl = "http://localhost:8000/";
 
     var timerId="time";
 
@@ -139,6 +139,6 @@
 
 function makeItUpper(fname, lname) {
     var capitalizedFname = fname.charAt(0).toUpperCase() + fname.slice(1);
-    var capitalizedLname = lname.charAt(0).toUpperCase() + lname.slice(1);
-    return capitalizedFname + " " + capitalizedLname;
+   // var capitalizedLname = lname.charAt(0).toUpperCase() + lname.slice(1);
+    return capitalizedFname + " ";
 }

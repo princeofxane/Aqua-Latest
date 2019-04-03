@@ -172,24 +172,27 @@ function fetchTableData(emp_id) {
 			var table = $('#dataTable').DataTable({
 				"sDom": "Rfrtlip"
 			});
-			$.ajax({
-			type: "post",
-			url: baseUrl+"getInterestedLeads/",
-			data: {
-				id: emp_id
-			},
-			success: function (data) {
-					data=JSON.parse(data);
+			$.post( baseUrl + "getInterestedLeads/",
+				{
+					emp_id: emp_id
+				},
+				function(data, status) {
+					dataObj = JSON.parse(data);
+					if (dataObj.result == "fail") {
+						alert(dataObj.description)
+					} else {
+						data=JSON.parse(data);
 					// console.log(data);
 					data=data.description;
 					var i = 0;
+					console.log(data);
 				$.each(data, function(key,value) {
 					i++
 					table.row.add($(
 						'<tr>' +
 						'<td>'+i+'</td>' +
 						'<td>'+value.leadID+'</td>' +
-						'<td>'+value.fname+ ' ' +value.lname+'</td>' +
+						'<td>'+value.fname+'</td>' +
 						'<td>'+value.email+'</td>' +
 						'<td>'+value.phone+'</td>' +
 						'<td>'+value.address+'</td>' +
@@ -197,12 +200,14 @@ function fetchTableData(emp_id) {
 						// '<td>'+value.comments+'</td>' +
 						// '<td>'+value.pincode+'</td>' +
 						`<td></td>`+
+						`<td></td>`+
+						`<td></td>`+
 						'<td></td>'+
 						'<td></td>'+
 						'</tr>')).draw(false);
 				})
 			}
-		})
+		});
 	}
 
 	$(document).ready(function() {
@@ -214,10 +219,11 @@ function fetchTableData(emp_id) {
 				window.location.href = baseUrl
 			}else{
 				emp_id = dataObj.description;
-				getProfilePicture(emp_id);
+				//getProfilePicture(emp_id);
 				getUserData(emp_id);
 				fetchTableData(emp_id);
-				getEmpTarget(emp_id);
+				//getEmpTarget(emp_id);
+				callbacksload(emp_id); 
 			}
 		});
 

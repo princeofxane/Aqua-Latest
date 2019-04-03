@@ -1,4 +1,28 @@
 <!-- <div class="footer"><span style="padding-right: 70%;">Powered By Curve.</span> <span id="count"> Active Users : <span id ="month" class="counter-count">0</span> | Total Users : <span id ="total" class="counter-count">0</span> </span></div> -->
+<script type="text/javascript">
+
+  function callbacksload(emp_id) {
+      $.post( baseUrl + "callbacksload/",
+      {
+        emp_id: emp_id,
+      },
+      function(data, status) {
+        dataObj=JSON.parse(data);
+        if(dataObj.result=="fail") {
+          alert("request failed")
+        }else{
+          console.log(dataObj.description.length);
+          for(i=0; i<dataObj.description.length;i++)
+          {
+            $('#msg_count').html(dataObj.description.length);
+            $('#notificationsBody').append('<div class="content">Cutomer Name: '+dataObj.description[i].fname+'<br>  call back time: '+dataObj.description[i].appointmentDate+'<br><input type="button" class="btn" value="call now" style="float-right"></div>');
+            console.log("im in footer");
+          }
+        }
+      }
+      )}
+  
+</script>
 <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
 <script>
   // Initialize Firebase
