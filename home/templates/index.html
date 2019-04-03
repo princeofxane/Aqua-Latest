@@ -140,20 +140,25 @@ function fetchTableData(emp_id)
 		},
 		success: function (data) 
 		{
+			alert("im coming here");
 			data=JSON.parse(data);
-			data=data.description;
 			var i = 0;
-			$.each(data, function(key,value)
+			$.each(data.description, function(key,value)
 			{
-				var lastComment = ''
+				console.log(value);
+				var lastComment = '';
 				i++;
-				if (value.feedback.length > 0) {
+				if (value.feedback.length > 0) 
+				{
 					for (var x = 0; x < value.feedback.length; x++) {
 						lastComment = value.feedback[x]
 					}
-				} else {
+				} 
+				else 
+				{
 					lastComment = "null"
 				}
+				alert(lastComment);
 				if(lastComment != "Call Back")
 				{
 					if(lastComment != "Set Commit")

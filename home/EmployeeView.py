@@ -577,9 +577,11 @@ def assignLeads(request):
             empObj = Employee.objects.get(empID = emp_id)
         except Exception as e:
             return fail("Employee does not exist")
-
-        # leads = Leads.objects.filter(id__range(startRow, endRow))
-        leads = Leads.objects.filter(leadID__in=leadIDs).update(assignee = empObj)
+        print("*********************")
+        print(leadIDs)
+        print("***************************")
+    # leads = Leads.objects.filter(id__range(startRow, endRow))
+        leads = Leads.objects.filter(leadID=leadIDs).update(assignee = empObj)
         # for lead in leads:
         #     lead.assignee = empObj
         # lead.save()

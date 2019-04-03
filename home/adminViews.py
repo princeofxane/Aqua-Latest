@@ -644,6 +644,7 @@ def deleteMultipleLeads(request):
 def getAssignedLeads(request):
     if request.method == "POST":
         emp_id = request.POST.get("emp_id", None)
+        print(emp_id)
         if emp_id != None:
             try:
                 empObj = Employee.objects.get(empID=emp_id)
@@ -753,11 +754,13 @@ def getComittedLeads(request):
 @csrf_exempt
 def getAllUnAssignedLeads(request):
     if request.method == "POST":
+        print("*******yes**********")
         leadsObj = Leads.objects.filter(assignee = None)
         if len(leadsObj) == 0:
             return fail("No un-assigned leads available")
         leads_list = []
         for leadObj in leadsObj:
+            print(leadObj)
             eachRow = {}
             eachRow['leadID'] = leadObj.leadID
             eachRow['fname'] = leadObj.fname
@@ -770,6 +773,7 @@ def getAllUnAssignedLeads(request):
             eachRow['purchaseDate'] = leadObj.purchaseDate
             eachRow['pincode'] = leadObj.pincode
             leads_list.append(eachRow)
+        print(leads_list)
         return success(leads_list)
     return fail("Error in request")
 

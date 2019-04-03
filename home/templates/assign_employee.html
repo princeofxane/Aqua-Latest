@@ -1,15 +1,7 @@
 {% extends "base_ad.html" %}
-
-
-
 {% block body_content %}
-
-
 <div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 0%;margin-left: 12%;">
-
-
 <div class="container">
-
 	<p>assign_employee.html</p>
 
 	<div class="row">
@@ -160,10 +152,6 @@
 </div>
 </div>
 <br><br>
-{% endblock body_content %}
-
-
-{% block custom_js %}
 <script>
 $('#OpenImgUpload').click(function(){ $('#imgupload').trigger('click'); });
 
@@ -252,10 +240,11 @@ $('#pass').click(function(){
 			data: {
 
 			},
-			success: function (data) {
-				dataObj=JSON.parse(data);
-				data=dataObj.description
-				$.each(data, function(key,value) {
+			success: function (d) {
+			
+				data=JSON.parse(d);
+				console.log(data);
+				$.each(data.description, function(key,value) {
 					table.row.add($(
 						'<tr>' +
 						'<td>'+value.leadID+'</td>' +
@@ -413,8 +402,4 @@ $('#pass').click(function(){
 		});
 	});
 </script>
-
-{% endblock custom_js %}
-
-</body>
-</html>
+{% endblock body_content %}
