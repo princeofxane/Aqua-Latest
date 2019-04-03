@@ -241,6 +241,12 @@ def generateReport(request):
             except Exception as e:
                 return fail("Employee doesn't exist")
 
+            try:
+                empStatObj = EmpStatus.objects.filter(employeeID=empObj, date=str(timeNow.date()))
+            except Exception as e:
+                print(e)
+                return fail("Status is not stored for this employee")
+
             if report_type == 'daily':
                 try:
                     metricsObj = Metrics.objects.filter(empID=empObj, createdAt__year=timeNow.year, createdAt__month=timeNow.month, createdAt__day=timeNow.day)
@@ -254,7 +260,10 @@ def generateReport(request):
                         dataSet = {
                             "callCount": metricsObj[0].callCount,
                             "commitCount": metricsObj[0].commitCount,
-                            "callbackCount": metricsObj[0].callbackCount
+                            "callbackCount": metricsObj[0].callbackCount,
+                            "createdAt": str(metricsObj[0].createdAt),
+                            "loginTime": empStatObj[0].loginTime,
+                            "logoutTime": empStatObj[0].logoutTime
                         }
                     return success(dataSet)
 
