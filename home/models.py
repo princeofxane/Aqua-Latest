@@ -122,7 +122,7 @@ class Leads(models.Model):
     fname = models.CharField(max_length=100, default=None)
     address = models.TextField(default=None, null=True)
     email = models.EmailField(default=None, null=True)
-    phone = models.CharField(max_length=12, unique=True, default=None, null=True)
+    phone = models.CharField(max_length=12, default=None, null=True)
     alternatePhone = models.CharField(max_length=12, default=None, null=True)
     purchaseDate = models.CharField(max_length=12, null=True)
     pincode = models.CharField(max_length=6, default="000000", null=True)
