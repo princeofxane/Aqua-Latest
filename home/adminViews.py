@@ -1294,7 +1294,7 @@ def leadDataFileParser(request):
     return fail("Error in request")
 
 def generateRandomLeadID():
-    randomID = 'LD' + '{0:06}'.format(random.randint(1, 100000))
+    randomID = 'pp' + '{0:09}'.format(random.randint(1, 100000000))
     return randomID
 
 # @csrf_exempt
