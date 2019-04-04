@@ -76,24 +76,44 @@
     margin: 100px auto;
   }
 </style>
-<div id="myModal" class="modal fade">
+<div id="sucess" class="modal fade">
   <div class="modal-dialog modal-confirm">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header" style="background-color: #207500;">
         <div class="icon-box">
-          <i class="material-icons">&#xE876;</i>
+          <span class="glyphicon glyphicon-ok" style="top: 15%;font-size: 40px;"></span>
         </div>        
         <h4 class="modal-title">Success!</h4> 
       </div>
       <div class="modal-body">
-        <p class="text-center">Work Progressed For the day</p>
+        <p class="text-center" style="font-size:14px;"></p>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
+        <button class="btn btn-success btn-block" onclick="myFunction()">OK</button>
       </div>
     </div>
   </div>
 </div>
+
+<div id="fail" class="modal fade">
+  <div class="modal-dialog modal-confirm">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #b30606;">
+        <div class="icon-box" style="background-color: #ef2020;">
+          <span class="glyphicon glyphicon-remove" style="top: 15%;font-size: 40px;"></span>
+        </div>        
+        <h4 class="modal-title">Failed!</h4> 
+      </div>
+      <div class="modal-body">
+        <p class="text-center" style="font-size:14px;"></p>
+      </div>
+      <div class="modal-footer">
+        <button style="background-color: #ef2020;" class="btn btn-success btn-block" >OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript">
 
   function callbacksload(emp_id) {

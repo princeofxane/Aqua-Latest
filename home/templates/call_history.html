@@ -193,7 +193,6 @@
 function inc()
  {
 var pre = document.getElementById('callsm').value;
-alert(pre);
 pre = pre+10;;
   $('#callsm').css('width', pre+'%').attr('aria-valuenow', pre); 
   document.getElementById("callsm").innerHTML = pre;
@@ -205,6 +204,7 @@ var emp_id;
 var lead_id;
 
 function fetchTableData(emp_id) { 
+	$('#loading-image').show();
 			table = $('#dataTable').DataTable({
 								"sDom": "Rfrtlip"
 
@@ -237,6 +237,7 @@ function fetchTableData(emp_id) {
 				})
 			}
 		})
+			$('#loading-image').hide();
 	}
 
 	$(document).ready(function() {

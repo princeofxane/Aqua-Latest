@@ -158,7 +158,7 @@ var lead_id;
 
 
 function fetchTableData(emp_id) { 
-
+$('#loading-image').show();
 			 table = $('#dataTable').DataTable({
 				"sDom": "Rfrtlip"
 			});
@@ -188,6 +188,7 @@ function fetchTableData(emp_id) {
 						'</tr>')).draw(false);
 				})
 			}
+			
 		});
 			/*$.fn.dataTable.ext.search.push(
           function (settings, data, dataIndex) {
@@ -210,7 +211,7 @@ function fetchTableData(emp_id) {
         $('#datepicker_from, #datepicker_to').change(function () {
             table.draw();
         });*/
-    
+    $('#loading-image').hide();
 	}
 
 	$(document).ready(function() {
@@ -296,7 +297,8 @@ function fetchTableData(emp_id) {
 		function(data, status) {
 			dataObj=JSON.parse(data);
 			if(dataObj.result=="fail") {
-				alert("request failed")
+				$("#fail .text-center").html(dataObj.description);
+ $("#fail").modal();
 			}else{
 				// console.log(dataObj)
 				// var fname = dataObj.description['fname']
@@ -328,8 +330,8 @@ function announceList(){
 		function(data, status) {
 			dataObj=JSON.parse(data);
 			if(dataObj.result=="fail") {
-				alert("request failed")
-				console.log(dataObj)
+				$("#fail .text-center").html(dataObj.description);
+ $("#fail").modal();
 			}else{
 				console.log(dataObj)
 			}
@@ -347,8 +349,8 @@ function announceList(){
 		function(data, status) {
 			dataObj=JSON.parse(data);
 			if(dataObj.result=="fail") {
-				alert("request failed")
-				console.log(dataObj)
+				$("#fail .text-center").html(dataObj.description);
+ $("#fail").modal();
 			}else{
 				console.log(dataObj)
 			}

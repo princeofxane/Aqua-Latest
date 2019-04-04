@@ -1,6 +1,131 @@
 {% extends "base.html" %}
 {% block body_content %}
 <style type="text/css">
+  #map-canvas {
+  height: 250px !important;
+}
+
+  .modal-confirm {    
+    color: #636363;
+    width: 325px;
+  }
+  .modal-confirm .modal-content {
+    padding: 20px;
+    border-radius: 5px;
+    border: none;
+  }
+  .modal-confirm .modal-header {
+    border-bottom: none;   
+        position: relative;
+  }
+  .modal-confirm h4 {
+    text-align: center;
+    font-size: 26px;
+    margin: 30px 0 -15px;
+  }
+  .modal-confirm .form-control, .modal-confirm .btn {
+    min-height: 40px;
+    border-radius: 3px; 
+  }
+  .modal-confirm .close {
+        position: absolute;
+    top: -5px;
+    right: -5px;
+  } 
+  .modal-confirm .modal-footer {
+    border: none;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 13px;
+  } 
+  .modal-confirm .icon-box {
+    color: #fff;    
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: -70px;
+    width: 95px;
+    height: 95px;
+    border-radius: 50%;
+    z-index: 9;
+    background: #82ce34;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+  }
+  .modal-confirm .icon-box i {
+    font-size: 58px;
+    position: relative;
+    top: 3px;
+  }
+  .modal-confirm.modal-dialog {
+    margin-top: 80px;
+  }
+    .modal-confirm .btn {
+        color: #fff;
+        border-radius: 4px;
+    background: #82ce34;
+    text-decoration: none;
+    transition: all 0.4s;
+        line-height: normal;
+        border: none;
+    }
+  .modal-confirm .btn:hover, .modal-confirm .btn:focus {
+    background: #6fb32b;
+    outline: none;
+  }
+  .trigger-btn {
+    display: inline-block;
+    margin: 100px auto;
+  }
+</style>
+<script type="text/javascript">
+  var lat,lng;
+  function  myFunction()
+{
+    document.location.href = baseUrl + 'tc_homePage/';
+};
+</script>
+<div id="sucess" class="modal fade">
+  <div class="modal-dialog modal-confirm">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #207500;">
+        <div class="icon-box">
+          <span class="glyphicon glyphicon-ok" style="top: 15%;font-size: 40px;"></span>
+        </div>        
+        <h4 class="modal-title">Success!</h4> 
+      </div>
+      <div class="modal-body">
+        <p class="text-center" style="font-size:14px;"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success btn-block" onclick="myFunction()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="fail" class="modal fade">
+  <div class="modal-dialog modal-confirm">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #b30606;">
+        <div class="icon-box" style="background-color: #ef2020;">
+          <span class="glyphicon glyphicon-remove" style="top: 15%;font-size: 40px;"></span>
+        </div>        
+        <h4 class="modal-title">Failed!</h4> 
+      </div>
+      <div class="modal-body">
+        <p class="text-center" style="font-size:14px;"></p>
+      </div>
+      <div class="modal-footer">
+        <button style="background-color: #ef2020;" class="btn btn-success btn-block" >OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style type="text/css">
     #dataTable_length
     {
         display: none;
@@ -26,7 +151,9 @@ function setval(val)
                     var _date = $("#datePicker").val();
                     if(_date == "")
                     {
-                         alert("input appointmentDate and time");
+                         $("#fail .text-center").html("input appointmentDate and time");
+                         $("#fail").modal();
+                         
                          return;
                      }
                      else
@@ -304,25 +431,129 @@ label.star:before {
         </div> -->
     </div>
 
-     <!-- Modal -->
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-lg" role="document">
+    <style>
+        /* CHANGE 1: create a hidden parent to the modal */
+
+        #parent {
+            display: none;
+        }
+        /* The Modal (background) - CHANGE 2, removed display none */
+
+        .modal {
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            padding-top: 100px;
+            /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+        }
+        /* Modal Content */
+
+        .modal-content {
+            position: relative;
+            background-color: #fefefe;
+            margin: auto;
+            padding: 0;
+            border: 1px solid #888;
+            width: 80%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            -webkit-animation-name: animatetop;
+            -webkit-animation-duration: 0.4s;
+            animation-name: animatetop;
+            animation-duration: 0.4s
+        }
+        /* Add Animation */
+
+        @-webkit-keyframes animatetop {
+            from {
+                top: -300px;
+                opacity: 0
+            }
+            to {
+                top: 0;
+                opacity: 1
+            }
+        }
+
+        @keyframes animatetop {
+            from {
+                top: -300px;
+                opacity: 0
+            }
+            to {
+                top: 0;
+                opacity: 1
+            }
+        }
+        /* The Close Button */
+
+        .close {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-header {
+            padding: 2px 16px;
+            background-color: #5cb85c;
+            color: white;
+        }
+
+        .modal-body {
+            padding: 2px 16px;
+        }
+
+        .modal-footer {
+            padding: 2px 16px;
+            background-color: #5cb85c;
+            color: white;
+        }
+    </style>
+
+ 
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog" style="z-index:9999;">
+    <div class="modal-dialog" style="width: 50%;">
+    
+      <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Map View</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Map View</h4>
         </div>
         <div class="modal-body">
-          <div class="row">
-            <div class="col-md-12 modal_body_map">
-              <div class="location-map" id="location-map">
-             <div id="map" style="position: absolute;width: 600px; height: 400px;"></div> </div>
-            </div>
-          </div>
+          <div id="map1" style="width: 500px; height: 400px;"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
+      
     </div>
   </div>
+  
+</div>
 {% endblock body_content %}
 
 
@@ -353,14 +584,45 @@ label.star:before {
         );
 
         $("#map").click(function(){
-  $('#myModal').modal('show'); 
+          $("#myModal").modal();
+/*          var myMarker;
+  var myLatlng;
+          var geocoder = new google.maps.Geocoder();
+var address = document.getElementById("address").value;
+alert(address);
+geocoder.geocode( { 'address': address}, function(results, status) {
+
+  if (status == google.maps.GeocoderStatus.OK) {
+    lat = results[0].geometry.location.lat();
+     lng = results[0].geometry.location.lng();
+    alert(lat);
+    alert(lng);
+  } 
 });
 
-// Re-init map before show modal
+  function initializeGMap(lat, lng) {
+    myLatlng = new google.maps.LatLng(lat, lng);
+
+    var myOptions = {
+      zoom: 12,
+      zoomControl: true,
+      center: myLatlng,
+    };
+
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+    myMarker = new google.maps.Marker({
+      position: myLatlng
+    });
+    myMarker.setMap(map);
+  }
+
+  // Re-init map before show modal
   $('#myModal').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget);
     initializeGMap(button.data('lat'), button.data('lng'));
-    $("#location-map").css("width", "100%");
-    $("#map").css("width", "100%");
+    $("#location-map").css("width", "100px");
+    $("#map_canvas").css("width", "100px");
   });
 
   // Trigger map resize event after modal shown
@@ -368,6 +630,13 @@ label.star:before {
     google.maps.event.trigger(map, "resize");
     map.setCenter(myLatlng);
   });
+
+  $('#myModal').modal('show'); */
+
+
+
+});
+
         jQuery.post( baseUrl + "getSingleLead/",
             {
                 leadID: leadID
@@ -376,7 +645,8 @@ label.star:before {
                 var feedbacks= "";
                 dataObj = JSON.parse(data);
                 if (dataObj.result == "fail") {
-                    alert(dataObj.description)
+                     $("#fail .text-center").html(dataObj.description);
+ $("#fail").modal();
                 } else {
                     var fname = dataObj.description['fname'];
                     var address = dataObj.description['address'];
@@ -412,9 +682,7 @@ label.star:before {
                     //     `
                     //     $("#feedBack").append(eachRow)
                     // }
-                    // alert(feedBacks.length)
-
-
+                 
                     //store phone number to the global variable to make available in another funciton
                     console.log(phone);
                     phoneNumber = phone;
@@ -482,7 +750,8 @@ label.star:before {
             isCommitted = true;
               if(_date == "")
                 {
-                    alert("input date and time");
+                     $("#fail .text-center").html("input date and time");
+ $("#fail").modal();
                     return;
                 }
                 } 
@@ -545,11 +814,12 @@ label.star:before {
         function(data, status) {
             var dataObj = JSON.parse(data);
             if (dataObj.result == "fail") {
-                alert(dataObj.description)
+                $("#fail .text-center").html(dataObj.description);
+ $("#fail").modal();
             } else {
-                alert(dataObj.description)
-                //$("#myModal").show();
-               window.location.href = baseUrl + "tc_homePage/"
+               $("#sucess .text-center").html(dataObj.description);
+                $("#sucess").modal();
+
             }
         })
 
@@ -571,10 +841,10 @@ label.star:before {
         function(data, status){
             var dataObj = JSON.parse(data);
             if (dataObj.result === "fail") {
-                alert(dataObj.description)
+                $("#fail .text-center").html(dataObj.description);
+                 $("#fail").modal();
             } else {
-                // alert(dataObj.description)
-                $.post( baseUrl + "registerProgress/",
+              $.post( baseUrl + "registerProgress/",
                 {
                     emp_id: emp_id,
                     action: 'call'
@@ -582,9 +852,11 @@ label.star:before {
                 function(data, status) {
                    var dataObj = JSON.parse(data);
                    if (dataObj.result === "fail") {
-                       alert(dataObj.description)
+                       $("#fail .text-center").html(dataObj.description);
+ $("#fail").modal();
                    } else {
-                       alert(dataObj.description)
+                      $("#sucess .text-center").html(dataObj.description);
+ $("#sucess").modal();
                    }
                 })
             }
@@ -666,7 +938,11 @@ jQuery('.clockpicker').clockpicker();
           zoom: 13,
           mapTypeId: 'roadmap'
         });
-
+         var map1 = new google.maps.Map(document.getElementById('map1'), {
+          center: {lat: -33.8688, lng: 151.2195},
+          zoom: 13,
+          mapTypeId: 'roadmap'
+        });
         // Create the search box and link it to the UI element.
         var input = document.getElementById('address');
         var searchBox = new google.maps.places.SearchBox(input);
@@ -676,7 +952,9 @@ jQuery('.clockpicker').clockpicker();
         map.addListener('bounds_changed', function() {
           searchBox.setBounds(map.getBounds());
         });
-
+        map1.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
         var markers = [];
         // Listen for the event fired when the user selects a prediction and retrieve
         // more details for that place.
@@ -716,6 +994,14 @@ jQuery('.clockpicker').clockpicker();
               position: place.geometry.location
             }));
 
+             // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+              map: map1,
+              icon: icon,
+              title: place.name,
+              position: place.geometry.location
+            }));
+
             if (place.geometry.viewport) {
               // Only geocodes have viewport.
               bounds.union(place.geometry.viewport);
@@ -724,10 +1010,16 @@ jQuery('.clockpicker').clockpicker();
             }
           });
           map.fitBounds(bounds);
+          map1.fitBounds(bounds);
         });
       }
 
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKrObWSq1_SI_Abkr71Rdo3pKx29KJGJM&libraries=places&callback=initAutocomplete"
          async defer></script>
+   
+
+    
+
 {% endblock custom_js %}
+

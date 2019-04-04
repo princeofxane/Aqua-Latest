@@ -58,6 +58,7 @@ margin-left: -170px;
 width: 237px;
 z-index: -1;
 display: none; // Enable this after jquery implementation 
+overflow-x: scroll;
     }
     /* AN ARROW LIKE STRUCTURE JUST OVER THE NOTIFICATIONS WINDOW */
     #notifications:before {         
@@ -102,14 +103,15 @@ margin-left: 188px;
 
         jQuery('#noti_Button').click(function () {
 
-            // TOGGLE (SHOW OR HIDE) NOTIFICATION WINDOW.
+jQuery('#notifications').css('display','block');
+           /* // TOGGLE (SHOW OR HIDE) NOTIFICATION WINDOW.
             jQuery('#notifications').fadeToggle('fast', 'linear', function () {
                 if ($('#notifications').is(':hidden')) {
                     $('#noti_Button').css('', '');
                 }
                 // CHANGE BACKGROUND COLOR OF THE BUTTON.
                 else $('#noti_Button').css('', '');
-            });
+            });*/
 
             $('#noti_Counter').fadeOut('slow');     // HIDE THE COUNTER.
 
@@ -151,7 +153,7 @@ background-color: #ffffff;
 position: fixed;
 z-index: 1000;
 width: 384px;
-border-bottom: 1px solid #dddddd;">
+border-bottom: 1px solid #dddddd; overflow-x: scroll;">
                     <h3 style="background:#F6F7F8;
         padding:8px;
         font-size:12px;
@@ -163,7 +165,7 @@ border-bottom: 1px solid #dddddd;">
                         <div id="notificationsBody" class="notifications">
 </div>
                     </div>
-                    <div class="seeAll"><a href="#">See All</a></div>
+                    <!-- <div class="seeAll" style="position: fixed;"><a href="#">See All</a></div> -->
                 </div> 
                 
             </li>
@@ -210,12 +212,10 @@ border-bottom: 1px solid #dddddd;">
     <div class="progress" id="comm"> </div></div></div>
             </div>
         </div>
-    </div>
-   
-
                              
 </nav> 
-
+ <img id="loading-image" src="{% static 'images/loading.gif' %}" alt="Loading..." />
+ 
 <script type="text/javascript">
     $(document).ready(function() {
 

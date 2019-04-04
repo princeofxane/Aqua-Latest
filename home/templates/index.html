@@ -132,6 +132,7 @@ var lead_id;
 
 function fetchTableData(emp_id)
 { 
+	$('#loading-image').show();
 	var table = $('#dataTable').DataTable({"sDom": "Rfrtlip"});
 	$.ajax({
 		type: "post",
@@ -179,6 +180,7 @@ function fetchTableData(emp_id)
 			})
 		}
 		})
+	$('#loading-image').hide();
 	}
 
 	function setLocalStorage(leadID) {
