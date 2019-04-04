@@ -303,9 +303,7 @@ def generateReport(request):
             try:
                 print(empObj.empID)
                 empStatObj = EmpStatus.objects.filter(empID_id=empObj, date=str(timeNow.date()))
-                print("^TESTSTST^")
-                for i in empStatObj:
-                    print(i.empID_id)
+
             except Exception as e:
                 print(e)
                 return fail("Status is not stored for this employee")
@@ -316,6 +314,7 @@ def generateReport(request):
                 except Exception as e:
                     return fail("Something went wrong")
                 else:
+                    data_list = []
                     if len(metricsObj) == 0:
                         return fail("No records avialable")
                     else:
@@ -328,7 +327,8 @@ def generateReport(request):
                             "loginTime": empStatObj[0].loginTime,
                             "logoutTime": empStatObj[0].logoutTime
                         }
-                    return success(dataSet)
+                        data_list.append(dataSet)
+                    return success(data_list)
 
             if report_type == 'custom':
                 # _from_date = '2019-03-30'
@@ -359,6 +359,9 @@ def generateReport(request):
                     if len(metricsObj) == 0:
                         return fail("No records avialable")
                     else:                        
+                        # data list array has been introduced to make it front-end friendly
+                        #$.each function likes to have an array.
+                        data_list = []
                         callCount = 0
                         commitCount = 0
                         callbackCount = 0
@@ -372,7 +375,8 @@ def generateReport(request):
                             "commitCount": commitCount,
                             "callbackCount": callbackCount
                         }
-                        return success(dataSet)
+                        data_list.append(dataSet)
+                        return success(data_list)
 
         if report_for == 'all':
 
@@ -394,7 +398,10 @@ def generateReport(request):
                         print("No record avaialable for this employee")
                     else:
                         dataSet["loginTime"] = empStatObj.loginTime
-                        dataSet["logoutTime"] = empStatObj.logoutTime
+                        if empStatObj.logoutTime == None:
+                            dataSet["logoutTime"] = ''
+                        else:
+                            dataSet["logoutTime"] = empStatObj.logoutTime
                     
                     #get metrices 
                     try:
@@ -409,8 +416,6 @@ def generateReport(request):
                         dataSet['callCount'] = metricsObj[0].callCount
                         dataSet['commitCount'] = metricsObj[0].commitCount
                         dataSet['callbackCount'] = metricsObj[0].callbackCount
-                        dataSet['loginTime'] = ''
-                        dataSet['logoutTime'] = ''
                             
 
                     data_list.append(dataSet)

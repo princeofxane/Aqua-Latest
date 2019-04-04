@@ -22,15 +22,15 @@ class Employee(models.Model):
 
 #CATEGORIES 'eq'-EQUIPMENT, 'mn'-MACHINE , 'fl'-FILTER
 class Product(models.Model):
-    id=models.AutoField(primary_key=True)
-    name=models.CharField(max_length=30)
-    description=models.TextField()
-    product_id=models.CharField(max_length=30,unique=True)
-    year=models.CharField(max_length=20)
-    cost=models.IntegerField()
-    category=models.CharField(max_length=2,default='mn')
-    features=models.TextField(null=True)
-    image_path=models.ImageField(blank=True)
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=30)
+    description = models.TextField()
+    product_id = models.CharField(max_length=30,unique=True, default=None)
+    year = models.CharField(max_length=20)
+    cost = models.IntegerField()
+    category = models.CharField(max_length=2,default='mn')
+    features = models.TextField(null=True)
+    image_path = models.ImageField(blank=True)
     
 class Customer(models.Model):
     id=models.AutoField(primary_key=True)

@@ -1271,14 +1271,13 @@ def leadDataFileParser(request):
 
         folder="home/static/rawLeadFile"
         imagefile=FileSystemStorage(location=folder)
-        imagesave=imagefile.save(myfile.name, myfile)
-	# imagesave=imagefile.save(myfile.name + str(timeNow), myfile)
-
+        imagesave=imagefile.save(myfile.name + str(timeNow), myfile)
+	    # imagesave=imagefile.save(myfile.name + str(timeNow), myfile)
 	
         # filename = fs.save(myfile.name, myfile)
         # uploaded_file_url = fs.url(filename)
-	# data = pd.read_excel(folder + "/" + myfile.name + str(timeNow))
-        data = pd.read_csv(folder + "/" + myfile.name)
+	    # data = pd.read_csv(folder + "/" + myfile.name + str(timeNow))
+        data = pd.read_excel(folder + "/" + myfile.name + str(timeNow))
         df = pd.DataFrame(data)
         row, col = data.shape
         rows = []
@@ -1286,7 +1285,6 @@ def leadDataFileParser(request):
             email, name, address, phone, alternatePhone, pincode, source, purchaseDate = data.loc[i, ['email', 'name', 'address', 'phone', 'alternatePhone', 'pincode', 'source', 'purchaseDate']]
             lead = Leads(leadID = generateRandomLeadID(), email=email, fname=name, address=address, phone=phone, alternatePhone=alternatePhone, pincode=pincode, source=source, purchaseDate=purchaseDate)
             rows.append(lead)
-
         try:
             Leads.objects.bulk_create(rows)
         except Exception as e:
