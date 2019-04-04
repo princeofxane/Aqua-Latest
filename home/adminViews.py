@@ -1279,6 +1279,7 @@ def leadDataFileParser(request):
 	    # data = pd.read_csv(folder + "/" + myfile.name + str(timeNow))
         data = pd.read_excel(folder + "/" + myfile.name + str(timeNow))
         df = pd.DataFrame(data)
+        print(df)
         row, col = data.shape
         rows = []
         for i in range(row):
@@ -1290,11 +1291,12 @@ def leadDataFileParser(request):
         except Exception as e:
             print(e)
             return fail("Lead upload failed")
-        return success("completed upload")
+        t= str(len(df.index))
+        return success("uploaded Sucess Total Records:"+t)
     return fail("Error in request")
 
 def generateRandomLeadID():
-    randomID = 'LD' + '{0:06}'.format(random.randint(1, 100000))
+    randomID = 'pp' + '{0:09}'.format(random.randint(1, 100000000))
     return randomID
 
 # @csrf_exempt
