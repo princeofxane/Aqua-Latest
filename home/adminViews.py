@@ -403,7 +403,7 @@ def setNotification(request):
                 employee = Employee.objects.get(empID=id)
             except Exception as e:
                 return fail("Employee Id Not Found")
-        note = Notifications(message=message, date=date, employeeID=employee,
+        note = Notifications(message=message, date=date, empID=employee,
                              time=time, noteType=noteType, noteForAll=noteForAll)
         note.save()
         return success("Notification Successfully Triggered")
@@ -429,7 +429,7 @@ def getNotification(request):
             except Exception as e:
                 return fail("Employee Id Not Found")
         notes = Notifications.objects.all().filter(
-            employeeID=employee, noteType=noteType, date=date, noteForAll=noteForAll)
+            empID=employee, noteType=noteType, date=date, noteForAll=noteForAll)
         if len(notes) == 0:
             return fail("No Noification Today")
         else:
@@ -455,7 +455,7 @@ def togglePause(request):
             return fail("Enter Employee Id")
         try:
             empObj = Employee.objects.get(empID=emp_id)
-            empStatObj = EmpStatus.objects.get(employeeID=empObj, date=currDate)
+            empStatObj = EmpStatus.objects.get(empID=empObj, date=currDate)
         except Exception as e:
             print(e)
             return fail("Couldn't get desired object")
@@ -486,14 +486,19 @@ def storeEmpLog(emp, isLoggingIn):
     dateToString = str(datetime.datetime.now().date())
     try:
         # The try would pass if it isn't a new employee, else there wont be an entry with date column
-        empStatus = EmpStatus.objects.get(employeeID = emp, date = str(datetime.datetime.now().date()))
+        empStatus = EmpStatus.objects.get(empID = emp, date = str(datetime.datetime.now().date()))
+        print("******GIRISH***")
+        print(empStatus)
     except Exception as e:
+        
         # This is for a new employee.
         empStatus = EmpStatus()
-        empStatus.employeeID = emp
+        empStatus.empID = emp
         empStatus.loginTime = timeNow
         empStatus.date = dateToString
         empStatus.save()
+        print("******im coming here***")
+        print(empStatus.empID)
 
         #employee made active
         emp.isActive = True
@@ -503,7 +508,7 @@ def storeEmpLog(emp, isLoggingIn):
 
             # If it is a new day the login timstamp need to be stored
             if empStatus.date != str(datetime.datetime.now().date()):
-                empStatus.employeeID = emp
+                empStatus.empID = emp
                 empStatus.loginTime = timeNow
                 empStatus.date = dateToString
                 empStatus.save()
@@ -530,7 +535,7 @@ def getEmpLogInfo(empInstance):
         currDate = str(datetime.datetime.now().date())
         
         # Taking only initial login time. there can be multiple logins.
-        empStatus = EmpStatus.objects.get(employeeID = empInstance, date = currDate)
+        empStatus = EmpStatus.objects.get(empID = empInstance, date = currDate)
        
         if empStatus == None:
             return None
@@ -579,7 +584,7 @@ def storeLogoutTime(request):
             timeNow = str(datetime.datetime.now())
             dateToday = str(datetime.datetime.now().date())
             employee = Employee.objects.get(empID = id)
-            empStatus = EmpStatus.objects.get(employeeID = employee, date = dateToday)
+            empStatus = EmpStatus.objects.get(empID = employee, date = dateToday)
             empStatus.logoutTime = timeNow
             empStatus.save()
 
@@ -990,7 +995,7 @@ def editLead(request):
             feedbackObj.save()
         leadObj.callAction = callAction
         if callAction == "cb":
-            Callbacks.objects.create(fname=fname,phone=phone,empID=emp_id,appointmentDate=appointmentDate)
+            #Callbacks.objects.create(fname=fname,phone=phone,empID=emp_id,appointmentDate=appointmentDate)
             print("&&&&&&&&&&")
             print(callAction)
         if isInterested == 'true':
@@ -1268,8 +1273,8 @@ def leadDataFileParser(request):
 
         folder="home/static/rawLeadFile"
         imagefile=FileSystemStorage(location=folder)
-        imagesave=imagefile.save(myfile.name + str(timeNow), myfile)
-        data = pd.read_csv(folder + "/" + myfile.name + str(timeNow))
+        imagesave=imagefile.save(myfile.name, myfile)
+        data = pd.read_csv(folder + "/" + myfile.name)
         df = pd.DataFrame(data)
         row, col = data.shape
         rows = []

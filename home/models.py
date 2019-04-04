@@ -84,7 +84,7 @@ class EmpStatus(models.Model):
 
 class Notifications(models.Model):
     id = models.AutoField(primary_key=True)
-    employeeID = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
+    empID = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
     message = models.TextField(null=True)
     time = models.CharField(max_length=10, null=True)
     date = models.CharField(max_length=10, null=True)
@@ -95,7 +95,7 @@ class Notifications(models.Model):
 
 class EmpTarget(models.Model):
     id = models.AutoField(primary_key=True)
-    employeeID = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
+    empID = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
     callTarget = models.IntegerField()
     commitTarget = models.IntegerField()
     startDate = models.CharField(max_length=10, null=True)

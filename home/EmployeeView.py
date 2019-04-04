@@ -39,7 +39,7 @@ def createNewEmployee(request):
             role = "hr"
         if role == "TL":
             role = "tl"
-        newEmpID = generateRandomEmployeeID()
+        newEmpID = generateRandomempID()
         print(newEmpID)
         employee = Employee(empID = newEmpID, fname=fname, lname=lname, phone=phone, email=email, role=role, pincode = pincode)
         employee.save()
@@ -104,7 +104,7 @@ def addcallbacks(request):
     return fail("Error in request")
 
 
-def generateRandomEmployeeID():
+def generateRandomempID():
     randomID = 'EMP' + '{0:06}'.format(random.randint(1, 100000))
     return randomID
 
@@ -295,12 +295,17 @@ def generateReport(request):
                 return fail("Provide employee id")
 
             try: 
+                print(emp_id)
                 empObj = Employee.objects.get(empID=emp_id)
             except Exception as e:
                 return fail("Employee doesn't exist")
 
             try:
-                empStatObj = EmpStatus.objects.filter(employeeID=empObj, date=str(timeNow.date()))
+                print(empObj.empID)
+                empStatObj = EmpStatus.objects.filter(empID_id=empObj, date=str(timeNow.date()))
+                print("^TESTSTST^")
+                for i in empStatObj:
+                    print(i.empID_id)
             except Exception as e:
                 print(e)
                 return fail("Status is not stored for this employee")
@@ -384,7 +389,7 @@ def generateReport(request):
                     dataSet = {}
                     #get login information
                     try:
-                        empStatObj = EmpStatus.objects.get(employeeID=empObj)
+                        empStatObj = EmpStatus.objects.get(empID=empObj)
                     except Exception as e:
                         print("No record avaialable for this employee")
                     else:
@@ -539,11 +544,11 @@ def setEmpTarget(request):
         if commitTarget == None:
             commitTarget = 0
         try:
-            targetObj =  EmpTarget.objects.get(employeeID = empObj)
+            targetObj =  EmpTarget.objects.get(empID = empObj)
         except Exception as e:
             # if no employee there in the table the try would fail.
             newTargetObj = EmpTarget()
-            newTargetObj.employeeID = empObj
+            newTargetObj.empID = empObj
             newTargetObj.callTarget = callTarget
             newTargetObj.commitTarget = commitTarget
             newTargetObj.startDate = currDate
@@ -551,7 +556,7 @@ def setEmpTarget(request):
             newTargetObj.save()
             return success("New employee target has been saved")
         # if the employee data already exist in the the table do this
-        targetObj.employeeID = empObj
+        targetObj.empID = empObj
         targetObj.callTarget = callTarget
         targetObj.commitTarget = commitTarget
         targetObj.startDate = currDate
@@ -572,7 +577,7 @@ def getEmpTarget(request):
             return fail("Employee doesn't exist")
         print(empObj)
         try:
-            statObj = EmpTarget.objects.get(employeeID=empObj)
+            statObj = EmpTarget.objects.get(empID=empObj)
         except Exception as e:
             return fail("Employee has no target assinged")
         #Create a dic on his assigned target
