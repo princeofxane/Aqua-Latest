@@ -2,7 +2,25 @@
 {% load staticfiles %}
 {% block body_content %}
 
-<style type="text/css">#dataTable_filter{display: none;}</style>
+<script type="text/javascript">
+     $( function() {
+    $( "#datePicker" ).datepicker();
+  } );
+function getval(sel)
+{
+    var conceptName = sel.value;
+    $("textarea#comment").text(conceptName);
+}
+</script>
+
+<style type="text/css">
+	#datePicker{
+		z-index:9999 !important;
+	}
+</style>
+
+<style type="text/css">#dataTable_filter{display: none;}
+</style>
 
 	<div id="page-wrapper" class="pt60" >	
 		<div class="container">
@@ -16,11 +34,14 @@
 								<option>Feedback</option>
 							</select> -->
 							<label for="exampleInputEmail2">From</label>
-							<input class="date_range_filter date" type="text" id="datepicker_from" />
+							<!-- <input id="from_date" class="date_range_filter date" type="text" id="datepicker_from" /> -->
+							<input id="from_date" type="date" class="form-control" placeholder="Set Apointment Date" style="width: 51%; float: left;">
+							<br>
 							<label for="exampleInputEmail2">To Date:</label>
-							<input class="date_range_filter date" type="text" id="datepicker_to" />
+              <input id="to_date" type="date" class="form-control" placeholder="Set Apointment Date" style="width: 50%; float: right;">
+							<!-- <input id="to_date" class="date_range_filter date" type="text" id="datepicker_to" /> -->
 						</div>
-						<button type="submit" class="btn btn-INFO">SEARCH</button>
+						<button id="customSearch" type="button" class="btn btn-INFO">SEARCH</button>
 					</form>
 				</div>
 			</div>
@@ -107,8 +128,8 @@ function fetchTableData(emp_id) {
 		type: "post",
 		url: baseUrl + "generateReport/",
 		data: {
-			is_day_wise: true,
-			is_single_employee: false
+			report_type: 'daily',
+			report_for: 'all'
 		},
 		success: function (data) {
 				var d = new Date();
@@ -137,6 +158,52 @@ function fetchTableData(emp_id) {
 		}
 	})
 	}
+
+	$("#customSearch").click(function() {
+		var fromDate = $("#from_date").val()
+		var toDate = $("#to_date").val()
+
+		var table = $('#dataTable').DataTable({
+			"sDom": "Rfrtlip"
+		});
+		$.ajax({
+		type: "post",
+		url: baseUrl + "generateReport/",
+		data: {
+			report_type: 'custom',
+			report_for: 'all',
+			from_date: fromDate,
+			to_date: toDate,
+		},
+		success: function (data) {
+				var d = new Date();
+				data=JSON.parse(data);
+				table.clear()
+				// console.log(data);
+				data=data.description;
+				console.log(data)
+				var i = 0;
+			$.each(data, function(key,value) {
+				i++
+				table.row.add($(
+					'<tr>' +
+					'<td>'+i+'</td>' +
+					'<td>'+d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate()+'</td>' +
+					'<td>'+value.emp_id+'</td>' +
+					'<td>'+value.callCount+'</td>' +
+					'<td>'+value.commitCount+'</td>' +
+					'<td>'+value.callbackCount+'</td>' +
+					'<td>'+value.loginTime+'</td>' +
+					'<td>'+value.logoutTime+'</td>' +
+					'<td>'+ +'</td>' +
+					// '<td>'+value.comments+'</td>' +
+					// '<td>'+value.pincode+'</td>' +
+					'<td></td>'+
+					'</tr>')).draw(false);
+			})
+		}
+	})	
+	})
 
 	$(document).ready(function() {
 		$.post( baseUrl + "getSession/",

@@ -98,6 +98,7 @@ $(document).ready(function(){
 			getUserData(emp_id);
 			fetchTableData(emp_id);
 			getEmpTarget(emp_id);
+			callbacksload(emp_id); 
 		}
 	}
 	);
@@ -131,6 +132,7 @@ var lead_id;
 
 function fetchTableData(emp_id)
 { 
+	$('#loading-image').show();
 	var table = $('#dataTable').DataTable({"sDom": "Rfrtlip"});
 	$.ajax({
 		type: "post",
@@ -141,17 +143,20 @@ function fetchTableData(emp_id)
 		success: function (data) 
 		{
 			data=JSON.parse(data);
-			data=data.description;
 			var i = 0;
-			$.each(data, function(key,value)
+			$.each(data.description, function(key,value)
 			{
-				var lastComment = ''
+				console.log(value);
+				var lastComment = '';
 				i++;
-				if (value.feedback.length > 0) {
+				if (value.feedback.length > 0) 
+				{
 					for (var x = 0; x < value.feedback.length; x++) {
 						lastComment = value.feedback[x]
 					}
-				} else {
+				} 
+				else 
+				{
 					lastComment = "null"
 				}
 				if(lastComment != "Call Back")
@@ -175,6 +180,7 @@ function fetchTableData(emp_id)
 			})
 		}
 		})
+	$('#loading-image').hide();
 	}
 
 	function setLocalStorage(leadID) {

@@ -1,7 +1,7 @@
 from django.views.decorators.csrf import csrf_exempt
 # from django.core import serializers
 from .views import success, fail
-from .models import Customers, Employee, Leads, EmpStatus, Notifications, CallData, Feedbacks
+from .models import *
 from django.shortcuts import HttpResponse, render
 from .tests import cleanDatabase, fill_database_with_dummy_values
 from django.utils import timezone
@@ -9,14 +9,82 @@ from django.utils.dateparse import parse_date
 from django.core.files.storage import FileSystemStorage
 from home import tests
 import random
+import requests as req
 # from django_otp.oath import hotp
 import pytz
 import json
 import datetime
 import pandas as pd
+from math import cos, asin, sqrt
+import xlrd
+# import gmaps
 
 IMAGE_FILE_TYPES = ['png', 'jpg', 'jpeg']
 
+
+@csrf_exempt
+def ib_homePage(request):
+    return render(request,"ib_index.html")
+
+
+
+@csrf_exempt
+def teamlead(request):
+    return render(request,"teamlead.html")
+
+
+@csrf_exempt
+def techadd(request):
+    return render(request,"add_technician.html")
+
+@csrf_exempt
+def prodview(request):
+    return render(request,"product_view.html")
+
+
+
+@csrf_exempt
+def currWork(request):
+    return render(request,"booking.html")
+
+
+@csrf_exempt
+def inventory(request):
+    return render(request,"inventory.html")
+
+@csrf_exempt
+def viewingbooking(request):
+    return render(request, 'view_booking.html')
+
+@csrf_exempt
+def previousbook(request):
+    return render(request, 'previous_booking.html')
+
+@csrf_exempt
+def currentbookview(request):
+    return render(request, 'current_booking.html')
+
+@csrf_exempt
+def tickview(request):
+    return render(request, 'ticket_view.html')
+
+
+@csrf_exempt
+def techview(request):
+    return render(request, 'technician_view.html')
+
+
+@csrf_exempt
+def addtick(request):
+    return render(request, 'add_ticket.html')
+
+# @csrf_exempt
+# def addtick(request):
+#     return render(request, 'create_ticket.html')
+
+@csrf_exempt
+def addprod(request):
+    return render(request, 'add_products.html')
 
 #----------------------- Page Renders ---------------------------#
 @csrf_exempt
@@ -48,6 +116,19 @@ def tc_homePage(request):
         loginPage(request)
     return render(request, 'index.html')
 
+@csrf_exempt
+def ob_qc_homePage(request):
+    currentSession = getSession(request, True)
+    if currentSession == '':
+        loginPage(request)
+    return render(request, 'ob_qc.html')
+
+@csrf_exempt
+def tc_dashboard(request):
+    currentSession = getSession(request, True)
+    if currentSession == '':
+        loginPage(request)
+    return render(request, 'tc_dashboard.html')
 
 @csrf_exempt
 def obAdmin_tc_homePage(request):
@@ -66,12 +147,12 @@ def obAdmin_commitHistoryPage(request):
 
 @csrf_exempt
 def obAdmin_reportsPage(request):
-    print("im coming here")
-    return render(request, 'obAdmin_reportsPage.html')
+    return render(request, 'obAdmin_reportsPage_new.html')
 
-
-
-
+@csrf_exempt
+def inboundHome(request):
+    print()
+    return render(request,"inbound.html")
 
 
 @csrf_exempt
@@ -254,7 +335,6 @@ def getUserData(request):
 
         dataReturn = {
             "fname": employee.fname,
-            "lname": employee.lname,
             "loginTime": loginTime
         }
         return success(dataReturn)
@@ -292,10 +372,14 @@ def getProfilePicture(request):
             return fail("Provide employee id")
         else:
             try:
-                employee = Employee.objects.get(empID=id)
+                empObj = Employee.objects.get(empID=id)
             except Exception as e:
                 return fail("Employee Id Not Foud")
-            return success(employee.profile_logo.url)
+            try:
+                imageUrl =  empObj.profile_logo.url
+            except Exception as e:
+                imageUrl = ''
+            return success(imageUrl)
     return fail("Bad request")
 
 
@@ -319,7 +403,7 @@ def setNotification(request):
                 employee = Employee.objects.get(empID=id)
             except Exception as e:
                 return fail("Employee Id Not Found")
-        note = Notifications(message=message, date=date, employeeID=employee,
+        note = Notifications(message=message, date=date, empID=employee,
                              time=time, noteType=noteType, noteForAll=noteForAll)
         note.save()
         return success("Notification Successfully Triggered")
@@ -345,7 +429,7 @@ def getNotification(request):
             except Exception as e:
                 return fail("Employee Id Not Found")
         notes = Notifications.objects.all().filter(
-            employeeID=employee, noteType=noteType, date=date, noteForAll=noteForAll)
+            empID=employee, noteType=noteType, date=date, noteForAll=noteForAll)
         if len(notes) == 0:
             return fail("No Noification Today")
         else:
@@ -371,7 +455,7 @@ def togglePause(request):
             return fail("Enter Employee Id")
         try:
             empObj = Employee.objects.get(empID=emp_id)
-            empStatObj = EmpStatus.objects.get(employeeID=empObj, date=currDate)
+            empStatObj = EmpStatus.objects.get(empID=empObj, date=currDate)
         except Exception as e:
             print(e)
             return fail("Couldn't get desired object")
@@ -402,14 +486,19 @@ def storeEmpLog(emp, isLoggingIn):
     dateToString = str(datetime.datetime.now().date())
     try:
         # The try would pass if it isn't a new employee, else there wont be an entry with date column
-        empStatus = EmpStatus.objects.get(employeeID = emp, date = str(datetime.datetime.now().date()))
+        empStatus = EmpStatus.objects.get(empID = emp, date = str(datetime.datetime.now().date()))
+        print("******GIRISH***")
+        print(empStatus)
     except Exception as e:
+        
         # This is for a new employee.
         empStatus = EmpStatus()
-        empStatus.employeeID = emp
+        empStatus.empID = emp
         empStatus.loginTime = timeNow
         empStatus.date = dateToString
         empStatus.save()
+        print("******im coming here***")
+        print(empStatus.empID)
 
         #employee made active
         emp.isActive = True
@@ -419,7 +508,7 @@ def storeEmpLog(emp, isLoggingIn):
 
             # If it is a new day the login timstamp need to be stored
             if empStatus.date != str(datetime.datetime.now().date()):
-                empStatus.employeeID = emp
+                empStatus.empID = emp
                 empStatus.loginTime = timeNow
                 empStatus.date = dateToString
                 empStatus.save()
@@ -446,7 +535,7 @@ def getEmpLogInfo(empInstance):
         currDate = str(datetime.datetime.now().date())
         
         # Taking only initial login time. there can be multiple logins.
-        empStatus = EmpStatus.objects.get(employeeID = empInstance, date = currDate)
+        empStatus = EmpStatus.objects.get(empID = empInstance, date = currDate)
        
         if empStatus == None:
             return None
@@ -495,7 +584,7 @@ def storeLogoutTime(request):
             timeNow = str(datetime.datetime.now())
             dateToday = str(datetime.datetime.now().date())
             employee = Employee.objects.get(empID = id)
-            empStatus = EmpStatus.objects.get(employeeID = employee, date = dateToday)
+            empStatus = EmpStatus.objects.get(empID = employee, date = dateToday)
             empStatus.logoutTime = timeNow
             empStatus.save()
 
@@ -510,17 +599,16 @@ def storeLogoutTime(request):
 def addNewLead(request):
     if (request.method == "POST"):
         fname = request.POST.get("fname", None)
-        lname = request.POST.get("lname", None)
         mobile = request.POST.get("mobile", None)
         email = request.POST.get("email", None)
         address = request.POST.get("address", None)
         pincode = request.POST.get("pincode", None)
         alternatePhone = request.POST.get("alternatePhone", None)
         purchaseDate = request.POST.get("purchaseDate", None)
-        if(fname == None or lname ==  None or mobile ==  None or email ==  None or
+        if(fname == None or mobile ==  None or email ==  None or
                 address ==  None or pincode ==  None or purchaseDate == None or alternatePhone ==  None):
            return fail("Invalid details")
-        lead = Leads(leadID = generateRandomLeadID(), fname = fname, lname = lname, mobile = mobile, email = email,
+        lead = Leads(leadID = generateRandomLeadID(), fname = fname, mobile = mobile, email = email,
             address = address, pincode = pincode, purchaseDate = purchaseDate, alternatePhone = alternatePhone)
         lead.save()
         return success("New Lead created!")
@@ -560,6 +648,7 @@ def deleteMultipleLeads(request):
 def getAssignedLeads(request):
     if request.method == "POST":
         emp_id = request.POST.get("emp_id", None)
+        print(emp_id)
         if emp_id != None:
             try:
                 empObj = Employee.objects.get(empID=emp_id)
@@ -567,6 +656,7 @@ def getAssignedLeads(request):
                 return fail("Employee Id Not Foud")
             try:
                 leads = Leads.objects.filter(assignee=empObj, isInterested=False, isContacted=False)
+                print(leads)
             except Exception as e:
                 print(e)
 
@@ -579,13 +669,85 @@ def getAssignedLeads(request):
             #     for i in range(len(leads))
             #         lead={}
                     eachRow['leadID'] = lead.leadID
+                    eachRow['source'] = lead.source
                     eachRow['fname'] = lead.fname
-                    eachRow['lname'] = lead.lname
                     eachRow['email'] = lead.email
                     eachRow['phone'] = lead.phone
                     eachRow['address'] = lead.address
-                    eachRow['createdDate'] = str(lead.createdDate)
+                    eachRow['appointmentDate'] = str(lead.appointmentDate)
                     eachRow['pincode'] = lead.pincode
+
+                    #handle feedback
+                    try:
+                        feedbacksObj = Feedbacks.objects.filter(leadID=lead)
+                    except Exception as e:
+                        eachRow['feedback'] = ''
+                    else:
+                        if len(feedbacksObj) != 0:
+                            feedBackArray = []
+                            for feedbackObj in feedbacksObj:
+                                feedBackArray.append(feedbackObj.feedback)
+                            eachRow['feedback'] = feedBackArray
+                        else:
+                            eachRow['feedback'] = ''
+
+                    eachRow['appointmentDate'] = lead.appointmentDate
+                    eachRow['isInterested'] = lead.isInterested
+                    leads_list.append(eachRow)
+                return success(leads_list)
+        return fail("Provide id")
+    return fail("Error In Request")
+
+
+
+# This should get you all leads that you have given to deal with
+@csrf_exempt
+def getComittedLeads(request):
+    if request.method == "POST":
+        emp_id = request.POST.get("emp_id", None)
+        if emp_id != None:
+            try:
+                empObj = Employee.objects.get(empID=emp_id)
+            except Exception as e:
+                print("******************")
+                return fail("Employee Id Not Foud")
+            try:
+                leads = Leads.objects.filter(isInterested=True)
+
+            except Exception as e:
+                print(e)
+            if len(leads) == 0:
+                return fail("No leads in db")
+            else:
+                leads_list = []
+                for lead in leads:
+                    eachRow = {}
+            #     for i in range(len(leads))
+            #         lead={}
+                    eachRow['leadID'] = lead.leadID
+                    eachRow['fname'] = lead.fname
+                  
+                    eachRow['email'] = lead.email
+                    eachRow['phone'] = lead.phone
+                    eachRow['address'] = lead.address
+                    eachRow['appointmentDate'] = str(lead.appointmentDate)
+                    eachRow['comments'] = lead.comments
+
+                    #handle feedback
+                    try:
+                        feedbacksObj = Feedbacks.objects.filter(leadID=lead)
+                    except Exception as e:
+                        eachRow['feedback'] = ''
+                    else:
+                        if len(feedbacksObj) != 0:
+                            feedBackArray = []
+                            for feedbackObj in feedbacksObj:
+                                feedBackArray.append(feedbackObj.feedback)
+                            eachRow['feedback'] = feedBackArray
+                        else:
+                            eachRow['feedback'] = ''
+
+                    eachRow['appointmentDate'] = lead.appointmentDate
                     eachRow['isInterested'] = lead.isInterested
                     leads_list.append(eachRow)
                 return success(leads_list)
@@ -604,7 +766,6 @@ def getAllUnAssignedLeads(request):
             eachRow = {}
             eachRow['leadID'] = leadObj.leadID
             eachRow['fname'] = leadObj.fname
-            eachRow['lname'] = leadObj.lname
             eachRow['address'] = leadObj.address
             eachRow['createdDate'] = str(leadObj.createdDate)
             eachRow['email'] = leadObj.email
@@ -621,38 +782,40 @@ def getAllUnAssignedLeads(request):
 @csrf_exempt
 def getInterestedLeads(request):
     if request.method == "POST":
-        emp_id = request.POST.get('emp_id', None)
-        # leads = Leads.objects.all().filter(isInterested=True)
-        try:
-            empObj = Employee.objects.get(empID=emp_id)
-        except Exception as e:
-            return fail("Employee doesn't exist")
-
-        try:
-            leadsObj = Leads.objects.filter(isInterested=True, assignee=empObj)
-        except Exception as e:
-            return fail("Something went wrong")
-
-        if len(leadsObj) == 0:
-            return fail("No committed leads")
-        else:
-            leads_list = []
-            for lead in leadsObj:
-                eachRow = {}
-        #     for i in range(len(leads))
-        #         lead={}
-        #         lead['id']=leads[i].customer.id
-                eachRow['leadID'] = lead.leadID
-                eachRow['fname'] = lead.fname
-                eachRow['lname'] = lead.lname
-                eachRow['email'] = lead.email
-                eachRow['phone'] = lead.phone
-                eachRow['address'] = lead.address
-                eachRow['createdDate'] = str(lead.createdDate)
-                eachRow['pincode'] = lead.pincode
-                leads_list.append(eachRow)
-            return success(leads_list)
-    return fail("Error In Request")
+        emp_id = request.POST.get("emp_id", None)
+        print(emp_id)
+        if emp_id != None:
+            try:
+                empObj = Employee.objects.get(empID=emp_id)
+            except Exception as e:
+                return fail("Employee Id Not Foud")
+            try:
+                leadsObj = Leads.objects.filter(isInterested=True,assignee=empObj)
+                print("im coming in")
+            except Exception as e:
+                return fail("Something went wrong")
+            if len(leadsObj) == 0:
+                print("************************")
+                return fail("No committed leads")
+            else:
+                leads_list = []
+                for lead in leadsObj:
+                    print(lead.fname)
+                    eachRow = {}
+            #     for i in range(len(leads))
+            #         lead={}
+            #         lead['id']=leads[i].customer.id
+                    eachRow['leadID'] = lead.leadID
+                    eachRow['fname'] = lead.fname
+                  
+                    eachRow['email'] = lead.email
+                    eachRow['phone'] = lead.phone
+                    eachRow['address'] = lead.address
+                    eachRow['appointmentDate'] = str(lead.appointmentDate)
+                    eachRow['comments'] = lead.comments
+                    leads_list.append(eachRow)
+                return success(leads_list)
+        return fail("Error In Request")
 
 
 @csrf_exempt
@@ -671,17 +834,18 @@ def getCallbackLeads(request):
         leads_list = []
         for lead in leadObj:
             eachRow = {}
+            print("im coming")
     #     for i in range(len(leads))
     #         lead={}
     #         lead['id']=leads[i].customer.id
             eachRow['leadID'] = lead.leadID
             eachRow['fname'] = lead.fname
-            eachRow['lname'] = lead.lname
+           
             eachRow['email'] = lead.email
             eachRow['phone'] = lead.phone
             eachRow['address'] = lead.address
-            eachRow['createdDate'] = str(lead.createdDate)
-            eachRow['pincode'] = lead.pincode
+            eachRow['appointmentDate'] = str(lead.appointmentDate)
+            eachRow['comments'] = lead.comments
             leads_list.append(eachRow)
         return success(leads_list)
     return fail("Error In Request")
@@ -733,7 +897,7 @@ def getLeadsNotContacted(request):
         #         lead['id']=leads[i].customer.id
                 eachRow['leadID'] = lead.leadID
                 eachRow['fname'] = lead.fname
-                eachRow['lname'] = lead.lname
+               
                 eachRow['email'] = lead.email
                 eachRow['phone'] = lead.phone
                 eachRow['address'] = lead.address
@@ -759,7 +923,7 @@ def getContactedLeads(request):
         #         lead['id']=leads[i].customer.id
                 eachRow['leadID'] = lead.leadID
                 eachRow['fname'] = lead.fname
-                eachRow['lname'] = lead.lname
+               
                 eachRow['email'] = lead.email
                 eachRow['phone'] = lead.phone
                 eachRow['address'] = lead.address
@@ -780,7 +944,7 @@ def editLead(request):
         emp_id = request.POST.get("emp_id", None)
         leadID = request.POST.get("leadID", None)
         fname = request.POST.get("fname", None)
-        lname = request.POST.get("lname", None)
+        phone = request.POST.get("phone", None)
         address = request.POST.get("address", None)
         email = request.POST.get("email", None)
         alternatePhone = request.POST.get("alternatePhone", None)
@@ -789,24 +953,27 @@ def editLead(request):
         pincode = request.POST.get("pincode", None)
         comment = request.POST.get("comments", None)
         callAction = request.POST.get("callAction", None)
-        isInterested = request.POST.get("isCommit", None)
+        isInterested = request.POST.get("isInterested", None)
+        pincode = request.POST.get("pincode",None)
+        assignee = request.POST.get("assignee",None)
         appointmentDate = request.POST.get("appointmentDate", None)
 
         try:
             empObj = Employee.objects.get(empID = emp_id)
+            print("&&&&&&&&&&")
         except Exception as e:
             print("Employee doesn't exist")
         
         try:
             leadObj = Leads.objects.get(leadID=leadID)
+            print("&&&&&&&&&&")
         except Exception as e:
             print(e)
             return fail("Lead is not present in the db")
 
         if fname is not '':
             leadObj.fname = fname
-        if lname is not '':
-            leadObj.lname = lname
+       
         if address is not '':
             leadObj.address = address
         if email is not '':
@@ -824,23 +991,43 @@ def editLead(request):
         if appointmentDate is not '':
             leadObj.appointmentDate = appointmentDate
         if comment is not '':
-
             feedbackObj = Feedbacks(empID=empObj, leadID=leadObj, feedback=comment)
             feedbackObj.save()
-
-            # oldComment = str(lead.comments)
-            # newComment = oldComment + "\n\n\n" + "----------------------------" + "\n" + comment + "\n" + "----------------------------" + "\n" + str(timeNow) + ' ' + emp_id
-            # newComment = oldComment + "*" + comment + "\n" + "----------------------------" + "\n" + str(timeNow) + ' ' + emp_id
-            # lead.comments = newComment
         leadObj.callAction = callAction
-
+        if callAction == "cb":
+            #Callbacks.objects.create(fname=fname,phone=phone,empID=emp_id,appointmentDate=appointmentDate)
+            print("&&&&&&&&&&")
+            print(callAction)
         if isInterested == 'true':
+            print("&&&&&&&&&& im in true")
             leadObj.isInterested = True
         if isInterested == 'false':
+            print("&&&&&&&&&& im in false")
             leadObj.isInterested = False
         leadObj.save()
         return success("Lead info updated")
     return fail("Error in request")
+
+
+@csrf_exempt
+def callbacksload(request):
+    emp_id = request.POST.get("emp_id", None)
+    try:
+        empObj = Employee.objects.get(empID=emp_id)
+    except Exception as e:
+        return fail("Employee doesn't exist")
+    try:
+        leadObj = Leads.objects.filter(callAction='cb', assignee=empObj)
+    except Exception as e:
+        print("Something went wrong")
+    leads_list = []
+    for lead in leadObj:
+        eachRow = {}
+        eachRow['fname'] = lead.fname
+        eachRow['phone'] = lead.phone
+        eachRow['appointmentDate'] = str(lead.appointmentDate)
+        leads_list.append(eachRow)
+    return success(leads_list)
 
 
 @csrf_exempt
@@ -855,7 +1042,7 @@ def getSingleLead(request):
 
         lead['leadID'] = leadObj.leadID
         lead['fname'] = leadObj.fname
-        lead['lname'] = leadObj.lname
+      
         lead['email'] = leadObj.email
         lead['product'] = leadObj.product
         lead['phone'] = leadObj.phone
@@ -866,7 +1053,26 @@ def getSingleLead(request):
         lead['appointmentDate'] = leadObj.appointmentDate
         lead['purchaseDate'] = leadObj.purchaseDate
         lead['pincode'] = leadObj.pincode
+        #----------------------------------------
 
+        # addr = leadObj.address.replace(" ", "+")
+        # api_key = 'AIzaSyCKrObWSq1_SI_Abkr71Rdo3pKx29KJGJM'
+        # uri = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + addr + '&key=' + api_key
+        # response = req.get(uri)
+        # resp_json_payload = response.json()
+        # customerLocation = (resp_json_payload['results'][0]['geometry']['location'])
+
+        # example = {'lat': 13.0289365, 'lng': 77.63892249999999}
+
+        #Example agent position list
+        # technicianCordinates = [{'test': 'prince', 'lat': 39.7612992, 'lng': -86.1519681}, 
+        #         {'test': 'sony', 'lat': 39.762241, 'lng': -86.158436 }, 
+        #         {'test': 'amma', 'lat': 39.7622292, 'lng': -86.1578917}]
+
+        # print(closest(technicianCordinates, customerLocation))
+        
+
+        #----------------------------------------
         feedbackObj = Feedbacks.objects.filter(leadID=leadObj)
         if len(feedbackObj) != 0:
             dataArray = []
@@ -883,6 +1089,141 @@ def getSingleLead(request):
             lead['feedbacks'] = dataArray
         return success(lead)
     return fail("Error In Request")
+
+
+@csrf_exempt
+def getClosestTechnician(request):
+    if request.method == "POST":
+        positionData_list = []
+
+        lead_id = request.POST.get("lead_id", None)
+        if lead_id == '' or lead_id == None:
+            return fail("lead ID hasn't provided")
+        try:
+            leadObj = Leads.objects.get(leadID=lead_id)
+        except Exception as e:
+            return fail("Lead doesn't exist")
+
+        if leadObj.address != '':
+            addr = leadObj.address.replace(" ", "+")
+            api_key = 'AIzaSyCKrObWSq1_SI_Abkr71Rdo3pKx29KJGJM'
+            uri = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + addr + '&key=' + api_key
+            response = req.get(uri)
+            resp_json_payload = response.json()
+            leadLocation = (resp_json_payload['results'][0]['geometry']['location'])
+
+            try:
+                loctnsObj = TechniciansLocation.objects.filter(isActive=True)
+            except Exception as e:
+                return fail("Something went wrong")
+
+            if len(loctnsObj) == 0:
+                return fail("No active technicians found")
+            else:
+                for loctnObj in loctnsObj:
+                    eachRow = {}
+
+                    eachRow['empID'] = loctnObj.empID
+                    eachRow['latitude'] = loctnObj.latitude
+                    eachRow['longitude'] = loctnObj.longitude
+
+                    positionData_list.append(eachRow)
+
+
+            closestAgent = closest(positionData_list, leadLocation)
+            #This will return a dictionary contains empID so as latitude and longitude
+            return success(closestAgent)
+    return fail("Error in request")
+
+    
+
+
+def distance(lat1, lng1, lat2, lng2):
+    p = 0.017453292519943295
+    a = 0.5 - cos((lat2-lat1)*p)/2 + cos(lat1*p)*cos(lat2*p) * (1-cos((lng2-lng1)*p)) / 2
+    return 12742 * asin(sqrt(a))
+
+def closest(data, v):
+    return min(data, key=lambda p: distance(v['lat'], v['lng'], p['lat'], p['lng']))
+
+
+
+# v = {'lat': 39.7622290, 'lng': -86.1519750}
+# print(closest(tempDataList, v))
+
+
+@csrf_exempt
+def updateTechniciansLocation(request):
+    if request.method == "POST":
+        emp_id = request.POST.get("emp_id", None)
+        latitude = request.POST.get("latitude", None)
+        longitude = request.POST.get("longitude", None)
+
+        try:
+            empObj = Employee.objects.get(empID=emp_id)
+        except Exception as e:
+            return fail("Employee doesn't exist")
+        
+        try:
+            loctnObj = TechniciansLocation.objects.get(empID=emp_id)
+        except Exception as e:
+            # if his location didn't exist before it will be an exception
+            loctnObj = TechniciansLocation(empID=empObj, latitude=latitude, longitude=longitude)
+            loctnObj.save()
+        
+        loctnObj.latitude = latitude
+        loctnObj.longitude = longitude
+        loctnObj.save()
+        return success("Cordinates are saved")
+    return fail("Error in request")
+
+
+@csrf_exempt
+def getTechniciansLocation(request):
+    if request.method == "POST":
+        emp_id = request.POST.get("emp_id", None)
+        isWhole = request.POST.get("isWhole", None)
+
+        if isWhole == '' or isWhole == 'false':
+            if emp_id == '':
+                return fail("You haven't provided employee id")
+            try:
+                empObj = Employee.objects.get(empID=emp_id)
+            except Exception as e:
+                return fail("Employee doesn't exist")
+
+            try:
+                loctnObj = TechniciansLocation.objects.get(empID=empObj)
+            except Exception as e:
+                return fail("No location data saved for this employee")
+
+            cordinateData = {
+                'empID': loctnObj.empID,
+                'latitude': loctnObj.latitude,
+                'longitude': loctnObj.longitude
+            }
+            return success(cordinateData)
+        if isWhole == 'true':
+
+            try:
+                loctnsObj = TechniciansLocation.objects.filter(isActive=True)
+            except Exception as e:
+                return fail("Something went wrong")
+
+            if len(loctnsObj) == 0:
+                return fail("No active technicians found")
+            else:
+                positionData_list = []
+                for loctnObj in loctnsObj:
+                    eachRow = {}
+
+                    eachRow['empID'] = loctnObj.empID
+                    eachRow['latitude'] = loctnObj.latitude
+                    eachRow['longitude'] = loctnObj.longitude
+
+                    positionData_list.append(eachRow)
+                return success(positionData_list)
+    return fail("Error in request")
 
 
 @csrf_exempt
@@ -925,27 +1266,36 @@ def makeCall(request):
 
 @csrf_exempt
 def leadDataFileParser(request):
+    timeNow = datetime.datetime.now()
     if (request.method == "POST"):
         myfile = request.FILES['dataFile']
         # fs = FileSystemStorage()
 
         folder="home/static/rawLeadFile"
         imagefile=FileSystemStorage(location=folder)
-        imagesave=imagefile.save(myfile.name, myfile)
+<<<<<<< HEAD
+        imagesave=imagefile.save(myfile.name + str(timeNow), myfile)
 
         # filename = fs.save(myfile.name, myfile)
         # uploaded_file_url = fs.url(filename)
-        data = pd.read_excel(folder + "/" + myfile.name)
+        data = pd.read_excel(folder + "/" + myfile.name + str(timeNow))
+=======
+        imagesave=imagefile.save(myfile.name, myfile)
+        data = pd.read_csv(folder + "/" + myfile.name)
+        df = pd.DataFrame(data)
+>>>>>>> 402fa3c7277f4dec11f01aaceceab234e4cae2e3
         row, col = data.shape
         rows = []
         for i in range(row):
-            email, fname, lname, address, phone, alternatePhone, pincode, source, purchaseDate = data.loc[i, ['email', 'fname', 'lname', 'address', 'phone', 'alternatePhone', 'pincode', 'source', 'purchaseDate']]
-            lead = Leads(leadID = generateRandomLeadID(), email=email, fname=fname, lname=lname, address=address, phone=phone, alternatePhone=alternatePhone, pincode=pincode, source=source, purchaseDate=purchaseDate)
+            email, name, address, phone, alternatePhone, pincode, source, purchaseDate = data.loc[i, ['email', 'name', 'address', 'phone', 'alternatePhone', 'pincode', 'source', 'purchaseDate']]
+            lead = Leads(leadID = generateRandomLeadID(), email=email, fname=name, address=address, phone=phone, alternatePhone=alternatePhone, pincode=pincode, source=source, purchaseDate=purchaseDate)
             rows.append(lead)
-        Leads.objects.bulk_create(
-            rows
-        )
-        print(data)
+
+        try:
+            Leads.objects.bulk_create(rows)
+        except Exception as e:
+            print(e)
+            return fail("Lead upload failed")
         return success("completed upload")
     return fail("Error in request")
 
@@ -1002,4 +1352,3 @@ def generateRandomLeadID():
 #             lead.save()
 #             return success("New Lead created!")
 #     return HttpResponse("Error In Request")
-

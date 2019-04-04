@@ -39,7 +39,7 @@ def createNewEmployee(request):
             role = "hr"
         if role == "TL":
             role = "tl"
-        newEmpID = generateRandomEmployeeID()
+        newEmpID = generateRandomempID()
         print(newEmpID)
         employee = Employee(empID = newEmpID, fname=fname, lname=lname, phone=phone, email=email, role=role, pincode = pincode)
         employee.save()
@@ -104,7 +104,7 @@ def addcallbacks(request):
     return fail("Error in request")
 
 
-def generateRandomEmployeeID():
+def generateRandomempID():
     randomID = 'EMP' + '{0:06}'.format(random.randint(1, 100000))
     return randomID
 
@@ -224,89 +224,93 @@ def registerProgress(request):
 
         if action == 'call':
             try:
-                metricsObj = Metrics.objects.get(empID=empObj)
+                metricsObj = Metrics.objects.filter(empID=empObj, createdAt__year=timeNow.year, createdAt__month=timeNow.month, createdAt__day=timeNow.day)
             except Exception as e:
-                # progress hasn't been tracking for this employee so create
-                # a new one
+                return fail("Something went wrong")
+            
+            if len(metricsObj) == 0:
                 metricsObj = Metrics(empID=empObj, callCount=1, currDate=timeNow)
                 metricsObj.save()
-                return success("Progress for new employee has been recorded")
-            
-            if metricsObj.currDate.date() == timeNow.date():
-                metricsObj.empID = empObj
-                metricsObj.callCount = metricsObj.callCount + 1
-                metricsObj.save()
-                return success("Call count for the same day has been increased")
+                return success("Progress for new day has been registered")
             else:
-                metricsObj.empID = empObj
-                metricsObj.callCount = 1
-                metricsObj.currDate = timeNow
-                metricsObj.save()
-                return success("Call count for the new day has been increased")
+                metricsObj[0].createdAt = timeNow
+                metricsObj[0].callCount = metricsObj[0].callCount + 1
+                metricsObj[0].save()
+                return success("Call count for the same day has been increased")
         if action == 'commit':
             try:
-                metricsObj = Metrics.objects.get(empID=empObj)
+                metricsObj = Metrics.objects.filter(empID=empObj, createdAt__year=timeNow.year, createdAt__month=timeNow.month, createdAt__day=timeNow.day)
             except Exception as e:
-                # progress hasn't been tracking for this employee so create
-                # a new one
-                metricsObj = Metrics(empID=empObj, commitCount=1, currDate=timeNow)                
-                metricsObj.save()
-                return success("Progress for new employee has been recorded")
+                return fail("Something went wrong")
             
-            if metricsObj.currDate.date() == timeNow.date():
-                metricsObj.empID = empObj
-                metricsObj.commitCount = metricsObj.commitCount + 1
+            if len(metricsObj) == 0:
+                metricsObj = Metrics(empID=empObj, commitCount=1, currDate=timeNow)
                 metricsObj.save()
-                return success("Commit count for the same day has been increased")
+                return success("Progress for new day has been registered")
             else:
-                metricsObj.empID = empObj
-                metricsObj.commitCount = 1
-                metricsObj.currDate = timeNow
-                metricsObj.save()
-                return success("Commit count for the new day has been increased")
+                metricsObj[0].createdAt = timeNow
+                metricsObj[0].commitCount = metricsObj[0].commitCount + 1
+                metricsObj[0].save()
+                return success("Commit count for the same day has been increased")
         if action == 'callback':
             try:
-                metricsObj = Metrics.objects.get(empID=empObj)
+                metricsObj = Metrics.objects.filter(empID=empObj, createdAt__year=timeNow.year, createdAt__month=timeNow.month, createdAt__day=timeNow.day)
             except Exception as e:
-                # progress hasn't been tracking for this employee so create
-                # a new one
-                metricsObj = Metrics(empID=empObj, callbackCount=1, currDate=timeNow)                
-                metricsObj.save()
-                return success("Progress for new employee has been recorded")
+                return fail("Something went wrong")
             
-            if metricsObj.currDate.date() == timeNow.date():
-                metricsObj.empID = empObj
-                metricsObj.callbackCount = metricsObj.callbackCount + 1
+            if len(metricsObj) == 0:
+                metricsObj = Metrics(empID=empObj, callbackCount=1, currDate=timeNow)
                 metricsObj.save()
-                return success("Callback count for the same day has been increased")
+                return success("Progress for new day has been registered")
             else:
-                metricsObj.empID = empObj
-                metricsObj.callbackCount = 1
-                metricsObj.currDate = timeNow
-                metricsObj.save()
-                return success("Callback count for the new day has been increased")
+                metricsObj[0].createdAt = timeNow
+                metricsObj[0].callbackCount = metricsObj[0].callbackCount + 1
+                metricsObj[0].save()
+                return success("Callback count for the same day has been increased")
     return fail("Error in request")
 
 
 @csrf_exempt
 def generateReport(request):
     if request.method == "POST":
+        print()
         # timeNow = timezone.now()
         timeNow = datetime.datetime.now()
 
         emp_id = request.POST.get("emp_id", None)
-        is_single_employee = request.POST.get("is_single_employee", None)
-        is_day_wise = request.POST.get("is_day_wise", None)
-        is_custom_date = request.POST.get("is_custom_date", None)
+
+        #daily or custom
+        report_type = request.POST.get("report_type", None)
+
         from_date = request.POST.get("from_date", None)
         to_date = request.POST.get("to_date", None)
 
-        if is_day_wise == 'true':
-            if is_single_employee == 'true':
-                try: 
-                    empObj = Employee.objects.get(empID=emp_id)
-                except Exception as e:
-                    return fail("Employee doesn't exist")
+        #single employee or all employees
+        report_for = request.POST.get("report_for", None)
+
+
+        if report_for == 'single':
+
+            if emp_id is '' or emp_id is None:
+                return fail("Provide employee id")
+
+            try: 
+                print(emp_id)
+                empObj = Employee.objects.get(empID=emp_id)
+            except Exception as e:
+                return fail("Employee doesn't exist")
+
+            try:
+                print(empObj.empID)
+                empStatObj = EmpStatus.objects.filter(empID_id=empObj, date=str(timeNow.date()))
+                print("^TESTSTST^")
+                for i in empStatObj:
+                    print(i.empID_id)
+            except Exception as e:
+                print(e)
+                return fail("Status is not stored for this employee")
+
+            if report_type == 'daily':
                 try:
                     metricsObj = Metrics.objects.filter(empID=empObj, createdAt__year=timeNow.year, createdAt__month=timeNow.month, createdAt__day=timeNow.day)
                 except Exception as e:
@@ -316,57 +320,26 @@ def generateReport(request):
                         return fail("No records avialable")
                     else:
                         # although we are looping it assumed to be only one object in an array.
-                        for eachObj in metricsObj:
-                            dataSet = {
-                                "calls": eachObj.callCount,
-                                "commitCount": eachObj.commitCount,
-                                "callbackCount": eachObj.callbackCount
-                            }
-                        return success(dataSet)
+                        dataSet = {
+                            "callCount": metricsObj[0].callCount,
+                            "commitCount": metricsObj[0].commitCount,
+                            "callbackCount": metricsObj[0].callbackCount,
+                            "createdAt": str(metricsObj[0].createdAt),
+                            "loginTime": empStatObj[0].loginTime,
+                            "logoutTime": empStatObj[0].logoutTime
+                        }
+                    return success(dataSet)
 
-            if is_single_employee == 'false':
+            if report_type == 'custom':
+                # _from_date = '2019-03-30'
+                # _to_date = '2019-04-04'
+                if from_date == '' or from_date == None:
+                    return fail("Please provide from and to dates")
+                if to_date == '' or to_date == None:
+                    return fail("Please provide from and to dates")
 
-                try:
-                    metricsObj = Metrics.objects.filter(createdAt__year=timeNow.year, createdAt__month=timeNow.month, createdAt__day=timeNow.day)
-                except Exception as e:
-                    return fail("No records available for today")
-
-                if len(metricsObj) == 0:
-                    return fail("No progress found in db")
-
-                dataList = []
-                for eachObj in metricsObj:
-                    # try:
-                    #     empObj = Employee.objects.get(empID=eachObj.empID.empID)
-                    # except Exception as e:
-                    #     return fail("Employee doesn't exist")
-
-                    # try:
-                    #     empStatObj = EmpStatus.objects.get(employeeID=empObj, date=str(timeNow.date()))
-                    # except Exception as e:
-                    #     print(e)
-                    #     return fail("Something went wrong")
-
-                    dataSet = {}
-
-                    dataSet['emp_id'] = eachObj.empID.empID,
-                    dataSet['callCount'] = eachObj.callCount,
-                    dataSet['commitCount'] = eachObj.commitCount,
-                    dataSet['callbackCount'] = eachObj.callbackCount
-                    # dataSet['loginTime'] = empStatObj.loginTime,
-                    # dataSet['callbackCount'] = empStatObj.logoutTime
-                    
-
-                    dataList.append(dataSet)
-                return success(dataList)
-
-        if is_custom_date == 'true':
-            if is_single_employee == 'true':
-                _from_date = '2019-03-30'
-                _to_date = '2019-04-04'
-
-                from_date = datetime.datetime.strptime(_from_date, '%Y-%m-%d')
-                to_date = datetime.datetime.strptime(_to_date, '%Y-%m-%d')
+                fromDate = datetime.datetime.strptime(from_date, '%Y-%m-%d')
+                toDate = datetime.datetime.strptime(to_date, '%Y-%m-%d')
                 # formatted_from_date = pytz.utc.localize(from_date)
                 # print(formatted_from_date.date)
                 # to_date = datetime.datetime.strptime(_to_date, '%Y-%m-%d')
@@ -379,7 +352,7 @@ def generateReport(request):
                     return fail("Employee doesn't exist")
                 try:
                     # metricsObj = Metrics.objects.filter(empID=empObj, createdAt__lte=from_date.date(), createdAt__gt=to_date.date())
-                    metricsObj = Metrics.objects.filter(empID=empObj, createdAt__range=(from_date.date(), to_date.date()))
+                    metricsObj = Metrics.objects.filter(empID=empObj, createdAt__range=(fromDate.date(), toDate.date()))
                 except Exception as e:
                     return fail("Something went wrong")
                 else:
@@ -395,40 +368,96 @@ def generateReport(request):
                             callbackCount = callbackCount + eachObj.callbackCount
 
                         dataSet = {
-                            "calls": callCount,
+                            "callCount": callCount,
                             "commitCount": commitCount,
                             "callbackCount": callbackCount
                         }
                         return success(dataSet)
 
-            if is_single_employee == 'false':
-                _from_date = '2019-03-30'
-                _to_date = '2019-04-04'
+        if report_for == 'all':
 
-                from_date = datetime.datetime.strptime(_from_date, '%Y-%m-%d')
-                to_date = datetime.datetime.strptime(_to_date, '%Y-%m-%d')
+            empObjs = Employee.objects.filter(role='tc')
 
-                try:
-                    metricsObj = Metrics.objects.filter(createdAt__range=(from_date.date(), to_date.date()))
-                except Exception as e:
-                    return fail("Something went wrong")
-                else:
-                    if len(metricsObj) == 0:
-                        return fail("No records avialable")
+            if len(empObjs) == 0:
+                return fail("No employees in db")
+
+            if report_type == 'daily':
+                
+                data_list = []
+
+                for empObj in empObjs:
+                    dataSet = {}
+                    #get login information
+                    try:
+                        empStatObj = EmpStatus.objects.get(empID=empObj)
+                    except Exception as e:
+                        print("No record avaialable for this employee")
                     else:
-                        callCount = 0
-                        commitCount = 0
-                        callbackCount = 0
-                        for eachObj in metricsObj:
-                            callCount = callCount + eachObj.callCount
-                            commitCount = commitCount + eachObj.commitCount
-                            callbackCount = callbackCount + eachObj.callbackCount
-                        dataSet = {
-                            "calls": callCount,
-                            "commitCount": commitCount,
-                            "callbackCount": callbackCount
-                        }
-                        return success(dataSet)
+                        dataSet["loginTime"] = empStatObj.loginTime
+                        dataSet["logoutTime"] = empStatObj.logoutTime
+                    
+                    #get metrices 
+                    try:
+                        metricsObj = Metrics.objects.filter(empID=empObj, createdAt__year=timeNow.year, createdAt__month=timeNow.month, createdAt__day=timeNow.day)
+                    except Exception as e:
+                        print("No record avaialable for this employee")
+                    else:
+                        if len(metricsObj) == 0:
+                            return fail("No progress found in db")
+
+                        dataSet['emp_id'] = metricsObj[0].empID.empID
+                        dataSet['callCount'] = metricsObj[0].callCount
+                        dataSet['commitCount'] = metricsObj[0].commitCount
+                        dataSet['callbackCount'] = metricsObj[0].callbackCount
+                        dataSet['loginTime'] = ''
+                        dataSet['logoutTime'] = ''
+                            
+
+                    data_list.append(dataSet)
+                return success(data_list)
+
+            if report_type == 'custom':
+                # _from_date = '2019-03-30'
+                # _to_date = '2019-04-04'
+                if from_date == '' or from_date == None:
+                    return fail("Please provide from and to dates")
+                if to_date == '' or to_date == None:
+                    return fail("Please provide from and to dates")
+
+                fromDate = datetime.datetime.strptime(from_date, '%Y-%m-%d')
+                toDate = datetime.datetime.strptime(to_date, '%Y-%m-%d')
+
+                
+                data_list = []
+                for empObj in empObjs:
+
+                    try:
+                        metricsObj = Metrics.objects.filter(empID=empObj, createdAt__range=(fromDate.date(), toDate.date()))
+                    except Exception as e:
+                        return fail("Something went wrong")
+
+                    if len(metricsObj) == 0:
+                        print("No records avialable for this employee")
+
+                    # print(len(metricsObj))
+
+                    callCount = 0
+                    commitCount = 0
+                    callbackCount = 0
+                    for eachObj in metricsObj:
+                        callCount = callCount + eachObj.callCount
+                        commitCount = commitCount + eachObj.commitCount
+                        callbackCount = callbackCount + eachObj.callbackCount
+                    dataSet = {
+                        "emp_id": eachObj.empID.empID,
+                        "callCount": callCount,
+                        "commitCount": commitCount,
+                        "callbackCount": callbackCount,
+                        "loginTime": '',
+                        "logoutTime": ''
+                    }
+                    data_list.append(dataSet)
+                return success(data_list)
 
     return fail("Error in request")
 
@@ -515,11 +544,11 @@ def setEmpTarget(request):
         if commitTarget == None:
             commitTarget = 0
         try:
-            targetObj =  EmpTarget.objects.get(employeeID = empObj)
+            targetObj =  EmpTarget.objects.get(empID = empObj)
         except Exception as e:
             # if no employee there in the table the try would fail.
             newTargetObj = EmpTarget()
-            newTargetObj.employeeID = empObj
+            newTargetObj.empID = empObj
             newTargetObj.callTarget = callTarget
             newTargetObj.commitTarget = commitTarget
             newTargetObj.startDate = currDate
@@ -527,7 +556,7 @@ def setEmpTarget(request):
             newTargetObj.save()
             return success("New employee target has been saved")
         # if the employee data already exist in the the table do this
-        targetObj.employeeID = empObj
+        targetObj.empID = empObj
         targetObj.callTarget = callTarget
         targetObj.commitTarget = commitTarget
         targetObj.startDate = currDate
@@ -548,7 +577,7 @@ def getEmpTarget(request):
             return fail("Employee doesn't exist")
         print(empObj)
         try:
-            statObj = EmpTarget.objects.get(employeeID=empObj)
+            statObj = EmpTarget.objects.get(empID=empObj)
         except Exception as e:
             return fail("Employee has no target assinged")
         #Create a dic on his assigned target
@@ -565,11 +594,8 @@ def getEmpTarget(request):
 @csrf_exempt
 def assignLeads(request):
     if request.method == "POST":
-        # currDate = str(datetime.datetime.now().date())
         emp_id = request.POST.get("emp_id", None)
         leadIDs = request.POST.getlist("leadIDs[]", None)
-        print(leadIDs)
-
         if emp_id == None or emp_id == '':
             return fail("Employee ID required")
 
@@ -577,12 +603,12 @@ def assignLeads(request):
             empObj = Employee.objects.get(empID = emp_id)
         except Exception as e:
             return fail("Employee does not exist")
-
-        # leads = Leads.objects.filter(id__range(startRow, endRow))
-        leads = Leads.objects.filter(leadID__in=leadIDs).update(assignee = empObj)
-        # for lead in leads:
-        #     lead.assignee = empObj
-        # lead.save()
+        for i in leadIDs:
+            lead=Leads.objects.get(leadID=i)
+            print("@@@@@@@@@@@@")
+            print(lead.assignee)
+            lead.assignee=empObj
+            lead.save()
         return success("Successfully assigned")
     return fail("Error in request")
 

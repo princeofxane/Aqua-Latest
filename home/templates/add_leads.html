@@ -2,24 +2,14 @@
 {% block body_content %}
 
 
-<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 0%;margin-left: 12%;">
+<div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 11%;margin-left: 12%;">
 	<div class="container">
-		<p>add_leads.html</p>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<center>
-			<h2>ADD LEADS FROM CSV</h2>
+	  <center>
+    	    <h2>ADD LEADS FROM CSV</h2>
 		</center>
 
 		<div class="row">
-      <form id="rawDataFileForm" method="POST" action="/leadDataFileParser/" enctype="multipart/form-data">
+            <form id="rawDataFileForm" method="POST" action="/leadDataFileParser/" enctype="multipart/form-data">
 				<div class="col-md-4" style="margin-left: 28%;">
 					<div class="form-group">
 						<label for="exampleInputFile">File input</label>
@@ -31,9 +21,10 @@
 						<input type="submit" id="uploadLeads" class="btn" value="Upload"></input>
 					</div>
 				</div>
-      </form>
+            </form>
 		</div>
-  </div>
+		
+    </div>
 </div>
 
 {% endblock body_content %}

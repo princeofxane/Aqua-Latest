@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block body_content %}
+<script type="text/javascript">
+	var table;
+</script>
 <style type="text/css">#dataTable_filter{display: none;}</style>
 <div id="page-wrapper" class="pt60" >
 <div class="container">
@@ -8,7 +11,7 @@
 		<div class="col-md-12">
 			<form class="form-inline">
 				<div class="form-group">
-					<input type="text" class="form-control" id="exampleInputName2" placeholder="Enter ID">
+					<!-- <input type="text" class="form-control" id="exampleInputName2" placeholder="Enter ID"> -->
 					<label for="exampleInputEmail2">From Date:</label>
 					<input class="date_range_filter date form-control" type="text" id="datepicker_from"  />
 					<label for="exampleInputEmail2">To Date:</label>
@@ -77,7 +80,9 @@
 				$('#menubar').hide();
 					$(".iconbox").show();
 		});
-		});
+
+	 });
+		
 
 		$(document).ready(function(){
 			
@@ -153,7 +158,8 @@ var lead_id;
 
 
 function fetchTableData(emp_id) { 
-			var table = $('#dataTable').DataTable({
+$('#loading-image').show();
+			 table = $('#dataTable').DataTable({
 				"sDom": "Rfrtlip"
 			});
 			$.ajax({
@@ -174,7 +180,7 @@ function fetchTableData(emp_id) {
 						'<tr>' +
 						'<td>'+i+'</td>' +
 						'<td>'+value.leadID+'</td>' +
-						'<td>'+value.fname+ ' ' +value.lname+'</td>' +
+						'<td>'+value.fname+ '</td>' +
 						'<td>'+value.phone+'</td>' +
 						'<td>'+value.address+'</td>' +
 						'<td>'+value.appointmentDate+'</td>' +
@@ -182,7 +188,30 @@ function fetchTableData(emp_id) {
 						'</tr>')).draw(false);
 				})
 			}
-		})
+			
+		});
+			/*$.fn.dataTable.ext.search.push(
+          function (settings, data, dataIndex) {
+        var min = $('#min').datepicker("getDate");
+        var max = $('#max').datepicker("getDate");
+        var startDate = new Date(data[4]);
+        if (min == null && max == null) { return true; }
+        if (min == null && startDate <= max) { return true;}
+        if(max == null && startDate >= min) {return true;}
+        if (startDate <= max && startDate >= min) { return true; }
+        return false;
+    }
+    );
+
+
+        $("#datepicker_from").datepicker({ onSelect: function () { table.draw(); }, changeMonth: true, changeYear: true });
+        $("#datepicker_to").datepicker({ onSelect: function () { table.draw(); }, changeMonth: true, changeYear: true });
+
+        // Event listener to the two range filtering inputs to redraw on input
+        $('#datepicker_from, #datepicker_to').change(function () {
+            table.draw();
+        });*/
+    $('#loading-image').hide();
 	}
 
 	$(document).ready(function() {
@@ -198,6 +227,7 @@ function fetchTableData(emp_id) {
 				getUserData(emp_id);
 				fetchTableData(emp_id);
 				// getEmpTarget(emp_id);
+				callbacksload(emp_id); 
 			}
 		});
 
@@ -267,7 +297,8 @@ function fetchTableData(emp_id) {
 		function(data, status) {
 			dataObj=JSON.parse(data);
 			if(dataObj.result=="fail") {
-				alert("request failed")
+				$("#fail .text-center").html(dataObj.description);
+ $("#fail").modal();
 			}else{
 				// console.log(dataObj)
 				// var fname = dataObj.description['fname']
@@ -289,8 +320,7 @@ function announceList(){
 		{
         id : lead_id,
         fname : document.getElementById("fnameLead").value,
-        lname :document.getElementById("lnameLead").value,
-				address :document.getElementById("addressLead").value,
+		address :document.getElementById("addressLead").value,
         email :document.getElementById("emailLead").value,
         alternatePhone:document.getElementById("alternateNumberLead").value,
         purchaseDate :document.getElementById("dateLead").value,
@@ -300,8 +330,8 @@ function announceList(){
 		function(data, status) {
 			dataObj=JSON.parse(data);
 			if(dataObj.result=="fail") {
-				alert("request failed")
-				console.log(dataObj)
+				$("#fail .text-center").html(dataObj.description);
+ $("#fail").modal();
 			}else{
 				console.log(dataObj)
 			}
@@ -319,8 +349,8 @@ function announceList(){
 		function(data, status) {
 			dataObj=JSON.parse(data);
 			if(dataObj.result=="fail") {
-				alert("request failed")
-				console.log(dataObj)
+				$("#fail .text-center").html(dataObj.description);
+ $("#fail").modal();
 			}else{
 				console.log(dataObj)
 			}
@@ -346,7 +376,6 @@ function announceList(){
 				document.getElementById("lead_id").innerText = lead_id;
 				document.getElementById("lead_phone").innerText = dataObj.description['mobile'];
 				document.getElementById("fnameLead").value = dataObj.description['fname'];
-				document.getElementById("lnameLead").value = dataObj.description['lname'];
 				document.getElementById("emailLead").value = dataObj.description['email'];
 				document.getElementById("alternateNumberLead").value = dataObj.description['alternatePhone'];
 				document.getElementById("pinLead").value = dataObj.description['pincode'];
@@ -393,8 +422,7 @@ function announceList(){
 				}else{
 					console.log(dataObj)
 					var fname = dataObj.description['fname']
-					var lname = dataObj.description['lname']
-					loginTime = dataObj.description['loginTime']
+			     	loginTime = dataObj.description['loginTime']
 					var d = new Date(loginTime);
 
 					var date = d.getMonth() + 1
@@ -402,7 +430,7 @@ function announceList(){
 					$("#loginTime").text('Logged in at: ' + d.getHours() + ' : ' + d.getMinutes())
 					$("#loginDate").text('Date: ' + d.getDate() + '-' + date + '-' + d.getFullYear())
 
-					fullName = makeItUpper(fname, lname)
+					fullName = makeItUpper(fname, '')
 					$("#welcomeTag").text("Hello " + fullName);
 					//To a change welcome
 				}
@@ -579,26 +607,31 @@ function announceList(){
 
 
 
-var oTable = $('#datatable').DataTable();
+/*var oTable = $('#datatable').DataTable({
+	 "oLanguage": {
+      "sSearch": "Filter Data"
+    },
+    "iDisplayLength": -1,
+    "sPaginationType": "full_numbers"});*/
 // filter for date code begins here
 $("#datepicker_from").datepicker({
-    "onSelect": function(date) {
+	 "onSelect": function(date) {
       minDateFilter = new Date(date).getTime();
-      oTable.draw();
+      table.draw();
     }
   }).keyup(function() {
     minDateFilter = new Date(this.value).getTime();
-    oTable.draw();
+    table.draw();
   });
 
   $("#datepicker_to").datepicker({
-    "onSelect": function(date) {
+   "onSelect": function(date) {
       maxDateFilter = new Date(date).getTime();
-      oTable.draw();
+      table.draw();
     }
   }).keyup(function() {
     maxDateFilter = new Date(this.value).getTime();
-    oTable.draw();
+    table.draw();
   });
 
 
