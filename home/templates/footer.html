@@ -122,6 +122,7 @@
         emp_id: emp_id,
       },
       function(data, status) {
+       var myvar;
         dataObj=JSON.parse(data);
         if(dataObj.result=="fail") {
           alert("request failed")
@@ -131,7 +132,10 @@
           {
             $('#msg_count').html(dataObj.description.length);
             $('#notificationsBody').append('<div class="content">Cutomer Name: '+dataObj.description[i].fname+'<br>  call back time: '+dataObj.description[i].appointmentDate+'<br><input type="button" class="btn" value="call now" style="float-right"></div>');
-            console.log("im in footer");
+            var res = new Date(dataObj.description[i].appointmentDate).getTime();
+            myvar[i]=setTimeout(function(){ alert("Hello Missed CallBack"); }, res);
+       // a.getMilliseconds()
+       console.log(res.getTime());
           }
         }
       }

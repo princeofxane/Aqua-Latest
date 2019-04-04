@@ -185,6 +185,8 @@ $('#pass').click(function(){
 <script>
 	var leads = [];
 	$(document).ready(function() {
+
+
 		$.post( baseUrl + "getSession/",
 		{},
 		function(data, status) {
@@ -244,10 +246,11 @@ $('#pass').click(function(){
             selector: 'td:first-child',
         },
         order: [
-            [1, 'asc'],
-        ]
+            [0, 'asc'],
+        ] 
     });
-
+//	var row = table.api().row(':eq(0)', { page: 'current' }).select();
+table.row(':eq(0)', { page: 'current' }).select();
 	 $('#tableCheckAllButton').click(function() {
         if (table.rows({
                 selected: true
