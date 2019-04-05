@@ -93,6 +93,7 @@ margin-left: 188px;
     }
 </style>
 <script>
+    var record;
     $(document).ready(function () {
      // ANIMATEDLY DISPLAY THE NOTIFICATION COUNTER.
         jQuery('#noti_Counter')
@@ -229,6 +230,26 @@ border-bottom: 1px solid #dddddd; overflow-x: scroll;">
     }
   }, 1000);
 });
+</script>
+<script type="text/javascript">
+    function alarm(datt) {
+        console.log("im coming here");
+     console.log(datt);
+        datt.sort(function(a,b){
+  return new Date(b.callbacktime) - new Date(a.callbacktime);
+});
+        var len =datt.length;
+        console.log(len);
+     console.log(datt[len-1].callbacktime);
+    setInterval(function() {
+    var myDate = new Date();
+    $date = String(datt[len-1].callbacktime);
+    var reg = new RegExp('\(' + $date.replace(/\s/g, "\\s") + '\)', 'g');
+    if ( myDate.toString().match($date) ) {
+        alert("callback missed");
+    }
+}, 1000);
+}
 </script>
 
 {% block custom_css %}

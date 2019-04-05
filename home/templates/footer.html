@@ -116,12 +116,17 @@
 
 <script type="text/javascript">
 
+      function alert3pm() {
+  alert("CallBack Missed");
+}
   function callbacksload(emp_id) {
       $.post( baseUrl + "callbacksload/",
       {
         emp_id: emp_id,
       },
       function(data, status) {
+        var array = new Array();
+        var object = new Object();
        var myvar;
         dataObj=JSON.parse(data);
         if(dataObj.result=="fail") {
@@ -130,14 +135,17 @@
           console.log(dataObj.description.length);
           for(i=0; i<dataObj.description.length;i++)
           {
+            object={};
             $('#msg_count').html(dataObj.description.length);
             $('#notificationsBody').append('<div class="content">Cutomer Name: '+dataObj.description[i].fname+'<br>  call back time: '+dataObj.description[i].appointmentDate+'<br><input type="button" class="btn" value="call now" style="float-right"></div>');
-            var res = new Date(dataObj.description[i].appointmentDate).getTime();
-            myvar[i]=setTimeout(function(){ alert("Hello Missed CallBack"); }, res);
-       // a.getMilliseconds()
-       console.log(res.getTime());
+            object["callbacktime"] = new Date(dataObj.description[i].appointmentDate);
+            console.log(object);
+            array.push(object);
           }
+          console.log(array);
+          alarm(array);
         }
+
       }
       )}
   

@@ -257,8 +257,33 @@ function fetchTableData(emp_id) {
 			}
 		});
 
-	})
+	});
 
+/* function callbacksload(emp_id) {
+      $.post( baseUrl + "callbacksload/",
+      {
+        emp_id: emp_id,
+      },
+      function(data, status) {
+       var myvar;
+        dataObj=JSON.parse(data);
+        if(dataObj.result=="fail") {
+          alert("request failed")
+        }else{
+          console.log(dataObj.description.length);
+          for(i=0; i<dataObj.description.length;i++)
+          {
+            $('#msg_count').html(dataObj.description.length);
+            $('#notificationsBody').append('<div class="content">Cutomer Name: '+dataObj.description[i].fname+'<br>  call back time: '+dataObj.description[i].appointmentDate+'<br><input type="button" class="btn" value="call now" style="float-right"></div>');
+               var data = new.Date(dataObj.description[i].appointmentDate);
+              record.push(data);
+          }
+          alarm(record);
+        }
+
+      }
+      );
+  }*/
 		// function getEmpTarget(empID) {
 		// 	$.post( baseUrl + "getEmpTarget/",
 		// 		{
