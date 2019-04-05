@@ -325,7 +325,8 @@ def generateReport(request):
                             "callbackCount": metricsObj[0].callbackCount,
                             "createdAt": str(metricsObj[0].createdAt),
                             "loginTime": empStatObj[0].loginTime,
-                            "logoutTime": empStatObj[0].logoutTime
+                            "logoutTime": empStatObj[0].logoutTime,
+                            "pauseDuration": empStatObj[0].pauseDuration
                         }
                         data_list.append(dataSet)
                     return success(data_list)
@@ -398,6 +399,7 @@ def generateReport(request):
                         print("No record avaialable for this employee")
                     else:
                         dataSet["loginTime"] = empStatObj.loginTime
+                        dataSet["pauseDuration"] = empStatObj.pauseDuration
                         if empStatObj.logoutTime == None:
                             dataSet["logoutTime"] = ''
                         else:
