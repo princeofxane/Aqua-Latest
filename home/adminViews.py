@@ -487,7 +487,7 @@ def storeEmpLog(emp, isLoggingIn):
     try:
         # The try would pass if it isn't a new employee, else there wont be an entry with date column
         empStatus = EmpStatus.objects.get(empID = emp, date = str(datetime.datetime.now().date()))
-        print("******GIRISH***")
+ 
         print(empStatus)
     except Exception as e:
         
@@ -497,7 +497,6 @@ def storeEmpLog(emp, isLoggingIn):
         empStatus.loginTime = timeNow
         empStatus.date = dateToString
         empStatus.save()
-        print("******im coming here***")
         print(empStatus.empID)
 
         #employee made active
@@ -648,7 +647,6 @@ def deleteMultipleLeads(request):
 def getAssignedLeads(request):
     if request.method == "POST":
         emp_id = request.POST.get("emp_id", None)
-        print(emp_id)
         if emp_id != None:
             try:
                 empObj = Employee.objects.get(empID=emp_id)
@@ -1273,8 +1271,13 @@ def leadDataFileParser(request):
 
         folder="home/static/rawLeadFile"
         imagefile=FileSystemStorage(location=folder)
-        imagesave=imagefile.save(myfile.name, myfile)
-        data = pd.read_csv(folder + "/" + myfile.name)
+        imagesave=imagefile.save(myfile.name + str(timeNow), myfile)
+	    # imagesave=imagefile.save(myfile.name + str(timeNow), myfile)
+	
+        # filename = fs.save(myfile.name, myfile)
+        # uploaded_file_url = fs.url(filename)
+	    # data = pd.read_csv(folder + "/" + myfile.name + str(timeNow))
+        data = pd.read_excel(folder + "/" + myfile.name + str(timeNow))
         df = pd.DataFrame(data)
         print(df)
         row, col = data.shape
@@ -1283,7 +1286,6 @@ def leadDataFileParser(request):
             email, name, address, phone, alternatePhone, pincode, source, purchaseDate = data.loc[i, ['email', 'name', 'address', 'phone', 'alternatePhone', 'pincode', 'source', 'purchaseDate']]
             lead = Leads(leadID = generateRandomLeadID(), email=email, fname=name, address=address, phone=phone, alternatePhone=alternatePhone, pincode=pincode, source=source, purchaseDate=purchaseDate)
             rows.append(lead)
-
         try:
             Leads.objects.bulk_create(rows)
         except Exception as e:

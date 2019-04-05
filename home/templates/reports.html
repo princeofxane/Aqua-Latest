@@ -108,20 +108,20 @@
 			success: function (data) {
 					data=JSON.parse(data);
 					data=data.description;
-					console.log(data)
 					var i = 0;
-					console.log(data);
 				$.each(data, function(key,value) {
+					console.log(data[key])
+					console.log(value)
+					// console.log(value)
 					i++
 					table.row.add($(
 						'<tr>' +
-
 							'<td>'+i+'</td>' +
-							'<td>'+data['createdAt']+'</td>' +
-							'<td>'+data['commitCount']+'</td>' +
-							'<td>'+data['callbackCount']+'</td>' +
-							'<td>'+data['callCount']+'</td>' +
-							'<td>'+data['loginTime']+'</td>' +
+							'<td>'+value['createdAt']+'</td>' +
+							'<td>'+value['commitCount']+'</td>' +
+							'<td>'+value['callbackCount']+'</td>' +
+							'<td>'+value['callCount']+'</td>' +
+							'<td>'+value['loginTime']+'</td>' +
 							// '<td>'+value.fname+ ' ' +value.lname+'</td>' +
 							'<td>'+ +'</td>' +
 							'<td></td>'+
