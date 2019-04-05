@@ -1,22 +1,18 @@
 {% extends "base_ad.html" %}
 {% block body_content %}
+	
 <div id="page-wrapper" class="pt60" style="padding-top: 0% !important;padding-bottom: 0% !important; margin-top: 12%;margin-left: 12%;">
-<div class="container">
-	<div class="row">
-		
+	<div class="container">
+		<div class="row">
 			<div class="card leadListA scrollbar-ripe-malinka">
 				<div class="card-body">
 					<table id="dataTable" class="table table-hover">
 						<thead>
 							<tr>
-				
 								<th>Lead ID</th>
 								<th>Name </th>
 								<th>Number </th>
-								<th><button style="border: none; background: transparent; font-size: 14px;" id="tableCheckAllButton" >
-                <i class="far fa-square"></i> Select All  
-                </button> </th>
-
+								<th><input type="checkbox" id="checkall">Select All</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -25,24 +21,22 @@
 				</div>
 			</div>			
 		</div>
-<br>
+
+		<br>
 
 		<div class="row">
 			<div class="col-lg-12 text-center">
-				<p style="">Search Employee</p>
+				<p>Search Employee</p>
 			</div>
 			<div class="col-lg-6 text-right">
-				<p style="">Employee ID</p>
+				<p>Employee ID</p>
 			</div>
-			
 			<div class="col-md-6">
 				<input id="empID" type="text" style="border:2px solid #06BBE1;">
 			</div>
 		</div>	
 
-
-			<br>
-					
+		<br>
 
 		<div class="row">
 			<div class="col-md-12 text-center">
@@ -127,31 +121,32 @@
 
 		</div> -->
 
-<!-- This is to show pause -->
-	<div id="modalForPause" class="modal fade" role="dialog" style="border: 3px solid #7CB9E8">
-		<div class="modal-dialog">
-			<div class="modal-content" style="background-color: rgb(135, 202, 193)">
-				<div class="modal-header">
-					<div style="margin-bottom: 150px">
-						<img src="/static/images/download.png" class="user"/>
+		<!-- This is to show pause -->
+		<div id="modalForPause" class="modal fade" role="dialog" style="border: 3px solid #7CB9E8">
+			<div class="modal-dialog">
+				<div class="modal-content" style="background-color: rgb(135, 202, 193)">
+					<div class="modal-header">
+						<div style="margin-bottom: 150px">
+							<img src="/static/images/download.png" class="user"/>
+						</div>
+					</div>
+					<div class="modal-body">
+						<h4 class="modal-title text-center">Paused</h4>
+						<div class="text-center">    
+							<p id="ptime" style="font-weight: bold;"></p>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="text-center">
+							<input type="submit" id="resume" value="Resume" class="btn btn-primary" style="color: #7CB9E8">
+						</div>
 					</div>
 				</div>
-				<div class="modal-body">
-					<h4 class="modal-title text-center">Paused</h4>
-					<div class="text-center">    
-						<p id="ptime" style="font-weight: bold;"></p>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<div class="text-center">
-						<input type="submit" id="resume" value="Resume" class="btn btn-primary" style="color: #7CB9E8">
-					</div>
-				</div>
-      </div>
-    </div>
-	</div>
+			</div>
+		</div>
+		<!--  -->
 
-</div>
+	</div>
 </div>
 <br><br>
 <script>
@@ -197,7 +192,7 @@ $('#pass').click(function(){
 				emp_id = dataObj.description;
 				getProfilePicture(emp_id);
 				getUserData(emp_id);
-				fetchTableData();
+				// fetchTableData();
 				// fetchTableData2();
 			}
 		});
@@ -214,7 +209,6 @@ $('#pass').click(function(){
 		$.each($("input[name='lead']:checked"), function(){            
       leads.push($(this).val());
 		})
-		console.log(leads);
 		$.post( baseUrl + "assignLeads/",
 			{
 				emp_id: empID,
@@ -235,77 +229,154 @@ $('#pass').click(function(){
 
 
 	function fetchTableData(){
+		// var table = $('#dataTable').DataTable();
+		// var table = $('#dataTable').DataTable({
+		// 	columnDefs: [{
+		// 		orderable: false,
+		// 		className: 'select-checkbox',
+		// 		targets: 3,
+		// 	}],
+		// 	select: {
+		// 		style: 'os', // 'single', 'multi', 'os', 'multi+shift'
+		// 		selector: 'td:first-child',
+		// 	},
+		// 	order: [
+		// 		[0, 'asc'],
+		// 	] 
+		// });
+
+
+		
+
+		// //var row = table.api().row(':eq(0)', { page: 'current' }).select();
+		// table.row(':eq(0)', { page: 'current' }).select();
+		// $('#tableCheckAllButton').click(function() {
+		// 	if (table.rows({
+		// 			selected: true
+		// 		}).count() > 0) {
+		// 		table.rows().deselect();
+		// 		return;
+		// 	}
+
+		// 	table.rows().select();
+		// });
+
+		// table.on('select deselect', function(e, dt, type, indexes) {
+		// 	if (type === 'row') {
+		// 		// We may use dt instead of table to have the freshest data.
+		// 		if (dt.rows().count() === dt.rows({
+		// 				selected: true
+		// 			}).count()) {
+		// 			// Deselect all items button.
+		// 			$('#tableCheckAllButton i').attr('class', 'far fa-check-square');
+		// 			return;
+		// 		}
+
+		// 		if (dt.rows({
+		// 				selected: true
+		// 			}).count() === 0) {
+		// 			// Select all items button.
+		// 			$('#tableCheckAllButton i').attr('class', 'far fa-square');
+		// 			return;
+		// 		}
+
+		// 		// Deselect some items button.
+		// 		$('#tableCheckAllButton i').attr('class', 'far fa-minus-square');
+		// 	}
+		// });
+	// }
+
+		// $.ajax({
+		// 	method: "POST",
+		// 	// url: baseUrl + "getAllUnAssignedLeads/",
+		// 	url: baseUrl + "getAllUnAssignedLeads/",
+		// 	data: {
+
+		// 	},
+		// 	success: function(data) {
+		// 		var dataObj = JSON.parse(data);
+		// 		$.each(dataObj.description, function(key,value) {
+		// 			table.row.add($(
+		// 				'<tr>' +
+		// 				'<td>'+value.leadID+'</td>' +
+		// 				'<td>'+value.fname+'</td>'+
+		// 				'<td>'+value.phone+'</td>' +
+		// 				'<td><input id="checkOutBox" type="checkbox" name="lead" value="'+value.leadID+'"></td>'+
+		// 				'</tr>')).draw(false);
+		// 		});
+		// 	},
+		// 	error: function(data) {
+		// 		data=JSON.parse(data);
+		// 		alert(data.description)
+		// 	}
+		// });
+	}
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	$(document).ready(function() {
 		var table = $('#dataTable').DataTable({
-			 columnDefs: [{
-            orderable: false,
-            className: 'select-checkbox',
-            targets: 3,
-        }],
-        select: {
-            style: 'os', // 'single', 'multi', 'os', 'multi+shift'
-            selector: 'td:first-child',
-        },
-        order: [
-            [0, 'asc'],
-        ] 
-    });
-//	var row = table.api().row(':eq(0)', { page: 'current' }).select();
-/*table.row(':eq(0)', { page: 'current' }).select();
-	 $('#tableCheckAllButton').click(function() {
-        if (table.rows({
-                selected: true
-            }).count() > 0) {
-            table.rows().deselect();
-            return;
-        }
+			columnDefs: [{
+				orderable: false,
+				className: 'select-checkbox',
+				targets: 3,
+			}]
+		});
 
-        table.rows().select();
-    });
+		$("#checkall").change(function() {
+			$(".checkitem").prop("checked", $(this).prop("checked"))
+		})
 
-    table.on('select deselect', function(e, dt, type, indexes) {
-        if (type === 'row') {
-            // We may use dt instead of table to have the freshest data.
-            if (dt.rows().count() === dt.rows({
-                    selected: true
-                }).count()) {
-                // Deselect all items button.
-                $('#tableCheckAllButton i').attr('class', 'far fa-check-square');
-                return;
-            }
+		// $('#tableCheckAllButton').click(function() {
+		// 	if (table.rows({
+		// 			selected: true
+		// 		}).count() > 0) {
+		// 		table.rows().deselect();
+		// 		return;
+		// 	}
 
-            if (dt.rows({
-                    selected: true
-                }).count() === 0) {
-                // Select all items button.
-                $('#tableCheckAllButton i').attr('class', 'far fa-square');
-                return;
-            }
+		// 	table.rows().select();
+		// });
 
-            // Deselect some items button.
-            $('#tableCheckAllButton i').attr('class', 'far fa-minus-square');
-        }
-    });
-*/
+		// table.on('select deselect', function(e, table, type, indexes) {
+		// 	if (type === 'row') {
+		// 		// We may use dt instead of myTable to have the freshest data.
+		// 		if (table.rows().count() === table.rows({
+		// 				selected: true
+		// 			}).count()) {
+		// 			// Deselect all items button.
+		// 			$('#tableCheckAllButton i').attr('class', 'far fa-check-square');
+		// 			return;
+		// 		}
 
-			$.ajax({
+		// 		if (table.rows({
+		// 				selected: true
+		// 			}).count() === 0) {
+		// 			// Select all items button.
+		// 			$('#tableCheckAllButton i').attr('class', 'far fa-square');
+		// 			return;
+		// 		}
+
+		// 		// Deselect some items button.
+		// 		$('#tableCheckAllButton i').attr('class', 'far fa-minus-square');
+		// 	}
+		// });
+
+		
+		$.ajax({
 			method: "POST",
 			// url: baseUrl + "getAllUnAssignedLeads/",
 			url: baseUrl + "getAllUnAssignedLeads/",
 			data: {
 
 			},
-			success: function (d) {
-			
-				data=JSON.parse(d);
-				console.log(data);
-				$.each(data.description, function(key,value) {
+			success: function(data) {
+				var dataObj = JSON.parse(data);
+				$.each(dataObj.description, function(key,value) {
 					table.row.add($(
 						'<tr>' +
-
 						'<td>'+value.leadID+'</td>' +
-						'<td>'+value.fname+ '</td>'+
+						'<td>'+value.fname+'</td>'+
 						'<td>'+value.phone+'</td>' +
-						'<td><input type="checkbox" name="lead" value="'+value.leadID+'"></td>'+
+						'<td><input class="checkitem" type="checkbox" name="lead" value="'+value.leadID+'"></td>'+
 						'</tr>')).draw(false);
 				});
 			},
@@ -314,7 +385,8 @@ $('#pass').click(function(){
 				alert(data.description)
 			}
 		});
-	}
+	});
+	
 
 	// function fetchTableData2(){
 	// 	var table = $('#dataTable2').DataTable();

@@ -79,7 +79,8 @@ class EmpStatus(models.Model):
     logoutTime = models.CharField(max_length=10, null=True)
     date = models.CharField(max_length=10, null=True)
     isPause = models.BooleanField(default=False)
-    pauseTime = models.CharField(max_length=10, null=True)
+    pauseTime = models.DateTimeField(default=None, null=True)
+    pauseDuration = models.IntegerField(default=0)
 
 
 class Notifications(models.Model):
@@ -135,6 +136,7 @@ class Leads(models.Model):
     createdDate = models.DateTimeField(default=timezone.now)
     isContacted = models.BooleanField(default=False)
     isInterested = models.BooleanField(default=False)
+    severity = models.IntegerField(validators=[MaxValueValidator(5)], default=1)
 
 class CallData(models.Model):
     id = models.IntegerField(auto_created=True, primary_key=True)
@@ -175,7 +177,7 @@ class Complaints(models.Model):
     subject = models.CharField(max_length=100)
     problem_description = models.TextField()
     recording_data_url = models.TextField()
-    severity = models.IntegerField(validators=[MaxValueValidator(4)], default=1)
+    severity = models.IntegerField(validators=[MaxValueValidator(5)], default=1)
     isActive = models.BooleanField(default=True)
 
 
