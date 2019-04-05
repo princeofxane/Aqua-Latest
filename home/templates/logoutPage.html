@@ -66,9 +66,14 @@
                 alert(dataObj.description)
             } else {
                 var data = dataObj.description
-                var callCount = data['callCount'];
-                var commitCount = data['commitCount'];
-                var callbackCount = data['callbackCount'];
+                var callCount = 0;
+                var commitCount = 0; 
+                var callbackCount = 0;
+                $.each(data, function(key, value) {
+                    callCount = value['callCount'];
+                    commitCount = value['commitCount'];
+                    callbackCount = value['callbackCount'];
+                });
                 $("#callCount").text('callCount is ' + callCount)
                 $("#commitCount").text('commitCount is ' + commitCount)
                 $("#callbackCount").text('callbackCount is ' + callbackCount)

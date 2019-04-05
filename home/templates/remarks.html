@@ -310,16 +310,16 @@ label.star:before {
                          <label for="modal name" style="margin-top: 4%;">Lead Priority:</label>
                         <div class="stars">
 
-                            <form action="">
-                            <input class="star star-5" id="star-5" type="radio" name="star"/>
+                            <form id="myForm" action="">
+                            <input class="star star-5" id="star-5" type="radio" name="rating" value="5"/>
                             <label class="star star-5" for="star-5"></label>
-                            <input class="star star-4" id="star-4" type="radio" name="star"/>
+                            <input class="star star-4" id="star-4" type="radio" name="rating" value="4"/>
                             <label class="star star-4" for="star-4"></label>
-                            <input class="star star-3" id="star-3" type="radio" name="star"/>
+                            <input class="star star-3" id="star-3" type="radio" name="rating" value="3"/>
                             <label class="star star-3" for="star-3"></label>
-                            <input class="star star-2" id="star-2" type="radio" name="star"/>
+                            <input class="star star-2" id="star-2" type="radio" name="rating" value="2"/>
                             <label class="star star-2" for="star-2"></label>
-                            <input class="star star-1" id="star-1" type="radio" name="star"/>
+                            <input class="star star-1" id="star-1" type="radio" name="rating" value="1"/>
                             <label class="star star-1" for="star-1"></label>
                             </form>
                             </div>
@@ -658,6 +658,10 @@ geocoder.geocode( { 'address': address}, function(results, status) {
                     var appointmentDate = dataObj.description['appointmentDate'];
                      feedbacks = dataObj.description['feedbacks'];
                     var callAction = dataObj.description['callAction']
+                    var severity = dataObj.description['severity']
+
+                    var starId = 'star' + "-" + severity;
+                    $("." + starId).attr('checked', true);
 
                     $("#phoneNumber").html(phone)
                     $("#leadName").val(fname)
@@ -742,30 +746,44 @@ geocoder.geocode( { 'address': address}, function(results, status) {
         var callAction = $("#callAction option:selected").attr("name")
         var _date = $("#datePicker").val();
         var _time = $("#clockPicker").val();
+        // if (_date == '') {
+        //   alert("hello")
+        // } else {
+        //   alert("world")
+        // }
+
+        // if (_time == '') {
+        //   alert("hello2")
+        // } else {
+        //   alert("world2 ")
+        // }
         var appointmentDate = _date + " " + _time + "." + "000000"
         var pincode = $("#pincode").val();
         var phone = $("#phoneNumber").val();
         var isCommitted = $("#commitaction option:selected").attr("name")
         if (isCommitted == "co") {
             isCommitted = true;
-              if(_date == "")
-                {
-                     $("#fail .text-center").html("input date and time");
- $("#fail").modal();
-                    return;
-                }
-                } 
-        else
-        {
+            if(_date == "")
+              {
+                $("#fail .text-center").html("input date and time");
+                $("#fail").modal();
+                  return;
+              }
+        } else {
             isCommitted = false;
              callAction = $("#commitaction option:selected").attr("name")
-        
         }
+
+        var starRating = $('input[name=rating]:checked').val();
+        // if (starRating == null) {
+        //   alert("hello")
+        // } else {
+        //   alert("some value in it")
+        // }
+
+        // var starValue = $('input[name=radioName]:checked', '#myForm').val();
          
     
-        if(callAction == "cb")
-        {
-             
       
         /*    $.post( baseUrl + "addcallbacks/",
         {
@@ -782,18 +800,15 @@ geocoder.geocode( { 'address': address}, function(results, status) {
                
             }
         })*/
-        if(_date == "")
-        {
-
-                    alert("input date and time");
+        if(callAction == "cb") {
+          if(_date == "") {
+            alert("input date and time");
             return;
-        }
-        else
-        {
-            
+          } else {
             $('#msg_count').html(parseInt($('#msg_count').html(), 10)+1)
             $('#notificationsBody').append('<div class="content">Cutomer Name: '+fname+'<br>  call back time: '+appointmentDate+'<br><input type="button" class="btn" value="call now" style="float-right"></div>');
-        }}
+          }
+        }
         $.post( baseUrl + "editLead/",
         {
             emp_id: emp_id,
@@ -809,20 +824,19 @@ geocoder.geocode( { 'address': address}, function(results, status) {
             pincode:pincode,
             assignee:assignee,
             phone:phone,
-            appointmentDate: appointmentDate
+            appointmentDate: appointmentDate,
+            severity: starRating
         },
         function(data, status) {
             var dataObj = JSON.parse(data);
             if (dataObj.result == "fail") {
-                $("#fail .text-center").html(dataObj.description);
- $("#fail").modal();
+              $("#fail .text-center").html(dataObj.description);
+              $("#fail").modal();
             } else {
                $("#sucess .text-center").html(dataObj.description);
-                $("#sucess").modal();
-
+               $("#sucess").modal();
             }
         })
-
 
     })
 

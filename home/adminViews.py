@@ -446,7 +446,7 @@ def getNotification(request):
 @csrf_exempt
 def togglePause(request):
     if (request.method == "POST"):
-        timeNow = str(datetime.datetime.now())
+        timeNow = timezone.now()
         currDate = str(datetime.datetime.now().date())
 
         emp_id = request.POST.get("id", None)
@@ -466,19 +466,18 @@ def togglePause(request):
                 empStatObj.save()
                 return success("Pause time has been captured")
             if isPause == 'false':
-                duration = calculatePauseDuration(empStatObj.pauseTime)
-                empStatObj.pauseTime = ''
+                currentDurationInSeconds = calculatePauseDuration(empStatObj.pauseTime)
+                lastPauseDuration = empStatObj.pauseDuration
+                totalPauseDuration = lastPauseDuration + currentDurationInSeconds
                 empStatObj.isPause = False
                 empStatObj.save()
-                return success(duration)
+                return success("Time has been resumed")
     return fail("Error in request")
 
 def calculatePauseDuration(pauseTime):
-    timeNow = datetime.datetime.now()
-    pTime = datetime.datetime.strptime(pauseTime, "%Y-%m-%d %H:%M:%S.%f")
-    deltaObj = datetime.timedelta(hours=pTime.hour, minutes=pTime.minute, seconds=pTime.second)
-    pauseDuration = timeNow - deltaObj
-    return str(pauseDuration)
+    timeNow = timezone.now()
+    difference = timeNow - pauseTime
+    return difference.seconds
 
 @csrf_exempt
 def storeEmpLog(emp, isLoggingIn):
@@ -755,6 +754,7 @@ def getComittedLeads(request):
 
 @csrf_exempt
 def getAllUnAssignedLeads(request):
+    print("hello")
     if request.method == "POST":
         leadsObj = Leads.objects.filter(assignee = None)
         if len(leadsObj) == 0:
@@ -955,7 +955,9 @@ def editLead(request):
         pincode = request.POST.get("pincode",None)
         assignee = request.POST.get("assignee",None)
         appointmentDate = request.POST.get("appointmentDate", None)
+        severity = request.POST.get("severity", None)
 
+        
         try:
             empObj = Employee.objects.get(empID = emp_id)
             print("&&&&&&&&&&")
@@ -991,6 +993,9 @@ def editLead(request):
         if comment is not '':
             feedbackObj = Feedbacks(empID=empObj, leadID=leadObj, feedback=comment)
             feedbackObj.save()
+        if severity != None:
+            leadObj.severity = severity
+
         leadObj.callAction = callAction
         if callAction == "cb":
             #Callbacks.objects.create(fname=fname,phone=phone,empID=emp_id,appointmentDate=appointmentDate)
@@ -1051,6 +1056,7 @@ def getSingleLead(request):
         lead['appointmentDate'] = leadObj.appointmentDate
         lead['purchaseDate'] = leadObj.purchaseDate
         lead['pincode'] = leadObj.pincode
+        lead['severity'] = leadObj.severity
         #----------------------------------------
 
         # addr = leadObj.address.replace(" ", "+")
