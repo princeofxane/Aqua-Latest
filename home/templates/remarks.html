@@ -693,7 +693,7 @@ geocoder.geocode( { 'address': address}, function(results, status) {
 
 
                     //handle comments here
-                    if (feedbacks != "") {
+                    if (feedbacks != null) {
                         for (var i = 0; i < feedbacks.length; i++) {
                             var eachFeedback = feedbacks[i];
 
@@ -732,6 +732,7 @@ geocoder.geocode( { 'address': address}, function(results, status) {
 
     $("#updateButton").click(function() {
         //This is dummy id for testing
+        var isCommitted;
         var leadID = localStorage.getItem("leadID");
         var emp_id = localStorage.getItem("empID");
         var assignee = emp_id;
@@ -757,22 +758,61 @@ geocoder.geocode( { 'address': address}, function(results, status) {
         // } else {
         //   alert("world2 ")
         // }
+
+
         var appointmentDate = _date + " " + _time + "." + "000000"
         var pincode = $("#pincode").val();
         var phone = $("#phoneNumber").val();
-        var isCommitted = $("#commitaction option:selected").attr("name")
-        if (isCommitted == "co") {
+        var commitAction = $("#commitaction option:selected").attr("name")
+        if (commitAction == "co") {
             isCommitted = true;
-            if(_date == "")
-              {
+            if(_date == "" || _date == "NaN-aN-aN" || _time == "aN:aN"){
                 $("#fail .text-center").html("input date and time");
                 $("#fail").modal();
                   return;
               }
-        } else {
-            isCommitted = false;
-             callAction = $("#commitaction option:selected").attr("name")
+            $.post( baseUrl + "registerProgress/",
+              {
+                emp_id: emp_id,
+                action: 'commit'
+              },
+              function(data, status) {
+                var dataObj = JSON.parse(data);
+                if (dataObj.result == 'fail') {
+                  alert(dataObj.description)
+                } else {
+                  alert("Progress has been increased")
+                }
+            })
+        } else if(commitAction == "cb") {
+            // callAction = $("#commitaction option:selected").attr("name")
+
+            //This is very confusing. Please name things properly!.
+            //for now lets just add it here.
+            callAction = "cb"
+
+            if(_date == "" || _date == "NaN-aN-aN" || _time == "aN:aN") {
+              alert("input date and time");
+              return;
+            } else {
+              $.post( baseUrl + "registerProgress/",
+              {
+                emp_id: emp_id,
+                action: 'callback'
+              },
+              function(data, status) {
+                var dataObj = JSON.parse(data);
+                if (dataObj.result == 'fail') {
+                  alert(dataObj.description)
+                } else {
+                  alert("Progress has been increased")
+                }
+              })
+              $('#msg_count').html(parseInt($('#msg_count').html(), 10)+1)
+              $('#notificationsBody').append('<div class="content">Cutomer Name: '+fname+'<br>  call back time: '+appointmentDate+'<br><input type="button" class="btn" value="call now" style="float-right"></div>');
+            }
         }
+
 
         var starRating = $('input[name=rating]:checked').val();
         // if (starRating == null) {
@@ -800,15 +840,7 @@ geocoder.geocode( { 'address': address}, function(results, status) {
                
             }
         })*/
-        if(callAction == "cb") {
-          if(_date == "") {
-            alert("input date and time");
-            return;
-          } else {
-            $('#msg_count').html(parseInt($('#msg_count').html(), 10)+1)
-            $('#notificationsBody').append('<div class="content">Cutomer Name: '+fname+'<br>  call back time: '+appointmentDate+'<br><input type="button" class="btn" value="call now" style="float-right"></div>');
-          }
-        }
+ 
         $.post( baseUrl + "editLead/",
         {
             emp_id: emp_id,
