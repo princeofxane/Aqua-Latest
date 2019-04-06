@@ -99,7 +99,7 @@
 		});
 		$.ajax({
 			type: "post",
-			url: baseUrl+"generateReport/",
+			url: baseUrl + "generateReport/",
 			data: {
 				emp_id: emp_id,
 				report_type: 'daily',
@@ -110,10 +110,8 @@
 					data=data.description;
 					var i = 0;
 				$.each(data, function(key,value) {
-					console.log(data[key])
-					console.log(value)
-					// console.log(value)
 					i++
+					var pauseDuration = secondsToMinutes(value['pauseDuration'])
 					table.row.add($(
 						'<tr>' +
 							'<td>'+i+'</td>' +
@@ -124,12 +122,18 @@
 							'<td>'+value['loginTime']+'</td>' +
 							// '<td>'+value.fname+ ' ' +value.lname+'</td>' +
 							'<td>'+ +'</td>' +
+							'<td>'+ pauseDuration +'</td>' +
 							'<td></td>'+
 							'<td></td>'+
 						'</tr>')).draw(false);
 				})
 			}
 		});
+	}
+
+	function secondsToMinutes(pauseDurationInSeconds) {
+		var valueInInteger = parseInt(pauseDurationInSeconds, 10);
+		return Math.floor(valueInInteger / 60) + ":" + (valueInInteger % 60 ? valueInInteger % 60 : '00')
 	}
 
 	$(document).ready(function() {

@@ -469,6 +469,7 @@ def togglePause(request):
                 currentDurationInSeconds = calculatePauseDuration(empStatObj.pauseTime)
                 lastPauseDuration = empStatObj.pauseDuration
                 totalPauseDuration = lastPauseDuration + currentDurationInSeconds
+                empStatObj.pauseDuration = totalPauseDuration
                 empStatObj.isPause = False
                 empStatObj.save()
                 return success("Time has been resumed")
