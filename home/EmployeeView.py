@@ -39,11 +39,11 @@ def createNewEmployee(request):
             role = "hr"
         if role == "TL":
             role = "tl"
-        newEmpID = generateRandomempID()
-        print(newEmpID)
-        employee = Employee(empID = newEmpID, fname=fname, lname=lname, phone=phone, email=email, role=role, pincode = pincode)
+        # newEmpID = generateRandomempID()
+        # print(newEmpID)
+        employee = Employee(fname=fname, lname=lname, phone=phone, email=email, role=role, pincode = pincode)
         employee.save()
-    return success(newEmpID)
+    return success("New employee has been created")
     return fail("Error in request")
 
 def displayAllEmployee(request):
@@ -62,7 +62,6 @@ def displayAllEmployee(request):
             emp['phone']=employees[i].phone
             emp['category']=employees[i].type
             emp['name']=employees[i].name
-            emp['id']=employees[i].id
             emp['pincode']=employees[i].pincode
             employee_list.append(emp)
 
@@ -85,7 +84,6 @@ def displayAllEmployee_tech(request):
             emp['phone']=employees[i].phone
             emp['category']=employees[i].role
             emp['name']=employees[i].fname
-            emp['id']=employees[i].id
             emp['pincode']=employees[i].pincode
             employee_list.append(emp)
 
@@ -104,9 +102,9 @@ def addcallbacks(request):
     return fail("Error in request")
 
 
-def generateRandomempID():
-    randomID = 'EMP' + '{0:06}'.format(random.randint(1, 100000))
-    return randomID
+# def generateRandomempID():
+#     randomID = 'EMP' + '{0:06}'.format(random.randint(1, 100000))
+#     return randomID
 
 @csrf_exempt
 def getAllEmployees(request):
@@ -123,7 +121,6 @@ def getAllEmployees(request):
             emp['email']=employees[i].email
             emp['phone']=employees[i].phone
             emp['role']=employees[i].role
-            emp['id']=employees[i].id
             emp['isActive']=employees[i].isActive
             emp['pincode']=employees[i].pincode
             try:
@@ -154,7 +151,6 @@ def getAllActiveEmployees(request):
             emp['phone']=employees[i].phone
             emp['address']=employees[i].address
             emp['role']=employees[i].role
-            emp['id']=employees[i].id
             emp['pincode']=employees[i].pincode
             emp['picture']=employees[i].profile_logo.url
             employee_list.append(emp)
@@ -420,6 +416,7 @@ def generateReport(request):
                         dataSet['callbackCount'] = metricsObj[0].callbackCount
                             
 
+                    print(len(data_list))
                     data_list.append(dataSet)
                 return success(data_list)
 
@@ -451,12 +448,14 @@ def generateReport(request):
                     callCount = 0
                     commitCount = 0
                     callbackCount = 0
+                    empID = ''
                     for eachObj in metricsObj:
+                        empID = eachObj.empID.empID
                         callCount = callCount + eachObj.callCount
                         commitCount = commitCount + eachObj.commitCount
                         callbackCount = callbackCount + eachObj.callbackCount
                     dataSet = {
-                        "emp_id": eachObj.empID.empID,
+                        "emp_id": empID,
                         "callCount": callCount,
                         "commitCount": commitCount,
                         "callbackCount": callbackCount,

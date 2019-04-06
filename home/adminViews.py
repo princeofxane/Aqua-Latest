@@ -607,7 +607,7 @@ def addNewLead(request):
         if(fname == None or mobile ==  None or email ==  None or
                 address ==  None or pincode ==  None or purchaseDate == None or alternatePhone ==  None):
            return fail("Invalid details")
-        lead = Leads(leadID = generateRandomLeadID(), fname = fname, mobile = mobile, email = email,
+        lead = Leads(fname = fname, mobile = mobile, email = email,
             address = address, pincode = pincode, purchaseDate = purchaseDate, alternatePhone = alternatePhone)
         lead.save()
         return success("New Lead created!")
@@ -1291,7 +1291,7 @@ def leadDataFileParser(request):
         rows = []
         for i in range(row):
             email, name, address, phone, alternatePhone, pincode, source, purchaseDate = data.loc[i, ['email', 'name', 'address', 'phone', 'alternatePhone', 'pincode', 'source', 'purchaseDate']]
-            lead = Leads(leadID = generateRandomLeadID(), email=email, fname=name, address=address, phone=phone, alternatePhone=alternatePhone, pincode=pincode, source=source, purchaseDate=purchaseDate)
+            lead = Leads(email=email, fname=name, address=address, phone=phone, alternatePhone=alternatePhone, pincode=pincode, source=source, purchaseDate=purchaseDate)
             rows.append(lead)
         try:
             Leads.objects.bulk_create(rows)
@@ -1302,9 +1302,9 @@ def leadDataFileParser(request):
         return success("uploaded Sucess Total Records:"+t)
     return fail("Error in request")
 
-def generateRandomLeadID():
-    randomID = 'pp' + '{0:09}'.format(random.randint(1, 100000000))
-    return randomID
+# def generateRandomLeadID():
+#     randomID = 'pp' + '{0:09}'.format(random.randint(1, 100000000))
+#     return randomID
 
 # @csrf_exempt
 # def getCallCount(request):

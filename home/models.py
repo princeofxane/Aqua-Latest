@@ -4,8 +4,9 @@ from django.utils import timezone
 # Create your models here.
 
 class Employee(models.Model):
-    id = models.AutoField(primary_key=True)
-    empID = models.CharField(max_length=12, unique=True, default=None)
+    # id = models.AutoField(primary_key=True)
+    # empID = models.CharField(max_length=12, unique=True, default=None)
+    empID = models.AutoField(primary_key=True)
     phone = models.CharField(max_length=12, default=None)
     password = models.CharField(max_length=20, default='password')
     pincode = models.CharField(max_length=6, default="000000")
@@ -119,7 +120,8 @@ class EmpTarget(models.Model):
 
 
 class Leads(models.Model):
-    leadID = models.CharField(max_length=30, default=None, primary_key=True)
+    leadID = models.AutoField(primary_key=True)
+    # leadID = models.CharField(max_length=30, default=None, primary_key=True)
     fname = models.CharField(max_length=100, default=None)
     address = models.TextField(default=None, null=True)
     email = models.EmailField(default=None, null=True)
