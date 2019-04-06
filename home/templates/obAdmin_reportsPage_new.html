@@ -121,10 +121,10 @@ var lead_id;
 
 var oTable = $('#datatable').DataTable();
 function fetchTableData(emp_id) { 
-		var table = $('#dataTable').DataTable({
-			"sDom": "Rfrtlip"
-		});
-		$.ajax({
+	var table = $('#dataTable').DataTable({
+		"sDom": "Rfrtlip"
+	});
+	$.ajax({
 		type: "post",
 		url: baseUrl + "generateReport/",
 		data: {
@@ -132,31 +132,50 @@ function fetchTableData(emp_id) {
 			report_for: 'all'
 		},
 		success: function (data) {
-				var d = new Date();
-				data=JSON.parse(data);
-				// console.log(data);
-				data=data.description;
-				var i = 0;
+			var d = new Date();
+			data=JSON.parse(data);
+			data=data.description;
+			console.log(data);
+			var i = 0;
+			// unkwnValue = isEmpty(data)
 			$.each(data, function(key,value) {
 				i++
+				var pauseDuration = secondsToMinutes(value['pauseDuration'])
 				table.row.add($(
 					'<tr>' +
 					'<td>'+i+'</td>' +
 					'<td>'+d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate()+'</td>' +
-					'<td>'+value.emp_id+'</td>' +
+					'<td>'+value.empID+'</td>' +
 					'<td>'+value.callCount+'</td>' +
 					'<td>'+value.commitCount+'</td>' +
 					'<td>'+value.callbackCount+'</td>' +
 					'<td>'+value.loginTime+'</td>' +
 					'<td>'+value.logoutTime+'</td>' +
-					'<td>'+ +'</td>' +
+					'<td>'+ pauseDuration +'</td>' +
+					// '<td>'+  +'</td>' +
+					// '<td>'+ pauseDuration +'</td>' +
 					// '<td>'+value.comments+'</td>' +
 					// '<td>'+value.pincode+'</td>' +
 					'<td></td>'+
 					'</tr>')).draw(false);
+			// })
 			})
 		}
 	})
+}	
+	
+
+	// function isEmpty(obj) {
+	// 	if (Object.keys(obj[0]).length === 0) {
+	// 		return true
+	// 	} else {
+	// 		return false
+	// 	}
+	// }
+
+	function secondsToMinutes(pauseDurationInSeconds) {
+		var valueInInteger = parseInt(pauseDurationInSeconds, 10);
+		return Math.floor(valueInInteger / 60) + ":" + (valueInInteger % 60 ? valueInInteger % 60 : '00')
 	}
 
 	$("#customSearch").click(function() {
@@ -214,7 +233,6 @@ function fetchTableData(emp_id) {
 				window.location.href = baseUrl
 			}else{
 				emp_id = dataObj.description;
-
 				fetchTableData(emp_id);
 			}
 		});

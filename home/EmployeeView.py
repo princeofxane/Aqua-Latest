@@ -1,7 +1,7 @@
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
-from .views import success,fail
+from .views import success, fail
 from .models import Employee, EmpTarget, Leads, Metrics, EmpStatus
 from django.shortcuts import HttpResponse
 import datetime
@@ -388,35 +388,65 @@ def generateReport(request):
 
                 for empObj in empObjs:
                     dataSet = {}
-                    #get login information
+
+                    #store empid
+                    dataSet["empID"] = empObj.empID
+
+                    # ----------------------
                     try:
-                        empStatObj = EmpStatus.objects.get(empID=empObj)
+                        empStatObjs = EmpStatus.objects.filter(empID=empObj, date=str(timeNow.date()))
                     except Exception as e:
-                        print("No record avaialable for this employee")
+                        print("Something went wrong")
                     else:
-                        dataSet["loginTime"] = empStatObj.loginTime
-                        dataSet["pauseDuration"] = empStatObj.pauseDuration
-                        if empStatObj.logoutTime == None:
-                            dataSet["logoutTime"] = ''
+                        if len(empStatObjs) == 0:
+                            dataSet["loginTime"] = ""
+                            dataSet["pauseDuration"] = ""
+                            dataSet["logoutTime"] = ""
                         else:
-                            dataSet["logoutTime"] = empStatObj.logoutTime
+                            for empStatObj in empStatObjs:
+                                dataSet["loginTime"] = empStatObj.loginTime
+                                dataSet["pauseDuration"] = empStatObj.pauseDuration
+                                dataSet["logoutTime"] = empStatObj.logoutTime
+                    # ----------------------
+
+                    #get login information
+                    # try:
+                    #     empStatObj = EmpStatus.objects.get(empID=empObj)
+                    # except Exception as e:
+                    #     print("No record avaialable for this employee dsfa")
+                    #     dataSet["loginTime"] = ""
+                    #     dataSet["loginTime"] = ""
+                    #     dataSet["pauseDuration"] = ""
+                    #     continue
+                    # else:
+                    #     dataSet["loginTime"] = empStatObj.loginTime
+                    #     dataSet["pauseDuration"] = empStatObj.pauseDuration
+                    #     if empStatObj.logoutTime == None:
+                    #         dataSet["logoutTime"] = ''
+                    #     else:
+                    #         dataSet["logoutTime"] = empStatObj.logoutTime
+
+                    
                     
                     #get metrices 
                     try:
                         metricsObj = Metrics.objects.filter(empID=empObj, createdAt__year=timeNow.year, createdAt__month=timeNow.month, createdAt__day=timeNow.day)
                     except Exception as e:
                         print("No record avaialable for this employee")
+                        dataSet['callCount'] = ""
+                        dataSet['commitCount'] = ""
+                        dataSet['callbackCount'] = ""
+                        continue
                     else:
                         if len(metricsObj) == 0:
-                            return fail("No progress found in db")
-
-                        dataSet['emp_id'] = metricsObj[0].empID.empID
-                        dataSet['callCount'] = metricsObj[0].callCount
-                        dataSet['commitCount'] = metricsObj[0].commitCount
-                        dataSet['callbackCount'] = metricsObj[0].callbackCount
+                            dataSet['callCount'] = ""
+                            dataSet['commitCount'] = ""
+                            dataSet['callbackCount'] = ""
+                        else:
+                            dataSet['callCount'] = metricsObj[0].callCount
+                            dataSet['commitCount'] = metricsObj[0].commitCount
+                            dataSet['callbackCount'] = metricsObj[0].callbackCount
                             
-
-                    print(len(data_list))
                     data_list.append(dataSet)
                 return success(data_list)
 

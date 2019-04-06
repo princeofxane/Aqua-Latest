@@ -76,9 +76,9 @@ class Callbacks(models.Model):
 class EmpStatus(models.Model):
     id = models.AutoField(primary_key=True)
     empID = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
-    loginTime = models.CharField(max_length=10, null=True)
-    logoutTime = models.CharField(max_length=10, null=True)
-    date = models.CharField(max_length=10, null=True)
+    loginTime = models.CharField(max_length=10, null=True, default=None)
+    logoutTime = models.CharField(max_length=10, null=True, default=None)
+    date = models.CharField(max_length=10, null=True, default=None)
     isPause = models.BooleanField(default=False)
     pauseTime = models.DateTimeField(default=None, null=True)
     pauseDuration = models.IntegerField(default=0)
